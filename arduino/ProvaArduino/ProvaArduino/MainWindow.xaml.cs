@@ -25,7 +25,7 @@ namespace ProvaArduino
         public MainWindow()
         {
             InitializeComponent();
-            serialPort1.PortName = "COM5";
+            serialPort1.PortName = "COM3";
             serialPort1.BaudRate = 9600;
 
         }
@@ -35,7 +35,7 @@ namespace ProvaArduino
             serialPort1.Open();
             if (serialPort1.IsOpen)
             {
-                serialPort1.WriteLine("a");
+                serialPort1.WriteLine("1:13:4:9"); //draw a sure starting from 10,2 lenght = 10
             }
             serialPort1.Close();
         }
@@ -45,7 +45,7 @@ namespace ProvaArduino
             serialPort1.Open();
             if (serialPort1.IsOpen)
             {
-                serialPort1.WriteLine("b");
+                serialPort1.WriteLine("2:2:0:0");
             }
             serialPort1.Close();
         }
@@ -55,7 +55,7 @@ namespace ProvaArduino
             serialPort1.Open();
             if (serialPort1.IsOpen)
             {
-                serialPort1.WriteLine("c");
+                serialPort1.WriteLine("3:3:0:0");
             }
             serialPort1.Close();
         }
@@ -65,7 +65,7 @@ namespace ProvaArduino
             serialPort1.Open();
             if (serialPort1.IsOpen)
             {
-                serialPort1.WriteLine("d");
+                serialPort1.WriteLine("4:3:0:0");
             }
             serialPort1.Close();
         }
