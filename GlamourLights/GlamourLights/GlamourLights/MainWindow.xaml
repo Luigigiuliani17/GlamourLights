@@ -5,8 +5,13 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:GlamourLights"
         mc:Ignorable="d"
-        Title="MainWindow" Height="350" Width="525">
+        Title="MainWindow" Height="325" Width="525">
     <Grid>
-        
+        <Button x:Name="Save" Content="Button" HorizontalAlignment="Left" Margin="118,0,0,76" VerticalAlignment="Bottom" Width="75" Click="button_Click" RenderTransformOrigin="0.56,1.45"/>
+        <DataGrid x:Name="dataGrid1" HorizontalAlignment="Left" Margin="293,21,0,0" VerticalAlignment="Top" Height="116" Width="199"/>
+        <TextBox x:Name="textBox0" HorizontalAlignment="Left" Height="23" Margin="52,21,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="203"/>
+        <TextBox x:Name="textBox1" HorizontalAlignment="Left" Height="23" Margin="52,66,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="203"/>
+        <TextBox x:Name="textBox2" HorizontalAlignment="Left" Height="23" Margin="52,114,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="203"/>
+
     </Grid>
 </Window>

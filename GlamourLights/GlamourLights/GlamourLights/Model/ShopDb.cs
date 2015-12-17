@@ -1,4 +1,4 @@
-namespace GlamourLights
+namespace GlamourLights.Model
 {
     using System;
     using System.Data.Entity;
