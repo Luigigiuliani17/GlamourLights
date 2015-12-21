@@ -6,6 +6,9 @@ using System.Threading.Tasks;
 
 namespace GlamourLights.Model
 {
+    public enum Colors{
+        RED=0, GREEN=1, BLUE=2, YELLOW=3
+    }
     /// <summary>
     /// class that contains all the informations about the shop state
     /// - matrix of the shop (-1 = wall; 0= shelf; 1= free; 2= free used as stating point for the paths)
@@ -18,10 +21,21 @@ namespace GlamourLights.Model
         public int[,] shop_layout_matrix { get; set; }
         // graph used for algorithm
         public Dictionary<string, Graphvertex> shop_graph { get; set; }
-
+        public bool[] used_colors; 
+        //  Default cost of a node
         public const int DEFAULT_COST = 1;
+        public const int MAX_USERS_NUMBER = 4;
+
+
         public ShopState()
         {
+            //set at false every used colour
+            used_colors = new bool[MAX_USERS_NUMBER];
+            for(int i=0; i<MAX_USERS_NUMBER; i++)
+            {
+                used_colors[i] = false;
+            }
+            
             MatrixParser par = new MatrixParser();
             shop_layout_matrix = par.parseMatrix();
             createShopGraph();
@@ -33,7 +47,7 @@ namespace GlamourLights.Model
             //get matrix dimension
             int numRows = shop_layout_matrix.GetUpperBound(0)+1;
             int numCols = shop_layout_matrix.GetUpperBound(1)+1;
-
+           
             //generate graph from the parsed matrix
             for (int i=0; i< numRows; i++) 
                 for(int j=0; j<numCols; j++)

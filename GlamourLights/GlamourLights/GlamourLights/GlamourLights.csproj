@@ -86,6 +86,7 @@
     <Compile Include="Model\MatrixParser.cs" />
     <Compile Include="Model\customer.cs" />
     <Compile Include="Model\item.cs" />
+    <Compile Include="Model\Path.cs" />
     <Compile Include="Model\purchase.cs" />
     <Compile Include="Model\shelf.cs" />
     <Compile Include="Model\ShopDb.cs" />
