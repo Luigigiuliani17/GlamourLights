@@ -1,0 +1,22 @@
+﻿<Page x:Class="GlamourLights.Home"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:GlamourLights"
+      mc:Ignorable="d" 
+      d:DesignHeight="300" d:DesignWidth="300"
+      VerticalAlignment="Stretch" HorizontalAlignment="Stretch"
+      Title="Home">
+
+    <Grid>
+        <TextBox x:Name="textBox" HorizontalAlignment="Left" Height="23" Margin="108,246,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="120" KeyUp="onKeyUp"/>
+        <Rectangle Fill="#FFF4F4F5" HorizontalAlignment="Stretch" Stroke="Black" VerticalAlignment="Stretch" />
+        <TextBlock x:Name="block" HorizontalAlignment="Stretch" Margin="25,99,20,0"  TextWrapping="Wrap" Text="Scan your Card here!" VerticalAlignment="Top" FontSize="26.667" Width="255" Foreground="#FF10F705" FontWeight="SemiBold"/>
+        <Button x:Name="button" Content="Not a Card Holder? Cick here!" HorizontalAlignment="Stretch" Margin="32,239,0,0" VerticalAlignment="Top" Width="229" Height="42" FontSize="13.333" FontWeight="SemiBold" Foreground="#FF10F705" RenderTransformOrigin="0.504,0.139"/>
+
+
+
+
+    </Grid>
+</Page>

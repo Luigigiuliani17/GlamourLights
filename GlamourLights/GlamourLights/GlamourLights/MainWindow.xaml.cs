@@ -19,27 +19,21 @@ namespace GlamourLights
 {
     /// <summary>
     /// Logica di interazione per MainWindow.xaml
+    /// Non fa praticamente nulla se non istanziare il db + creare la window dove mostrare le pagine
     /// </summary>
     public partial class MainWindow : Window
     {
 
-        ShopDb myDb = new ShopDb();
+        ShopDb shopDb = new ShopDb();
         public MainWindow()
         {
             InitializeComponent();
-            myDb.customer.Load();
-            dataGrid1.ItemsSource = myDb.customer.Local;
+            shopDb.customer.Load();
+            // dataGrid1.ItemsSource = myDb.customer.Local;
+            mainFrame.Navigate(new Home(shopDb));
         }
 
-        private void button_Click(object sender, RoutedEventArgs e)
-        {
-            customer cust = new customer();
-            cust.firstName = textBox0.Text;
-            cust.lastName = textBox1.Text;
-            cust.cardNumber = textBox2.Text;
-            myDb.customer.Add(cust);
-            myDb.SaveChanges();
-        }
+
 
     }
 }

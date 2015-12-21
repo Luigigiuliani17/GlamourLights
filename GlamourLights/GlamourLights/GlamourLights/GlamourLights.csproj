@@ -74,7 +74,13 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="AdminPage.xaml.cs">
+      <DependentUpon>AdminPage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Controller\Comunicator.cs" />
+    <Compile Include="Home.xaml.cs">
+      <DependentUpon>Home.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Model\Graphvertex.cs" />
     <Compile Include="Model\MatrixParser.cs" />
     <Compile Include="Model\customer.cs" />
@@ -82,6 +88,14 @@
     <Compile Include="Model\purchase.cs" />
     <Compile Include="Model\shelf.cs" />
     <Compile Include="Model\ShopDb.cs" />
+    <Page Include="AdminPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Home.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
