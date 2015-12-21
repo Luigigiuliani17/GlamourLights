@@ -74,6 +74,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Controller\Comunicator.cs" />
     <Compile Include="Model\Graphvertex.cs" />
     <Compile Include="Model\MatrixParser.cs" />
     <Compile Include="Model\customer.cs" />
