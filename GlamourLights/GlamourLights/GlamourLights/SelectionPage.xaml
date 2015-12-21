@@ -1,0 +1,45 @@
+﻿<Page x:Class="GlamourLights.SelectionPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:GlamourLights"
+      mc:Ignorable="d" 
+      d:DesignHeight="520" d:DesignWidth="720"
+      VerticalAlignment="Stretch" HorizontalAlignment="Stretch"
+      Title="Selection">
+
+    <Grid x:Name="mainGrid">
+        <Grid x:Name="secondGrid">
+            <Grid.RowDefinitions>
+                <RowDefinition x:Name="upperRow" Height="74*"></RowDefinition>
+                <RowDefinition x:Name="mainRow" Height="88*"></RowDefinition>
+                <RowDefinition Height="283*"/>
+                <RowDefinition x:Name="lowerRow" Height="75*"></RowDefinition>
+            </Grid.RowDefinitions>
+            <Rectangle Fill="#FFF4F4F5" HorizontalAlignment="Stretch" Stroke="Black" VerticalAlignment="Stretch" Grid.Row="0" />
+            <TextBlock x:Name="welcomeBlock" FontSize="20" FontWeight="DemiBold" Foreground="SeaGreen" 
+                       HorizontalAlignment="Stretch" VerticalAlignment="Stretch" TextAlignment="Center">
+            </TextBlock>
+                       
+            <Grid x:Name="buttonsGrid" Grid.Row="1" Grid.RowSpan="2">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition x:Name="depCol" Width="1*"></ColumnDefinition>
+                    <ColumnDefinition x:Name="clothesCol" Width="1*"></ColumnDefinition>
+                </Grid.ColumnDefinitions>
+                <Rectangle Fill="#FFF4F4F5" HorizontalAlignment="Stretch" Stroke="Black" VerticalAlignment="Stretch" Grid.Column="0" />
+                <Button x:Name="depButton" Grid.Column="0" HorizontalAlignment="Stretch" FontSize="20" Foreground="SeaGreen" FontWeight="DemiBold" VerticalAlignment="Stretch" Margin="10,10,10,10" Click="DepButton_Click">
+                    Search By Department
+                </Button>
+                <Rectangle Fill="#FFF4F4F5" HorizontalAlignment="Stretch" Stroke="Black" VerticalAlignment="Stretch" Grid.Column="1" />
+                <Button x:Name="clothesButton" Grid.Column="1" HorizontalAlignment="Stretch" FontSize="20" Foreground="SeaGreen" FontWeight="DemiBold" VerticalAlignment="Stretch" Margin="10,10,10,10" Click="ClothesButton_Click">
+                    Search By Clothes
+                </Button>
+            </Grid>
+            <Rectangle Fill="#FFF4F4F5" Grid.Row="3" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"></Rectangle>
+            <Button x:Name="backButton" Grid.Row="3" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="10,10,10,10" FontSize="20" Foreground="SeaGreen" FontWeight="DemiBold" Click="backButton_Click">
+                Go back to Home Page
+            </Button>
+        </Grid>
+    </Grid>
+</Page>
