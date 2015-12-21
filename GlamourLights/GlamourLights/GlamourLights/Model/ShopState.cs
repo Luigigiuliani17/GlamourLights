@@ -13,29 +13,41 @@ namespace GlamourLights.Model
     /// class that contains all the informations about the shop state
     /// - matrix of the shop (-1 = wall; 0= shelf; 1= free; 2= free used as stating point for the paths)
     /// - shop graph. It is build removing the nodes with costs in {-1, 0}
-    /// 
+    /// - active colors (to indicate what color is used at the moment
+    /// - active path (to save the path of an active color)
     /// </summary>
     class ShopState
     {
         // -1 = wall, 0= shelf 1= free 2 = starting point
         public int[,] shop_layout_matrix { get; set; }
+
         // graph used for algorithm
         public Dictionary<string, Graphvertex> shop_graph { get; set; }
-        public bool[] used_colors; 
+
+        public bool[] active_colors { get; set; }
+        public Path[] active_path { get; set; }
+
         //  Default cost of a node
         public const int DEFAULT_COST = 1;
         public const int MAX_USERS_NUMBER = 4;
 
 
+        /// <summary>
+        /// constructor that creates a new shop state by 
+        /// -parsing the matrix
+        /// -creating the graph
+        /// -setting to false every active_color
+        /// TO CALL WHEN BOOTING THE APPLICATION
+        /// </summary>
         public ShopState()
         {
             //set at false every used colour
-            used_colors = new bool[MAX_USERS_NUMBER];
+            active_colors = new bool[MAX_USERS_NUMBER];
             for(int i=0; i<MAX_USERS_NUMBER; i++)
             {
-                used_colors[i] = false;
+                active_colors[i] = false;
             }
-            
+      
             MatrixParser par = new MatrixParser();
             shop_layout_matrix = par.parseMatrix();
             createShopGraph();
