@@ -6,6 +6,12 @@ using System.Threading.Tasks;
 
 namespace GlamourLights.Model
 {
+    /// <summary>
+    /// class that contains all the informations about the shop state
+    /// - matrix of the shop (-1 = wall; 0= shelf; 1= free; 2= free used as stating point for the paths)
+    /// - shop graph. It is build removing the nodes with costs in {-1, 0}
+    /// 
+    /// </summary>
     class ShopState
     {
         // -1 = wall, 0= shelf 1= free 2 = starting point
