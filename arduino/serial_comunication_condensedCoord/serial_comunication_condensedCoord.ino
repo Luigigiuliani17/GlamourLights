@@ -63,15 +63,15 @@ Serial.read();
 //switch che decide l'azione principale (spegnimento/accensione)
 
     //Qui si computano le coordinate colore a seconda delle direttive seriali
-    if(strcmp(color, "red")
+    if(strcmp(color, "red"))
     color_coord = {5,0,0};  
-    if(strcmp(color, "green")
+    if(strcmp(color, "green"))
     color_coord = {0,5,0};
-    if(strcmp(color, "blue")
+    if(strcmp(color, "blue"))
     color_coord = {0,0,5};
-    if(strcmp(color, "yellow")
+    if(strcmp(color, "yellow"))
     color_coord = {0,5,5};
-    if(strcmp(color, "black")
+    if(strcmp(color, "black"))
     color_coord = {0,0,0};
 
     //gestione di accensione e spegnimento dei led (lo spegnimento sara' stantaneo a differenza dall'accensione)

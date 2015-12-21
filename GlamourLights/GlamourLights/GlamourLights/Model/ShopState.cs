@@ -7,8 +7,11 @@ using System.Threading.Tasks;
 namespace GlamourLights.Model
 {
     public enum Colors{
-        RED=0, GREEN=1, BLUE=2, YELLOW=3
-    }
+       red = 1,
+       green = 2,
+       blue =3,
+       yellow = 4
+    } 
     /// <summary>
     /// class that contains all the informations about the shop state
     /// - matrix of the shop (-1 = wall; 0= shelf; 1= free; 2= free used as stating point for the paths)
