@@ -70,7 +70,7 @@ namespace GlamourLights.Controller
                 if(distance[u]==9999)
                 {
                     throw new Exception("la destinazione non è raggiungibile!!!");
-                    break; 
+                    
                 }
 
                 foreach(var n in shop_graph[u].adjacent_nodes)
@@ -98,7 +98,7 @@ namespace GlamourLights.Controller
             x_cord.Insert(0, shop_graph[u].x_cord);
             y_cord.Insert(0, shop_graph[u].y_cord);
 
-            CarpetPath final_result = new CarpetPath(x_cord.ToArray(), y_cord.ToArray(), color, 1 ,final_cost);
+            CarpetPath final_result = new CarpetPath(x_cord.ToArray(), y_cord.ToArray(), color, final_cost);
 
             return final_result;    
         }

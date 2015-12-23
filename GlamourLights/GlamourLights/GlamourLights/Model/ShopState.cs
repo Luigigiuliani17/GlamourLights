@@ -7,10 +7,10 @@ using System.Threading.Tasks;
 namespace GlamourLights.Model
 {
     public enum CarpetColors{
-       red = 1,
-       green = 2,
-       blue =3,
-       yellow = 4
+       red = 0,
+       green = 1,
+       blue =2,
+       yellow = 3
     } 
     /// <summary>
     /// class that contains all the informations about the shop state

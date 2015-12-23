@@ -99,7 +99,7 @@ namespace GlamourLights.Controller
 
              //Timer part, in wich we bind the number of path to send to the handler, setting the time to wait 30 seconds
             var timer = new Timer { Interval = 30000, AutoReset = false };
-            timer.Elapsed += (sender, e) => ErasePath(sender, e, path.path_number);
+            timer.Elapsed += (sender, e) => ErasePath(sender, e, (int)path.color);
             timer.Start();
         }
 
@@ -117,7 +117,7 @@ namespace GlamourLights.Controller
             CarpetPath path_to_erase = null;
             foreach(CarpetPath path in active_path)
             {
-                if (path_number == path.path_number)
+                if (path_number == (int) path.color)
                 {
                     path_to_erase = path;
                     break;
