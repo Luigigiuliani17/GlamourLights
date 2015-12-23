@@ -29,7 +29,7 @@ namespace GlamourLights.Controller
     {
         System.IO.Ports.SerialPort serialPort1 = new System.IO.Ports.SerialPort();
         ShopState state = new ShopState();
-        List<Path> active_path;
+        List<CarpetPath> active_path;
         public Comunicator()
         {
             serialPort1.PortName = "COM3";
@@ -70,19 +70,19 @@ namespace GlamourLights.Controller
 
         /// <summary>
         /// This method will be called every time is necessary to draw a path on the carpet
-        /// the parameters passed will be an Object of type Path, containing all the information necessary 
+        /// the parameters passed will be an Object of type CarpetPath, containing all the information necessary 
         /// to create the strings and process the requests
         /// Every time a path is called a timer will be istantiated to temporize the appearence of the path itself.
         /// and the path to be deleted is set also.
         /// </summary>
-        public void DrawPath(Path path)
+        public void DrawPath(CarpetPath path)
         {
             active_path.Add(path);
             int[] x_coord = path.x_cordinates;
             int[] y_coord = path.y_cordinates;
             //Retriving the color name
             int n_color = (int)path.color;
-            string color = Enum.GetName(typeof(Colors), n_color);
+            string color = Enum.GetName(typeof(CarpetColors), n_color);
             Console.WriteLine(color);
             //Opening the port
             serialPort1.Open();
@@ -114,8 +114,8 @@ namespace GlamourLights.Controller
          void ErasePath(object sender, ElapsedEventArgs e, int path_number)
         {
             //I have to find the path to erase from the list, giving the path_number
-            Path path_to_erase = null;
-            foreach(Path path in active_path)
+            CarpetPath path_to_erase = null;
+            foreach(CarpetPath path in active_path)
             {
                 if (path_number == path.path_number)
                 {

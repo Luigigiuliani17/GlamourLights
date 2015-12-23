@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace GlamourLights.Model
 {
-    public enum Colors{
+    public enum CarpetColors{
        red = 1,
        green = 2,
        blue =3,
@@ -28,7 +28,7 @@ namespace GlamourLights.Model
         public Dictionary<string, Graphvertex> shop_graph { get; set; }
 
         public bool[] active_colors { get; set; }
-        public Path[] active_path { get; set; }
+        public CarpetPath[] active_path { get; set; }
 
         //  Default cost of a node
         public const int DEFAULT_COST = 1;
