@@ -10,13 +10,13 @@
 #define D   A3
 
 RGBmatrixPanel matrix(A, B, C, D, CLK, LAT, OE, false, 64);
-String color;
-int x_pos,y_pos;
-int color_coord[3];
+String mex1, mex2, mex3;
+int x_pos, y_pos, color;
 
 void setup() {
 
   matrix.begin();
+  matrix.drawPixel(10,10,matrix.Color333(1,1,1));
   Serial.begin(9600);
 }
 
@@ -43,37 +43,50 @@ void loop() {
 if (Serial.available() > 0) { 
 // Check to see if there is a new message
 //i primi 2 sono le posizioni che vengono direttamente trasformate in interi
-x_pos = Serial.readStringUntil(':').toInt(); // Put the serial input into the message
+mex1 = Serial.readStringUntil(':');
 Serial.read();
-y_pos = Serial.readStringUntil(':').toInt();
+mex2 = Serial.readStringUntil(':'); // Put the serial input into the message
 Serial.read();
+mex3 = Serial.readString();
+y_pos = mex2.toInt();
+x_pos = mex1.toInt();
+color = mex3.toInt();
 //colore e' una stringa la quale verra', della quale verra verificato il valore in if in cascata
-color = Serial.readStringUntil(':');
-Serial.read();
-
 //switch che decide l'azione principale (spegnimento/accensione)
+//Qui si computano le coordinate colore a seconda delle direttive seriali
+//i colori "wall" e "shelf" saranno per i led che identificano scaffali e muri 
+//pertanto saranno sempre uguali e accesi sempre
 
-    //Qui si computano le coordinate colore a seconda delle direttive seriali
-    //i colori "wall" e "shelf" saranno per i led che identificano scaffali e muri 
-    //pertanto saranno sempre uguali e accesi sempre
-    if(strcmp(color, "red"))
-    color_coord = {5,0,0};  
-    if(strcmp(color, "green"))
-    color_coord = {0,5,0};
-    if(strcmp(color, "blue"))
-    color_coord = {0,0,5};
-    if(strcmp(color, "yellow"))
-    color_coord = {0,5,5};
-    if(strcmp(color, "black"))
-    color_coord = {0,0,0};
-    if(strcmp(color, "wall"))
-    color_coord = {1,1,1};
-    if(strcmp(color, "shelf"))
-    color_coord = {0,1,1}; 
+        
+    switch(color) {
 
-          //gestione di accensione e spegnimento dei led (lo spegnimento sara' stantaneo a differenza dall'accensione)
-          matrix.drawPixel(x_pos, y_pos, matrix.Color333(color_coord[0],color_coord[1],color_coord[2]));
-          if(strcmp(color, "red")||strcmp(color, "green")||strcmp(color, "blue")||strcmp(color, "yellow"))
-          delay(500);
-         
+      case 1:
+        matrix.drawPixel(x_pos, y_pos, matrix.Color333(7, 0, 0));
+        delay(500);
+        break;
+
+      case 2:
+        matrix.drawPixel(x_pos, y_pos, matrix.Color333(0, 7, 0));
+        delay(500);
+        break;
+
+      case 3:
+        matrix.drawPixel(x_pos, y_pos, matrix.Color333(0, 0, 7));
+        delay(500);
+        break;
+
+      case 4:
+        matrix.drawPixel(x_pos, y_pos, matrix.Color333(1, 1, 1));
+        break;
+
+      case 5:
+        matrix.drawPixel(x_pos, y_pos, matrix.Color333(0, 1, 1));
+        break;
+
+      case 0:
+      matrix.drawPixel(x_pos, y_pos, matrix.Color333(0, 0, 0));
+        break;
+        
+      }
+  }        
 }//fine del loop
