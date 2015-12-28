@@ -39,5 +39,32 @@ namespace GlamourLights.Model
             }
             return shop_layout;
         }
+
+        public Dictionary<int, string> parseShelvesPosition()
+        {
+            Dictionary<int, string> shelves_pos = new Dictionary<int, string>(); 
+            using (StreamReader sr = new StreamReader("../../Resources/shelves_position.txt"))
+            {
+                int x_pos;
+                int y_pos;
+                int shelfId;
+
+                string[] parameters;
+                string currentLine;
+
+                while ((currentLine = sr.ReadLine()) != null)
+                {
+                    parameters = currentLine.Split(';');
+                    shelfId = Int32.Parse(parameters[0]);
+                    x_pos = Int32.Parse(parameters[1]);
+                    y_pos = Int32.Parse(parameters[2]);
+                    shelves_pos.Add(shelfId, x_pos + ";" + y_pos);
+                    
+                }
+            }
+            return shelves_pos;
+
+
+        }
     }
 }
