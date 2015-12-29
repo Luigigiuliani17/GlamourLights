@@ -26,5 +26,32 @@ namespace GlamourLights.Model
             this.color = color;
             this.cost = cost;
         }
+
+        /// <summary>
+        /// append the coordinates of a new path to the path already present
+        /// </summary>
+        /// <param name="newPath"></param> path coordinates to append
+        public void appendPath(CarpetPath newPath )
+        {
+            List<int> x_list = new List<int>();
+            List<int> y_list = new List<int>();
+            for(int i=0; i<x_cordinates.Length; i++)
+            {
+                x_list.Add(x_cordinates[i]);
+                y_list.Add(y_cordinates[i]);
+            }
+
+            //this for starts from 1 to avoid the repetition of the termination point
+            for(int i=1; i<newPath.x_cordinates.Length; i++)
+            {
+                x_list.Add(newPath.x_cordinates[i]);
+                y_list.Add(newPath.y_cordinates[i]);
+            }
+
+            
+            cost = cost + newPath.cost;
+            x_cordinates = x_list.ToArray();
+            y_cordinates = y_list.ToArray();
+        }
     }
 }

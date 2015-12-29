@@ -40,6 +40,10 @@ namespace GlamourLights.Model
             return shop_layout;
         }
 
+        /// <summary>
+        /// parse the shelves_position txt. PATTERN: shelfId;x_pos;y_pos
+        /// </summary>
+        /// <returns></returns>
         public Dictionary<int, string> parseShelvesPosition()
         {
             Dictionary<int, string> shelves_pos = new Dictionary<int, string>(); 
