@@ -90,6 +90,11 @@ namespace GlamourLights.Controller
             //Setting the correct things in the shop state
             state.active_colors[path_id] = true;
             state.active_path.Add(path);
+            //Adding to the path cost 5
+            for(int i=0; i<x_coord.Length; i++)
+            {
+                state.shop_graph[x_coord + ";" + y_coord].cost += 5;
+            }
             //Send a string for every coordinate, plus the color
             for(int i=0; i<path.x_cordinates.Length; i++)
             {
@@ -141,6 +146,11 @@ namespace GlamourLights.Controller
             //Erasing a path from the list 
             state.active_colors[path_id] = false;
             state.active_path.Remove(path_to_erase);
+            //Lowering the path cost by 5
+            for (int i = 0; i < x_coord.Length; i++)
+            {
+                state.shop_graph[x_coord + ";" + y_coord].cost -= 5;
+            }
         }
     }
 }
