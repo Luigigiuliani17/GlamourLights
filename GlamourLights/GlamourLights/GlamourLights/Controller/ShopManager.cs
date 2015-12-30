@@ -11,11 +11,14 @@ namespace GlamourLights.Controller
     public class ShopManager
     {
         public ShopState shopState { get; set; }
+        public Comunicator com { get; set; }
         public  const double MAX_DEVIATION_FACTOR = 1.8;
 
         public ShopManager(ShopState shop)
         {
             this.shopState = shop;
+            this.com = new Comunicator(shop);
+            
         }
 
         /// <summary>
@@ -26,9 +29,8 @@ namespace GlamourLights.Controller
         /// <param name="x2"></param> x cord of destination
         /// <param name="y2"></param> y cord of destination
         /// <param name="color"></param> color of the path
-        /// <param name="shop_graph"></param> graph of the shop 
         /// <returns></returns> the path found
-        public CarpetPath calculateSubPath(int x1, int y1, int x2, int y2, CarpetColors color, Dictionary<string, Graphvertex> shop_graph )
+        public CarpetPath calculateSubPath(int x1, int y1, int x2, int y2, CarpetColors color )
         {
             //distance of each node from the starting point
             Dictionary<string, int> distance = new Dictionary<string, int>();
@@ -40,7 +42,7 @@ namespace GlamourLights.Controller
             string u = "";
 
             ///////////////////////////////////// initialization  ///////////////////////////////////7
-            foreach (var v in shop_graph)
+            foreach (var v in shopState.shop_graph)
             {
                 //set initial distance to infinite
                 distance.Add(v.Key, 9999);
@@ -82,7 +84,7 @@ namespace GlamourLights.Controller
                     
                 }
 
-                foreach(var n in shop_graph[u].adjacent_nodes)
+                foreach(var n in shopState.shop_graph[u].adjacent_nodes)
                 {
                     int new_dist = distance[u] + n.Value.cost;
                     if (new_dist < distance[n.Key])
@@ -100,12 +102,12 @@ namespace GlamourLights.Controller
 
             while(predecessor[u]!= null)
             {
-                x_cord.Insert(0, shop_graph[u].x_cord);
-                y_cord.Insert(0, shop_graph[u].y_cord);
+                x_cord.Insert(0, shopState.shop_graph[u].x_cord);
+                y_cord.Insert(0, shopState.shop_graph[u].y_cord);
                 u = predecessor[u];
             }
-            x_cord.Insert(0, shop_graph[u].x_cord);
-            y_cord.Insert(0, shop_graph[u].y_cord);
+            x_cord.Insert(0, shopState.shop_graph[u].x_cord);
+            y_cord.Insert(0, shopState.shop_graph[u].y_cord);
 
             CarpetPath final_result = new CarpetPath(x_cord.ToArray(), y_cord.ToArray(), color, final_cost);
 
@@ -123,10 +125,9 @@ namespace GlamourLights.Controller
         /// <param name="x2"></param> ending x
         /// <param name="y2"></param> ending y
         /// <param name="color"></param> path color
-        /// <param name="shop_graph"></param> graph of the shop
         /// <param name="shelves_position"></param> dictionary of positions of shelves (x, y saved as a string of kind x;y )
         /// <returns></returns> a new path passing also from the recommendations (if it is possible)
-        public CarpetPath calculateCompletePath(item[] recommendations, int x1, int y1, int x2, int y2, CarpetColors color, Dictionary<string, Graphvertex> shop_graph, Dictionary<int, string> shelves_position)
+        public CarpetPath calculateCompletePath(item[] recommendations, int x1, int y1, int x2, int y2, CarpetColors color)
         {
           
             //support variables
@@ -134,7 +135,7 @@ namespace GlamourLights.Controller
             CarpetPath noRecPath, recPath;
             
             //calculatepath cost of the path without recommendations
-            noRecPath = calculateSubPath(x1, y1, x2, y2, color, shop_graph);
+            noRecPath = calculateSubPath(x1, y1, x2, y2, color);
             noRecCost = noRecPath.cost;
 
             //calculate path and path cost with 2 recommendations:
@@ -149,19 +150,19 @@ namespace GlamourLights.Controller
                     //extract coordinates of first recommendation
                     String[] parameters;
                     int xrec1, yrec1, xrec2, yrec2;
-                    parameters = shelves_position[i.shelf1.shelfId].Split(';') ;
+                    parameters = shopState.shelves_position[i.shelf1.shelfId].Split(';') ;
                     xrec1 = Int32.Parse(parameters[0]);
                     yrec1 = Int32.Parse(parameters[1]);
 
                     //extract coordinates of second recommendation
-                    parameters = shelves_position[j.shelf1.shelfId].Split(';');
+                    parameters = shopState.shelves_position[j.shelf1.shelfId].Split(';');
                     xrec2 = Int32.Parse(parameters[0]);
                     yrec2 = Int32.Parse(parameters[1]);
 
                     //calculate paths from start to rec1, from rec1 to rec2, from rec2 to destination
-                    CarpetPath subPath1 = calculateSubPath(x1, y1, xrec1, yrec1, color, shop_graph);
-                    CarpetPath subPath2 = calculateSubPath(xrec1, yrec1, xrec2, yrec2, color, shop_graph);
-                    CarpetPath subPath3 = calculateSubPath(xrec2, yrec2, x2, y2, color, shop_graph);
+                    CarpetPath subPath1 = calculateSubPath(x1, y1, xrec1, yrec1, color);
+                    CarpetPath subPath2 = calculateSubPath(xrec1, yrec1, xrec2, yrec2, color);
+                    CarpetPath subPath3 = calculateSubPath(xrec2, yrec2, x2, y2, color);
 
                     //calculate total cost and verify if it is acceptable
                     recCost = subPath1.cost + subPath2.cost + subPath3.cost;
@@ -182,13 +183,13 @@ namespace GlamourLights.Controller
                 //extract recommendations coordinates
                 String[] parameters;
                 int xrec1, yrec1;
-                parameters = shelves_position[i.shelf1.shelfId].Split(';');
+                parameters = shopState.shelves_position[i.shelf1.shelfId].Split(';');
                 xrec1 = Int32.Parse(parameters[0]);
                 yrec1 = Int32.Parse(parameters[1]);
 
                 //calculate subpath from start to rec and from rec to destination
-                CarpetPath subPath1 = calculateSubPath(x1, y1, xrec1, yrec1, color, shop_graph);
-                CarpetPath subPath2 = calculateSubPath(xrec1, yrec1, x2, y2, color, shop_graph);
+                CarpetPath subPath1 = calculateSubPath(x1, y1, xrec1, yrec1, color);
+                CarpetPath subPath2 = calculateSubPath(xrec1, yrec1, x2, y2, color);
 
                 //calculate cost and compare with noPath cost, if acceptable then construct path and return
                 recCost = subPath1.cost + subPath2.cost;

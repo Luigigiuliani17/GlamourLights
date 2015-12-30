@@ -26,16 +26,17 @@ namespace GlamourLights.Controller
     -1 = wall
      0 = shelf
     */
-    class Comunicator
+    public class Comunicator
     {
-        ShopState state = new ShopState();
+        ShopState state;
         List<CarpetPath> active_path;
         SerialPort serial = new SerialPort();
         DateTime start, stop;
         
-        public Comunicator()
+        public Comunicator(ShopState shop)
         {
-            serial.PortName = "COM3";
+            this.state = shop;
+            serial.PortName = "COM5";
             serial.BaudRate = 9600;
             serial.Open();
             Console.WriteLine("inizializzato la porta");
