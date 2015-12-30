@@ -19,7 +19,7 @@ namespace GlamourLights.Model
     /// - active colors (to indicate what color is used at the moment
     /// - active path (to save the path of an active color)
     /// </summary>
-    class ShopState
+    public class ShopState
     {
         // -1 = wall, 0= shelf 1= free 2 = starting point
         public int[,] shop_layout_matrix { get; set; }
@@ -34,6 +34,7 @@ namespace GlamourLights.Model
         public const int DEFAULT_COST = 1;
         public const int MAX_USERS_NUMBER = 4;
 
+        public ShopDb shopDb { get; set; }
 
         /// <summary>
         /// constructor that creates a new shop state by 
@@ -55,6 +56,7 @@ namespace GlamourLights.Model
             MatrixParser par = new MatrixParser();
             shop_layout_matrix = par.parseMatrix();
             createShopGraph();
+            shopDb = new ShopDb();
         }
 
         private void createShopGraph()

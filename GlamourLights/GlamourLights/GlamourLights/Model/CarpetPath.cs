@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace GlamourLights.Model
 {
-    class CarpetPath
+    public class CarpetPath
     {
         public CarpetColors color { get; set; }
         public int[] x_cordinates { get; set; }

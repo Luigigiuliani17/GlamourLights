@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace GlamourLights.Model
 {
-    class Graphvertex
+    public class Graphvertex
     {
         public int cost { get; set; }
         public int x_cord { get; set; }

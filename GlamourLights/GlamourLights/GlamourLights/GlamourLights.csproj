@@ -77,6 +77,9 @@
     <Compile Include="AdminPage.xaml.cs">
       <DependentUpon>AdminPage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="ClothesSelection.xaml.cs">
+      <DependentUpon>ClothesSelection.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Controller\Comunicator.cs" />
     <Compile Include="Controller\Recommender.cs" />
     <Compile Include="Controller\ShopManager.cs" />
@@ -97,6 +100,10 @@
     <Page Include="AdminPage.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="ClothesSelection.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Home.xaml">
       <Generator>MSBuild:Compile</Generator>

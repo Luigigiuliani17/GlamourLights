@@ -12,28 +12,26 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
-using System.Data.Entity;
 using GlamourLights.Controller;
+using GlamourLights.Model;
+using System.Data.Entity;
 
 namespace GlamourLights
 {
     /// <summary>
-    /// Logica di interazione per MainWindow.xaml
-    /// Non fa praticamente nulla se non istanziare il db + creare la window dove mostrare le pagine
+    /// Logica di interazione per ClothesSelection.xaml
     /// </summary>
-    public partial class MainWindow : Window
+    public partial class ClothesSelection : Page
     {
-
-        ShopManager shopMan = new ShopManager(new Model.ShopState());
-        public MainWindow()
+        private ShopManager shopMan;
+        private customer Loggedcust;
+        public ClothesSelection(ShopManager sm, customer cust)
         {
             InitializeComponent();
-            shopMan.shopState.shopDb.customer.Load();
-            // dataGrid1.ItemsSource = myDb.customer.Local;
-            mainFrame.Navigate(new Home(shopMan));
+            shopMan = sm;
+            Loggedcust = cust;
+            shopMan.shopState.shopDb.item.Load();
+            itemDataGrid.ItemsSource = shopMan.shopState.shopDb.item.Local;
         }
-
-
-
     }
 }

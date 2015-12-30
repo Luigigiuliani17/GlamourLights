@@ -8,14 +8,14 @@ using System.Data.Entity;
 
 namespace GlamourLights.Controller
 {
-    class ShopManager
+    public class ShopManager
     {
-        ShopDb shop;
+        public ShopState shopState { get; set; }
         public  const double MAX_DEVIATION_FACTOR = 1.8;
 
-        public ShopManager(ShopDb shop)
+        public ShopManager(ShopState shop)
         {
-            this.shop = shop;
+            this.shopState = shop;
         }
 
         /// <summary>

@@ -12,6 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using GlamourLights.Controller;
 using GlamourLights.Model;
 
 namespace GlamourLights
@@ -21,16 +22,16 @@ namespace GlamourLights
     /// </summary>
     public partial class SelectionPage : Page
     {
-        private ShopDb shopDb;
+        private ShopManager shopMan;
         private customer LoggedCust { set; get; }
         public SelectionPage()
         {
             InitializeComponent();
         }
 
-        public SelectionPage(ShopDb shopDb, customer loggedCust)
+        public SelectionPage(ShopManager shopMan, customer loggedCust)
         {
-            this.shopDb = shopDb;
+            this.shopMan = shopMan;
             LoggedCust = loggedCust;
             InitializeComponent();
             welcomeBlock.Text = "Welcome Back, " + LoggedCust.firstName.ToUpper() + " " + LoggedCust.lastName.ToUpper() + "!";
@@ -39,6 +40,7 @@ namespace GlamourLights
         private void ClothesButton_Click(object sender, RoutedEventArgs e)
         {
             clothesButton.Content = "hello";
+            this.NavigationService.Navigate(new ClothesSelection(shopMan, LoggedCust));
         }
 
         private void DepButton_Click(object sender, RoutedEventArgs e)

@@ -36,7 +36,8 @@ namespace GlamourLights.Controller
         public Comunicator()
         {
             serial.PortName = "COM3";
-            serial.BaudRate = 38400;
+            serial.BaudRate = 9600;
+            serial.Open();
             Console.WriteLine("inizializzato la porta");
         }
 
@@ -48,7 +49,6 @@ namespace GlamourLights.Controller
         public void InitializeMatrix()
         {
             int[,] matrix = state.shop_layout_matrix;
-            serial.Open();
             //Here we create the strings and pass them to the board, looping through the matrix 
             for (int i = 0; i < matrix.GetLength(0); i++)
             {
@@ -68,7 +68,6 @@ namespace GlamourLights.Controller
                     }
                 }
             }
-            serial.Close();
         }
 
         /// <summary>
@@ -90,18 +89,17 @@ namespace GlamourLights.Controller
             //Setting the correct things in the shop state
             state.active_colors[path_id] = true;
             state.active_path.Add(path);
-            serial.Open();
             //Send a string for every coordinate, plus the color
             for(int i=0; i<path.x_cordinates.Length; i++)
             {
                 if (serial.IsOpen)
                 {
                     serial.WriteLine(x_coord[i] + ":" + y_coord[i] + ":" + color);
+                    System.Threading.Thread.Sleep(200);
                 }
             }
-            serial.Close();
              //Timer part, in wich we bind the number of path to send to the handler, setting the time to wait 30 seconds
-            var timer = new Timer { Interval = 10000, AutoReset = false };
+            var timer = new Timer { Interval = 40000, AutoReset = false };
             timer.Elapsed += (sender, e) => ErasePath(sender, e, path_id);
             timer.Start();
             start = DateTime.Now;
@@ -132,14 +130,12 @@ namespace GlamourLights.Controller
             //Retrieving coordinates
             int[] x_coord = path_to_erase.x_cordinates;
             int[] y_coord = path_to_erase.y_cordinates;
-            serial.Open();
             if (serial.IsOpen)
             {
                 for (int i = 0; i < path_to_erase.x_cordinates.Length; i++)
                     serial.WriteLine(x_coord[i] + ":" + y_coord[i] + ":" + "-1");
                 
             }
-            serial.Close();
             //Set the accupation of the specific color to false again
             //Erasing a path from the list 
             state.active_colors[path_id] = false;

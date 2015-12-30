@@ -23,19 +23,21 @@ namespace GlamourLights
     /// </summary>
     public partial class Home : Page
     {
-        ShopDb shop;
         Comunicator com;
+        ShopManager sm;
         public Home()
         {
             InitializeComponent();
         }
-        public Home(ShopDb shop)
+        public Home(ShopManager shopM)
         {
             InitializeComponent();
-            this.shop = shop;
+            //this.shop = shop;
             textBox.Focus();
             textBox.Clear();
             com = new Comunicator();
+            sm = shopM;
+           // st = new ShopState();
         }
 
         private void onKeyUp(object sender, KeyEventArgs e)
@@ -45,18 +47,18 @@ namespace GlamourLights
                 if (textBox.Text == "admin")
                 {
                     textBox.Clear();
-                    this.NavigationService.Navigate(new AdminPage(shop));
+                    this.NavigationService.Navigate(new AdminPage(sm.shopState.shopDb));
                 }
                 else
                 {
                     Console.WriteLine(textBox.Text);
-                    shop.customer.Load();
+                    sm.shopState.shopDb.customer.Load();
                     String cardNum = textBox.Text;
                     //customer cust = shop.customer.SqlQuery("SELECT * FROM customer WHERE cardNumber = @p0", cardNum).First<customer>();
-                    var L2EQuery = shop.customer.Where(c => c.cardNumber.Equals(cardNum));
+                    var L2EQuery = sm.shopState.shopDb.customer.Where(c => c.cardNumber.Equals(cardNum));
                     var cust = L2EQuery.FirstOrDefault<customer>();
                     textBox.Clear();
-                    this.NavigationService.Navigate(new SelectionPage(shop, cust));
+                    this.NavigationService.Navigate(new SelectionPage(sm, cust));
                 }
             }
         }
@@ -68,11 +70,17 @@ namespace GlamourLights
 
         private void button2_Click(object sender, RoutedEventArgs e)
         {
-            int[] x = { 10, 10, 10, 10, 10, 10, 11, 12, 13, 14, 15, 14, 13 };
-            int[] y = { 0, 1, 2, 3, 4, 5, 5, 5, 5, 5, 5, 6, 6 };
+            //int[] x = { 10, 10, 10, 10, 10, 10, 11, 12, 13, 14, 15, 14, 13 };
+            //int[] y = { 0, 1, 2, 3, 4, 5, 5, 5, 5, 5, 5, 6, 6 };
             CarpetColors col = CarpetColors.blue;
-            int id = 1;
-            CarpetPath path = new CarpetPath(x,y,col,1);
+            //CarpetPath path = new CarpetPath(x,y,col,1);
+            CarpetPath path = sm.calculateSubPath(3, 1, 62, 30, col, sm.shopState.shop_graph);
+            com.DrawPath(path);
+        }
+
+        private void button3_Click(object sender, RoutedEventArgs e)
+        {
+           
         }
     }
 }

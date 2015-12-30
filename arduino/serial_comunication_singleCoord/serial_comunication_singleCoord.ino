@@ -21,7 +21,7 @@ void setup() {
   matrix.println("Pronta!");
   delay(3000);
   matrix.fillScreen(matrix.Color333(0,0,0));
-  Serial.begin(38400);
+  Serial.begin(9600);
 }
 
 /*all'interno del loop avverrano le seguenti cose:
@@ -67,12 +67,12 @@ void loop() {
 
       case 2: //green
         matrix.drawPixel(x_pos, y_pos, matrix.Color333(0, 7, 0));
-        delay(500);
+        //delay(500);
         break;
 
       case 3: //blue
         matrix.drawPixel(x_pos, y_pos, matrix.Color333(0, 0, 7));
-        delay(500);
+        //delay(200);
         break;
 
       case 4: //yellow
