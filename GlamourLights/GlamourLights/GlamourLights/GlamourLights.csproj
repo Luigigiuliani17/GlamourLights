@@ -78,6 +78,7 @@
       <DependentUpon>AdminPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Controller\Comunicator.cs" />
+    <Compile Include="Controller\Recommender.cs" />
     <Compile Include="Controller\ShopManager.cs" />
     <Compile Include="Home.xaml.cs">
       <DependentUpon>Home.xaml</DependentUpon>
@@ -86,7 +87,7 @@
     <Compile Include="Model\MatrixParser.cs" />
     <Compile Include="Model\customer.cs" />
     <Compile Include="Model\item.cs" />
-    <Compile Include="Model\Path.cs" />
+    <Compile Include="Model\CarpetPath.cs" />
     <Compile Include="Model\purchase.cs" />
     <Compile Include="Model\shelf.cs" />
     <Compile Include="Model\ShopDb.cs" />
@@ -150,7 +151,9 @@
   <ItemGroup>
     <None Include="Resources\shop_layout.txt" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <None Include="Resources\shelves_position.txt" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

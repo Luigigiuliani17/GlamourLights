@@ -10,14 +10,18 @@
 #define D   A3
 
 RGBmatrixPanel matrix(A, B, C, D, CLK, LAT, OE, false, 64);
-String mex1, mex2, mex3;
+String message, mex1, mex2, mex3;
 int x_pos, y_pos, color;
 
 void setup() {
 
   matrix.begin();
-  matrix.drawPixel(10,10,matrix.Color333(1,1,1));
-  Serial.begin(9600);
+  matrix.setCursor(3, 12);  
+  matrix.setTextColor(matrix.Color333(0,7,3));
+  matrix.println("Pronta!");
+  delay(3000);
+  matrix.fillScreen(matrix.Color333(0,0,0));
+  Serial.begin(38400);
 }
 
 /*all'interno del loop avverrano le seguenti cose:
@@ -40,53 +44,55 @@ void setup() {
  *        ce ne sbattiamo le palle (metodo fancazzista)
 */
 void loop() {
-if (Serial.available() > 0) { 
-// Check to see if there is a new message
-//i primi 2 sono le posizioni che vengono direttamente trasformate in interi
-mex1 = Serial.readStringUntil(':');
-Serial.read();
-mex2 = Serial.readStringUntil(':'); // Put the serial input into the message
-Serial.read();
-mex3 = Serial.readString();
-y_pos = mex2.toInt();
-x_pos = mex1.toInt();
-color = mex3.toInt();
-//colore e' una stringa la quale verra', della quale verra verificato il valore in if in cascata
-//switch che decide l'azione principale (spegnimento/accensione)
-//Qui si computano le coordinate colore a seconda delle direttive seriali
-//i colori "wall" e "shelf" saranno per i led che identificano scaffali e muri 
-//pertanto saranno sempre uguali e accesi sempre
-
-        
+ 
+ if(Serial.available() > 0) {
+    //mex1 = Serial.readStringUntil(':');
+    //Serial.read();
+    //mex2 = Serial.readStringUntil(':');
+    //Serial.read();
+    //mex3 = Serial.readStringUntil('.');
+    //x_pos = mex1.toInt();
+    //y_pos = mex2.toInt();
+    //color = mex3.toInt();
+    x_pos = Serial.parseInt();
+    y_pos = Serial.parseInt();
+    color = Serial.parseInt();
+    
     switch(color) {
 
-      case 1:
+      case 1: //red
         matrix.drawPixel(x_pos, y_pos, matrix.Color333(7, 0, 0));
         delay(500);
         break;
 
-      case 2:
+      case 2: //green
         matrix.drawPixel(x_pos, y_pos, matrix.Color333(0, 7, 0));
         delay(500);
         break;
 
-      case 3:
+      case 3: //blue
         matrix.drawPixel(x_pos, y_pos, matrix.Color333(0, 0, 7));
         delay(500);
         break;
 
-      case 4:
-        matrix.drawPixel(x_pos, y_pos, matrix.Color333(1, 1, 1));
-        break;
-
-      case 5:
-        matrix.drawPixel(x_pos, y_pos, matrix.Color333(0, 1, 1));
-        break;
-
-      case 0:
-      matrix.drawPixel(x_pos, y_pos, matrix.Color333(0, 0, 0));
-        break;
+      case 4: //yellow
+        matrix.drawPixel(x_pos, y_pos, matrix.Color333(0, 0, 7));
+        delay(500);
         
+      case 5: //wall
+        matrix.drawPixel(x_pos, y_pos, matrix.Color333(3, 7, 3));
+        break;
+
+      case 6: //shelf
+        matrix.drawPixel(x_pos, y_pos, matrix.Color333(3, 0, 7));
+        break;
+
+      case -1: //black
+        matrix.drawPixel(x_pos, y_pos, matrix.Color333(0, 0, 0));
+        break;
+
+      default:
+        break;
       }
-  }        
+  }     
 }//fine del loop

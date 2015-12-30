@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Timers;
+using System.IO.Ports;
 using GlamourLights.Model;
 
 namespace GlamourLights.Controller
@@ -27,80 +28,84 @@ namespace GlamourLights.Controller
     */
     class Comunicator
     {
-        System.IO.Ports.SerialPort serialPort1 = new System.IO.Ports.SerialPort();
         ShopState state = new ShopState();
-        List<Path> active_path;
+        List<CarpetPath> active_path;
+        SerialPort serial = new SerialPort();
+        DateTime start, stop;
+        
         public Comunicator()
         {
-            serialPort1.PortName = "COM3";
-            serialPort1.BaudRate = 9600;
+            serial.PortName = "COM4";
+            serial.BaudRate = 38400;
+            Console.WriteLine("inizializzato la porta");
         }
 
         /// <summary>
-        /// This function will take the matrix structure in the ShopState, looping on it recognizing the walls
-        /// (identified with -1) and the shelves (identified with 0), put them in string form and comunicate them
+        /// This function will take the matrix structure in the ShopState, looping on it recognizing the walls = 4
+        /// (identified with -1 in txt file) and the shelves = 5 (identified with 0 in txt file), put them in string form and comunicate them
         /// to the arduino board via serial communication.
         /// </summary>
         public void InitializeMatrix()
         {
-            serialPort1.Open();
             int[,] matrix = state.shop_layout_matrix;
-
+            serial.Open();
             //Here we create the strings and pass them to the board, looping through the matrix 
-            for (int i = 0; i < matrix.Rank; i++)
-                for (int j = 0; j < matrix.GetLength(i); j++)
+            for (int i = 0; i < matrix.GetLength(0); i++)
+            {
+                for (int j = 0; j < matrix.GetLength(1); j++)
                 {
-                    if(matrix[i,j] == -1)
+                    
+                    if (serial.IsOpen)
                     {
-                        if (serialPort1.IsOpen)
+                        if (matrix[i, j] == -1)
                         {
-                            serialPort1.WriteLine(String.Format("{x}:{y}:wall", i, j)); 
+                            serial.WriteLine(i + ":" + j + ":" + "5"); //walls
                         }
-                    }
-                    if (matrix[i, j] == 0)
-                    {
-                        if (serialPort1.IsOpen)
+                        if (matrix[i, j] == 0)
                         {
-                            serialPort1.WriteLine(String.Format("{x}:{y}:shelf", i, j)); 
+                            serial.WriteLine(i + ":" + j + ":" + "6"); //shelves 
                         }
                     }
                 }
-            serialPort1.Close();
+            }
+            serial.Close();
         }
 
         /// <summary>
         /// This method will be called every time is necessary to draw a path on the carpet
-        /// the parameters passed will be an Object of type Path, containing all the information necessary 
+        /// the parameters passed will be an Object of type CarpetPath, containing all the information necessary 
         /// to create the strings and process the requests
         /// Every time a path is called a timer will be istantiated to temporize the appearence of the path itself.
         /// and the path to be deleted is set also.
         /// </summary>
-        public void DrawPath(Path path)
+        public void DrawPath(CarpetPath path)
         {
-            active_path.Add(path);
             int[] x_coord = path.x_cordinates;
             int[] y_coord = path.y_cordinates;
             //Retriving the color name
-            int n_color = (int)path.color;
-            string color = Enum.GetName(typeof(Colors), n_color);
-            Console.WriteLine(color);
-            //Opening the port
-            serialPort1.Open();
+            int path_id = (int)path.color;
+            int color = path_id + 1;
+            Console.WriteLine("id del path " + path_id);
+            Console.WriteLine("codice del path " + color);
+            //Setting the correct things in the shop state
+            state.active_colors[path_id] = true;
+            state.active_path.Add(path);
+            serial.Open();
             //Send a string for every coordinate, plus the color
             for(int i=0; i<path.x_cordinates.Length; i++)
             {
-                if (serialPort1.IsOpen)
+                if (serial.IsOpen)
                 {
-                    serialPort1.WriteLine(String.Format("{x}:{y}:{color}",x_coord[i] ,y_coord[i], color));
+                    serial.WriteLine(x_coord[i] + ":" + y_coord[i] + ":" + color);
                 }
             }
-            //Closing port and comunication
-            serialPort1.Close();
-
+            serial.Close();
              //Timer part, in wich we bind the number of path to send to the handler, setting the time to wait 30 seconds
-            var timer = new Timer { Interval = 30000, AutoReset = false };
-            timer.Elapsed += (sender, e) => ErasePath(sender, e, path.path_number);
+            var timer = new Timer { Interval = 10000, AutoReset = false };
+            timer.Elapsed += (sender, e) => ErasePath(sender, e, path_id);
             timer.Start();
+            start = DateTime.Now;
+            Console.WriteLine("starting at: " + start);
         }
 
         /// <summary>
@@ -110,29 +115,35 @@ namespace GlamourLights.Controller
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        /// <param name="path_number"></param>
-         void ErasePath(object sender, ElapsedEventArgs e, int path_number)
+        /// <param name="path_id"></param>
+         void ErasePath(object sender, ElapsedEventArgs e, int path_id)
         {
+            stop = DateTime.Now;
+            Console.WriteLine("Finishing at: " + stop);
+            TimeSpan time = stop - start;
+            Console.WriteLine("total elapse time: " + time);
             //I have to find the path to erase from the list, giving the path_number
-            Path path_to_erase = null;
-            foreach(Path path in active_path)
+            CarpetPath path_to_erase = new CarpetPath();
+            foreach(CarpetPath p in state.active_path)
             {
-                if (path_number == path.path_number)
-                {
-                    path_to_erase = path;
-                    break;
-                }
+                if ((int)p.color == path_id)
+                    path_to_erase = p;
             }
+            //Retrieving coordinates
             int[] x_coord = path_to_erase.x_cordinates;
             int[] y_coord = path_to_erase.y_cordinates;
-            //Starting to erase the path, forming the right string
-            serialPort1.Open();
-            for (int i = 0; i < path_to_erase.x_cordinates.Length; i++)
+            serial.Open();
+            if (serial.IsOpen)
             {
-                serialPort1.WriteLine(String.Format("{x}:{y}:black", x_coord[i], y_coord[i]));
+                for (int i = 0; i < path_to_erase.x_cordinates.Length; i++)
+                    serial.WriteLine(x_coord[i] + ":" + y_coord[i] + ":" + "-1");
+                
             }
-            //Remove path from the list
-            active_path.Remove(path_to_erase);
+            serial.Close();
+            //Set the accupation of the specific color to false again
+            //Erasing a path from the list 
+            state.active_colors[path_id] = false;
+            state.active_path.Remove(path_to_erase);
         }
     }
 }

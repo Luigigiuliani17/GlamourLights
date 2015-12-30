@@ -61,15 +61,26 @@ namespace GlamourLights.Properties {
         }
         
         /// <summary>
-        ///   Cerca una stringa localizzata simile a prova
-        ///1
-        ///2
-        ///3
-        ///4
-        ///5
-        ///6
-        ///7
-        ///8.
+        ///   Cerca una stringa localizzata simile a 1;0;2
+        ///2;2;2.
+        /// </summary>
+        internal static string shelves_position {
+            get {
+                return ResourceManager.GetString("shelves_position", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Cerca una stringa localizzata simile a 3;3
+        ///0;0;-1
+        ///0;1;1
+        ///0;2;0
+        ///1;0;1
+        ///1;1;1
+        ///1;2;1
+        ///2;0;1
+        ///2;1;2
+        ///2;2;0.
         /// </summary>
         internal static string shop_layout {
             get {

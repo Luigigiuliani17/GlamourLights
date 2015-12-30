@@ -6,11 +6,11 @@ using System.Threading.Tasks;
 
 namespace GlamourLights.Model
 {
-    public enum Colors{
-       red = 1,
-       green = 2,
-       blue =3,
-       yellow = 4
+    public enum CarpetColors{
+       red = 0,
+       green = 1,
+       blue =2,
+       yellow = 3
     } 
     /// <summary>
     /// class that contains all the informations about the shop state
@@ -28,7 +28,7 @@ namespace GlamourLights.Model
         public Dictionary<string, Graphvertex> shop_graph { get; set; }
 
         public bool[] active_colors { get; set; }
-        public Path[] active_path { get; set; }
+        public List<CarpetPath> active_path { get; set; }
 
         //  Default cost of a node
         public const int DEFAULT_COST = 1;
@@ -46,7 +46,8 @@ namespace GlamourLights.Model
         {
             //set at false every used colour
             active_colors = new bool[MAX_USERS_NUMBER];
-            for(int i=0; i<MAX_USERS_NUMBER; i++)
+            active_path = new List<CarpetPath>();
+            for (int i=0; i<MAX_USERS_NUMBER; i++)
             {
                 active_colors[i] = false;
             }
