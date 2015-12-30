@@ -14,6 +14,8 @@
         <Rectangle Fill="#FFF4F4F5" HorizontalAlignment="Stretch" Stroke="Black" VerticalAlignment="Stretch" />
         <TextBlock x:Name="block" HorizontalAlignment="Stretch" Margin="25,99,20,0"  TextWrapping="Wrap" Text="Scan your Card here!" VerticalAlignment="Top" FontSize="26.667" Width="255" Foreground="#FF10F705" FontWeight="SemiBold"/>
         <Button x:Name="button" Content="Not a Card Holder? Cick here!" HorizontalAlignment="Stretch" Margin="32,239,0,0" VerticalAlignment="Top" Width="229" Height="42" FontSize="13.333" FontWeight="SemiBold" Foreground="#FF10F705" RenderTransformOrigin="0.504,0.139"/>
+        <Button x:Name="button1" Content="Inizializza" HorizontalAlignment="Left" Margin="62,46,0,0" VerticalAlignment="Top" Width="75" Click="button1_Click"/>
+        <Button x:Name="button2" Content="Percorso" HorizontalAlignment="Left" Margin="181,46,0,0" VerticalAlignment="Top" Width="75" Click="button2_Click"/>
 
 
 

@@ -14,6 +14,7 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.Data.Entity;
 using GlamourLights.Model;
+using GlamourLights.Controller;
 
 namespace GlamourLights
 {
@@ -23,6 +24,7 @@ namespace GlamourLights
     public partial class Home : Page
     {
         ShopDb shop;
+        Comunicator com;
         public Home()
         {
             InitializeComponent();
@@ -33,6 +35,7 @@ namespace GlamourLights
             this.shop = shop;
             textBox.Focus();
             textBox.Clear();
+            com = new Comunicator();
         }
 
         private void onKeyUp(object sender, KeyEventArgs e)
@@ -56,6 +59,20 @@ namespace GlamourLights
                     this.NavigationService.Navigate(new SelectionPage(shop, cust));
                 }
             }
+        }
+
+        private void button1_Click(object sender, RoutedEventArgs e)
+        {
+            com.InitializeMatrix();
+        }
+
+        private void button2_Click(object sender, RoutedEventArgs e)
+        {
+            int[] x = { 10, 10, 10, 10, 10, 10, 11, 12, 13, 14, 15, 14, 13 };
+            int[] y = { 0, 1, 2, 3, 4, 5, 5, 5, 5, 5, 5, 6, 6 };
+            Model.Colors col = (GlamourLights.Model.Colors)1;
+            int id = 1;
+            GlamourLights.Model.Path path = new GlamourLights.Model.Path(x,y,col,id);
         }
     }
 }
