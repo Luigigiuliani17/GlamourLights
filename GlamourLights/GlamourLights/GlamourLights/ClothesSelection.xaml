@@ -16,13 +16,29 @@
                 <RowDefinition x:Name="mainRow" Height="5*"></RowDefinition>
                 <RowDefinition x:Name="lowerRow" Height="1*"></RowDefinition>
             </Grid.RowDefinitions>
-            <DataGrid x:Name="itemDataGrid" AutoGenerateColumns="False" ItemsSource="{Binding}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="10,10,10,10" Grid.Row="1">
+            <TextBlock x:Name="block" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Margin="10,10,10,10" Grid.Row="0"></TextBlock>
+            <DataGrid x:Name="itemDataGrid" CanUserAddRows="False" CanUserDeleteRows="False" AutoGenerateColumns="False" ItemsSource="{Binding}" 
+                      HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="10,10,10,10" Grid.Row="1" RowHeight="50">
                 <DataGrid.Columns>
                     <DataGridTextColumn Header="Name" Binding="{Binding name}" x:Name="cName" Width="1*"></DataGridTextColumn>
                     <DataGridTextColumn Header="Color" Binding="{Binding color}" x:Name="cColor" Width="1*"></DataGridTextColumn>
                     <DataGridTextColumn Header="Fabric" Binding="{Binding fabric}" x:Name="cFabric" Width="1*"></DataGridTextColumn>
                 </DataGrid.Columns>
             </DataGrid>
+            <Grid x:Name="lowerGrid" Grid.Row="2">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition x:Name="backCol" Width="1*"></ColumnDefinition>
+                    <ColumnDefinition x:Name="driveCol" Width="3*"></ColumnDefinition>
+                </Grid.ColumnDefinitions>
+                <Button x:Name="selectionButton" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="10,10,10,10" Grid.Column="1"
+                        FontSize="20" Foreground="SeaGreen" Click="selectionButton_Click">
+                    Drive me to that product!
+                </Button>
+                <Button x:Name="backButton" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="10,10,10,10" Grid.Column="0"
+                        FontSize="20" Foreground="SeaGreen" Click="backButton_Click">
+                    Back
+                </Button>
+            </Grid>
 
         </Grid>
     </Grid>

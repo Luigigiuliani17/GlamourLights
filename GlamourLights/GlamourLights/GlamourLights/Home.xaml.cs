@@ -35,9 +35,9 @@ namespace GlamourLights
             //this.shop = shop;
             textBox.Focus();
             textBox.Clear();
-            com = new Comunicator();
             sm = shopM;
-           // st = new ShopState();
+            com = sm.com;
+            // st = new ShopState();
         }
 
         private void onKeyUp(object sender, KeyEventArgs e)
@@ -74,7 +74,7 @@ namespace GlamourLights
             //int[] y = { 0, 1, 2, 3, 4, 5, 5, 5, 5, 5, 5, 6, 6 };
             CarpetColors col = CarpetColors.blue;
             //CarpetPath path = new CarpetPath(x,y,col,1);
-            CarpetPath path = sm.calculateSubPath(3, 1, 62, 30, col, sm.shopState.shop_graph);
+            CarpetPath path = sm.calculateSubPath(3, 1, 62, 30, col);
             com.DrawPath(path);
         }
 

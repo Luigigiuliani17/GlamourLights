@@ -36,7 +36,7 @@ namespace GlamourLights.Controller
         public Comunicator(ShopState shop)
         {
             this.state = shop;
-            serial.PortName = "COM5";
+            serial.PortName = "COM3";
             serial.BaudRate = 9600;
             serial.Open();
             Console.WriteLine("inizializzato la porta");
@@ -93,7 +93,7 @@ namespace GlamourLights.Controller
             //Adding to the path cost 5
             for(int i=0; i<x_coord.Length; i++)
             {
-                state.shop_graph[x_coord + ";" + y_coord].cost += 5;
+                state.shop_graph[x_coord[i] + ";" + y_coord[i]].cost += 5;
             }
             //Send a string for every coordinate, plus the color
             for(int i=0; i<path.x_cordinates.Length; i++)
@@ -149,7 +149,7 @@ namespace GlamourLights.Controller
             //Lowering the path cost by 5
             for (int i = 0; i < x_coord.Length; i++)
             {
-                state.shop_graph[x_coord + ";" + y_coord].cost -= 5;
+                state.shop_graph[x_coord[i] + ";" + y_coord[i]].cost -= 5;
             }
         }
     }
