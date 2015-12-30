@@ -45,7 +45,7 @@ namespace ProvaArduino
             serialPort1.Open();
             if (serialPort1.IsOpen)
             {
-                serialPort1.WriteLine("2:2:0:0");
+                serialPort1.WriteLine("22:20:2");
             }
             serialPort1.Close();
         }
@@ -65,7 +65,7 @@ namespace ProvaArduino
             serialPort1.Open();
             if (serialPort1.IsOpen)
             {
-                serialPort1.WriteLine("4:3:0:0");
+                serialPort1.WriteLine("4:0:0:0");
             }
             serialPort1.Close();
         }

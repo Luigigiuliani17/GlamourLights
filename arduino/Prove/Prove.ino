@@ -44,6 +44,8 @@ mex3 = Serial.readStringUntil(':');
 Serial.read();
 mex4 = Serial.readString();
 int option = mex1.toInt();
+if (mex1.equals("ciao")){
+  matrix.drawRect(0, 0, matrix.width(), matrix.height(), matrix.Color333(0, 7, 1));}
 switch(option){
 
  case 1:
@@ -91,10 +93,13 @@ case 2:
      break;
 
 case 4:
-  matrix.setCursor(3, 12);  
-   matrix.setTextColor(matrix.Color333(7,1,1));
+  matrix.setCursor(20, 5);  
+   matrix.setTextColor(matrix.Color333(7,0,0));
    delay(3000);
-    matrix.println("AUI MATRIX!");
+    matrix.println("Buon");
+    matrix.setCursor(12, 18);
+    matrix.setTextColor(matrix.Color333(0,7,0));
+    matrix.println("Natale!");
   break;
 }
 }

@@ -13,6 +13,10 @@ namespace GlamourLights.Model
         public int[] y_cordinates { get; set; }
         public int cost { get; set; }
 
+        public CarpetPath()
+        {
+
+        }
         /// <summary>
         /// function that creates a new path 
         /// </summary>

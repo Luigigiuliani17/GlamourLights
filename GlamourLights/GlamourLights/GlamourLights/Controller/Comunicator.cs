@@ -35,7 +35,7 @@ namespace GlamourLights.Controller
         
         public Comunicator()
         {
-            serial.PortName = "COM4";
+            serial.PortName = "COM3";
             serial.BaudRate = 38400;
             Console.WriteLine("inizializzato la porta");
         }

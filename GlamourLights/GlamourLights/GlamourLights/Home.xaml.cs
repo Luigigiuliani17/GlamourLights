@@ -70,9 +70,9 @@ namespace GlamourLights
         {
             int[] x = { 10, 10, 10, 10, 10, 10, 11, 12, 13, 14, 15, 14, 13 };
             int[] y = { 0, 1, 2, 3, 4, 5, 5, 5, 5, 5, 5, 6, 6 };
-            Model.Colors col = (GlamourLights.Model.Colors)1;
+            CarpetColors col = CarpetColors.blue;
             int id = 1;
-            GlamourLights.Model.Path path = new GlamourLights.Model.Path(x,y,col,id);
+            CarpetPath path = new CarpetPath(x,y,col,1);
         }
     }
 }
