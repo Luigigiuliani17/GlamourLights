@@ -67,8 +67,31 @@ namespace GlamourLights.Model
                 }
             }
             return shelves_pos;
+        }
 
+        public Dictionary<int, string> parseDepartmentPosition()
+        {
+            Dictionary<int, string> department_pos = new Dictionary<int, string>();
+            using (StreamReader sr = new StreamReader("../../Resources/shelves_position.txt"))
+            {
+                int x_pos;
+                int y_pos;
+                int departmentId;
 
+                string[] parameters;
+                string currentLine;
+
+                while ((currentLine = sr.ReadLine()) != null)
+                {
+                    parameters = currentLine.Split(';');
+                    departmentId = Int32.Parse(parameters[0]);
+                    x_pos = Int32.Parse(parameters[1]);
+                    y_pos = Int32.Parse(parameters[2]);
+                    department_pos.Add(departmentId, x_pos + ";" + y_pos);
+
+                }
+            }
+            return department_pos;
         }
     }
 }

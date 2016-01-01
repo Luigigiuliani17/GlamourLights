@@ -37,6 +37,7 @@ namespace GlamourLights.Model
         public ShopDb shopDb { get; set; }
 
         public Dictionary<int, string> shelves_position { get; set; }
+        public Dictionary<int, string> department_position { get; set; }
 
         /// <summary>
         /// constructor that creates a new shop state by 
@@ -60,6 +61,7 @@ namespace GlamourLights.Model
             createShopGraph();
             shopDb = new ShopDb();
             shelves_position = par.parseShelvesPosition();
+            department_position = par.parseDepartmentPosition();
         }
 
         private void createShopGraph()
