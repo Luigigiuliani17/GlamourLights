@@ -12,6 +12,7 @@ namespace GlamourLights.Controller
     {
         public ShopState shopState { get; set; }
         public Comunicator com { get; set; }
+        public Recommender recc { get; set; }
         public  const double MAX_DEVIATION_FACTOR = 1.8;
 
         public ShopManager(ShopState shop)
@@ -182,7 +183,7 @@ namespace GlamourLights.Controller
             {
                 //extract recommendations coordinates
                 String[] parameters;
-                int xrec1, yrec1;
+                int xrec1, yrec1;                                                                                                                                                                                              
                 parameters = shopState.shelves_position[i.shelf1.shelfId].Split(';');
                 xrec1 = Int32.Parse(parameters[0]);
                 yrec1 = Int32.Parse(parameters[1]);
@@ -202,6 +203,89 @@ namespace GlamourLights.Controller
             }
             //if no path with recommendations found, then return noRecPath
             return noRecPath;
+        }
+
+        /// <summary>
+        /// functions that looks for an available colors and return his code. It returns -1 if no colors available
+        /// </summary>
+        /// <returns></returns> number of color available, -1 otherwise
+        public int getAvailableColor()
+        {
+            //if there is a color not active, return its number
+            for(int i=0; i<shopState.active_colors.Length; i++)
+            {
+                if (!shopState.active_colors[i])
+                {
+                    return i;
+                }
+            }
+            //else return -1
+            return -1;
+        }
+
+        /// <summary>
+        /// //////ITEM VERSION/////// functions that makes all the procedures involved in the path finding process
+        /// 1- if the user is registered, calculate personalized recommendations (not personalised otherwise)
+        /// 2- calculate the path with the recommendations
+        /// 3- activate the functions on the communicator to display the path and to turn on the lights
+        /// </summary>
+        /// <param name="item_chosen"></param> the id of the item chosen from the user
+        /// <param name="cust"></param> the id of the customer (-1 if guest user)
+        /// <param name="col"></param> the color assgined to the customer
+        public void executePathFinding(item item_chosen, int customer_id, CarpetColors col)
+        {
+            //calculate recommendations
+            item[] recommendations;
+            if (customer_id >= 0)
+                recommendations = recc.getPersonalizedRecommendations(customer_id);
+            else
+                recommendations = recc.getNotPersonalizedRecommendations();
+
+            //retrieve destination coordinates
+            String[] parameters;
+            int xdest1, ydest1;
+            parameters = shopState.shelves_position[item_chosen.shelf1.shelfId].Split(';');
+            xdest1 = Int32.Parse(parameters[0]);
+            ydest1 = Int32.Parse(parameters[1]);
+
+            //calculate carpet path
+            CarpetPath path = calculateCompletePath(recommendations, shopState.x_start, shopState.y_start, xdest1, ydest1, col);
+
+            //launch comunicator function to activate path
+            com.DrawPath(path);
+        }
+
+        /// <summary>
+        /// ///DEPARTMENT VERSION/////// functions that makes all the procedures involved in the path finding process
+        /// 1- if the user is registered, calculate personalized recommendations (not personalised otherwise)
+        /// 2- calculate the path with the recommendations
+        /// 3- activate the functions on the communicator to display the path and to turn on the lights
+        /// </summary>
+        /// <param name="department_code"></param>
+        /// <param name="customer_id"></param>
+        /// <param name="col"></param>
+        public void executePathFinding(int department_code, int customer_id, CarpetColors col)
+        {
+            //calculate recommendations
+            item[] recommendations;
+            if (customer_id >= 0)
+                recommendations = recc.getPersonalizedRecommendations(customer_id);
+            else
+                recommendations = recc.getNotPersonalizedRecommendations();
+
+            //retrieve department coordinates
+            String[] parameters;
+            int xdest1, ydest1;
+            parameters = shopState.department_position[department_code].Split(';');
+            xdest1 = Int32.Parse(parameters[0]);
+            ydest1 = Int32.Parse(parameters[1]);
+
+            //calculate carpet path
+            CarpetPath path = calculateCompletePath(recommendations, shopState.x_start, shopState.y_start, xdest1, ydest1, col);
+
+            //launch comunicator function to activate path
+            com.DrawPath(path);
+
         }
     }
 }

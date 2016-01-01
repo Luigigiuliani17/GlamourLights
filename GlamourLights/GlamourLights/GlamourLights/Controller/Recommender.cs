@@ -10,14 +10,14 @@ namespace GlamourLights.Controller
     /// <summary>
     /// BLACK BOX; WILL NOT BE IMPLEMENTED!!!!!!!!!
     /// </summary>
-    class Recommender
+    public class Recommender
     {
         /// <summary>
         /// BLACK BOX; WILL NOT BE IMPLEMENTED!!!!!!!!!
         /// </summary>
         /// <param name="cust"></param> customer that needs a recommendation
         /// <returns></returns> a list of recommendations
-        public item[] getPersonalizedRecommendations(customer cust)
+        public item[] getPersonalizedRecommendations(int cust_id)
         {
 
             return null;

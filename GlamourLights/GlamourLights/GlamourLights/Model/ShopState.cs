@@ -34,6 +34,10 @@ namespace GlamourLights.Model
         public const int DEFAULT_COST = 1;
         public const int MAX_USERS_NUMBER = 4;
 
+        //TODO define how to do this correctly
+        public int x_start;
+        public int y_start;
+
         public ShopDb shopDb { get; set; }
 
         public Dictionary<int, string> shelves_position { get; set; }
@@ -60,8 +64,19 @@ namespace GlamourLights.Model
             shop_layout_matrix = par.parseMatrix();
             createShopGraph();
             shopDb = new ShopDb();
+
+            //retrieve shleves and department position
             shelves_position = par.parseShelvesPosition();
             department_position = par.parseDepartmentPosition();
+
+            //find and set initial position
+            for(int i=0; i<shop_layout_matrix.GetLength(0); i++)
+                for(int j=0; j<shop_layout_matrix.GetLength(1); j++)
+                    if(shop_layout_matrix[i,j]==2)
+                    {
+                        x_start = i;
+                        y_start = j;
+                    }
         }
 
         private void createShopGraph()
