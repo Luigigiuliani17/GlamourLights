@@ -10,10 +10,8 @@
       Title="EndPage">
 
     <Grid>
-        <TextBlock x:Name="textBlock" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="10,10,10,10" TextWrapping="Wrap"
-                   FontSize="25" Foreground="SeaGreen" FontWeight="DemiBold">
+        <TextBlock x:Name="endBlock" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="10,10,10,10" TextWrapping="Wrap">
             
         </TextBlock>
-
     </Grid>
 </Page>

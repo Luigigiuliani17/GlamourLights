@@ -27,26 +27,25 @@ namespace GlamourLights
         {
             InitializeComponent();
         }
-
         public EndPage(CarpetColors col, ShopManager sm)
         {
             InitializeComponent();
             switch (col)
             {
                 case CarpetColors.blue:
-                    textBlock.Text = "Your color is BLUE," + "\n" + "Follow it!";
-                    break;
-                case CarpetColors.red:
-                    textBlock.Text = "Your color is RED," + "\n" + "Follow it!";
+                    endBlock.Text = "Your color is BLUE" + "\n" + "Follow it!";
                     break;
                 case CarpetColors.green:
-                    textBlock.Text = "Your color is GREEN," + "\n" + "Follow it!";
+                    endBlock.Text = "Your color is GREEN" + "\n" + "Follow it!";
+                    break;
+                case CarpetColors.red:
+                    endBlock.Text = "Your color is RED" + "\n" + "Follow it!";
                     break;
                 case CarpetColors.yellow:
-                    textBlock.Text = "Your color is GREEN," + "\n" + "Follow it!";
+                    endBlock.Text = "Your color is YELLOW" + "\n" + "Follow it!";
                     break;
                 default:
-                    textBlock.Text = "something's is wrong! UHUHUHUHUH";
+                    endBlock.Text = "Something went wrong, Retry!";
                     break;
             }
             Thread.Sleep(5000);
