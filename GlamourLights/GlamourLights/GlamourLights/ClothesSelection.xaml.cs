@@ -51,7 +51,7 @@ namespace GlamourLights
                 {
                     col = (CarpetColors)colInt;
                     shopMan.executePathFinding(itemSelected, Loggedcust.customerId, col);
-                    this.NavigationService.Navigate(new EndPage(col, shopMan);
+                    this.NavigationService.Navigate(new EndPage(col, shopMan));
                 }
                 else
                 {
