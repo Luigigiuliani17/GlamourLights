@@ -12,7 +12,7 @@
     <Grid>
         <TextBlock x:Name="endBlock" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="10,10,10,10" TextWrapping="Wrap"
                    FontSize="25" FontWeight="DemiBold" Foreground="SeaGreen">
-            
+
         </TextBlock>
     </Grid>
 </Page>
