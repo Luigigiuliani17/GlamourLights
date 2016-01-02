@@ -80,6 +80,7 @@
     <Compile Include="ClothesSelection.xaml.cs">
       <DependentUpon>ClothesSelection.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Controller\Blinker.cs" />
     <Compile Include="Controller\Comunicator.cs" />
     <Compile Include="Controller\Recommender.cs" />
     <Compile Include="Controller\ShopManager.cs" />

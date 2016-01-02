@@ -62,22 +62,19 @@ void loop() {
 
       case 1: //red
         matrix.drawPixel(x_pos, y_pos, matrix.Color333(7, 0, 0));
-        delay(500);
         break;
 
       case 2: //green
         matrix.drawPixel(x_pos, y_pos, matrix.Color333(0, 7, 0));
-        //delay(500);
         break;
 
       case 3: //blue
         matrix.drawPixel(x_pos, y_pos, matrix.Color333(0, 0, 7));
-        //delay(200);
         break;
 
       case 4: //yellow
-        matrix.drawPixel(x_pos, y_pos, matrix.Color333(0, 0, 7));
-        delay(500);
+        matrix.drawPixel(x_pos, y_pos, matrix.Color333(7, 7, 0));
+        break;
         
       case 5: //wall
         matrix.drawPixel(x_pos, y_pos, matrix.Color333(3, 7, 3));
