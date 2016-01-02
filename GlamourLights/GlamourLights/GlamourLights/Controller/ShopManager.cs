@@ -269,7 +269,10 @@ namespace GlamourLights.Controller
             CarpetPath path = calculateCompletePath(recommendations, shopState.x_start, shopState.y_start, xdest1, ydest1, col);
 
             //launch comunicator function to activate path
-            com.DrawPath(path);
+            //this will be launched on a thread, to allow some kind of parallelism and not freeze the application while 
+            //the path is be drawn
+            Thread myThread = new Thread(() => com.DrawPath(path));
+            myThread.Start();
         }
 
         /// <summary>

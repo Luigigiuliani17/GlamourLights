@@ -75,6 +75,7 @@ namespace GlamourLights.Model
             lights_position = par.parseLightsPositions();
 
             //set to false every lights (no light used at start!)
+            active_lights = new Dictionary<int, bool>();
             foreach (var l in active_lights.Keys)
             {
                 active_lights[l] = false;
