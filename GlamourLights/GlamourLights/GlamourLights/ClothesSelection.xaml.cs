@@ -44,19 +44,24 @@ namespace GlamourLights
             parameters = shopMan.shopState.shelves_position[itemSelected.shelf1.shelfId].Split(';');
             xrec1 = Int32.Parse(parameters[0]);
             yrec1 = Int32.Parse(parameters[1]);
-            CarpetColors col = new CarpetColors();
-            if (shopMan.shopState.active_colors[(int)CarpetColors.blue])
-            {
-                col = CarpetColors.green;
-            }
-            else
-            {
-                col = CarpetColors.blue;
-            }
+            
             CarpetPath path = shopMan.calculateSubPath(2, 1, xrec1, yrec1, col);
             Thread myFred = new Thread(() => shopMan.com.DrawPath(path));
             myFred.Start();
             //shopMan.com.DrawPath(path);
+            //retrieving available color
+            int colInt = shopMan.getAvailableColor();
+            CarpetColors col;
+            if (colInt != -1)
+            {
+                col = (CarpetColors)colInt;
+                shopMan.executePathFinding(itemSelected, Loggedcust.customerId, col);
+            }
+            else
+            {
+                //TODO need to pop something on the ui to show that we have run out of available colors
+            }
+            
 
 
         }
