@@ -8,7 +8,7 @@
       d:DesignHeight="520" d:DesignWidth="720"
       VerticalAlignment="Stretch" HorizontalAlignment="Stretch"
       Title="Selection">
-
+    
     <Grid x:Name="mainGrid">
         <Grid x:Name="secondGrid">
             <Grid.RowDefinitions>
@@ -18,8 +18,7 @@
                 <RowDefinition x:Name="lowerRow" Height="75*"></RowDefinition>
             </Grid.RowDefinitions>
             <Rectangle Fill="#FFF4F4F5" HorizontalAlignment="Stretch" Stroke="Black" VerticalAlignment="Stretch" Grid.Row="0" />
-            <TextBlock x:Name="welcomeBlock" FontSize="20" FontWeight="DemiBold" Foreground="SeaGreen" 
-                       HorizontalAlignment="Stretch" VerticalAlignment="Stretch" TextAlignment="Center">
+            <TextBlock x:Name="welcomeBlock" Style="{StaticResource textBlockStyle}">
             </TextBlock>
                        
             <Grid x:Name="buttonsGrid" Grid.Row="1" Grid.RowSpan="2">
@@ -28,16 +27,16 @@
                     <ColumnDefinition x:Name="clothesCol" Width="1*"></ColumnDefinition>
                 </Grid.ColumnDefinitions>
                 <Rectangle Fill="#FFF4F4F5" HorizontalAlignment="Stretch" Stroke="Black" VerticalAlignment="Stretch" Grid.Column="0" />
-                <Button x:Name="depButton" Grid.Column="0" HorizontalAlignment="Stretch" FontSize="20" Foreground="SeaGreen" FontWeight="DemiBold" VerticalAlignment="Stretch" Margin="10,10,10,10" Click="DepButton_Click">
+                <Button x:Name="depButton" Grid.Column="0" Style="{StaticResource buttonStyle}" Click="DepButton_Click">
                     Search By Department
                 </Button>
                 <Rectangle Fill="#FFF4F4F5" HorizontalAlignment="Stretch" Stroke="Black" VerticalAlignment="Stretch" Grid.Column="1" />
-                <Button x:Name="clothesButton" Grid.Column="1" HorizontalAlignment="Stretch" FontSize="20" Foreground="SeaGreen" FontWeight="DemiBold" VerticalAlignment="Stretch" Margin="10,10,10,10" Click="ClothesButton_Click">
+                <Button x:Name="clothesButton" Grid.Column="1" Style="{StaticResource buttonStyle}" Click="ClothesButton_Click">
                     Search By Clothes
                 </Button>
             </Grid>
             <Rectangle Fill="#FFF4F4F5" Grid.Row="3" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"></Rectangle>
-            <Button x:Name="backButton" Grid.Row="3" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="10,10,10,10" FontSize="20" Foreground="SeaGreen" FontWeight="DemiBold" Click="backButton_Click">
+            <Button x:Name="backButton" Grid.Row="3" Style="{StaticResource buttonStyle}" Click="backButton_Click">
                 Go back to Home Page
             </Button>
         </Grid>

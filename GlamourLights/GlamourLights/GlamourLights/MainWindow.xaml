@@ -6,6 +6,8 @@
         xmlns:local="clr-namespace:GlamourLights"
         mc:Ignorable="d"
         Title="MainWindow" MinWidth="720" MinHeight="550" >
+    <Window.Resources>
+    </Window.Resources>
     <Grid>
         <Frame x:Name="mainFrame" Content="" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" NavigationUIVisibility="Hidden" />
 

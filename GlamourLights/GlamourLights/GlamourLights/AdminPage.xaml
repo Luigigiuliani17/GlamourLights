@@ -5,19 +5,75 @@
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:local="clr-namespace:GlamourLights"
       mc:Ignorable="d" 
-      d:DesignHeight="300" d:DesignWidth="300"
+      d:DesignHeight="520" d:DesignWidth="720"
+      HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
       Title="AdminPage">
 
-    <Grid Margin="0,0,-240,0">
-        <Button x:Name="Save" Content="Save new customer" HorizontalAlignment="Left" Margin="75,0,0,76" VerticalAlignment="Bottom" Width="182" Click="button_Click" RenderTransformOrigin="0.56,1.45"/>
-        <DataGrid x:Name="customerGrid" HorizontalAlignment="Left" Margin="272,22,-39,0" VerticalAlignment="Top" Height="116" Width="307"/>
-        <TextBox x:Name="firstNameBox" HorizontalAlignment="Left" Height="23" Margin="100,21,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="155"/>
-        <TextBox x:Name="lastNameBox" HorizontalAlignment="Left" Height="23" Margin="100,66,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="155"/>
-        <TextBox x:Name="cardNumBox" HorizontalAlignment="Left" Height="23" Margin="100,114,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="155"/>
-        <TextBlock x:Name="firstNameBlock" HorizontalAlignment="Left" Margin="29,25,0,0" TextWrapping="Wrap" Text="First Name" VerticalAlignment="Top"/>
-        <TextBlock x:Name="cardNumberBlock" HorizontalAlignment="Left" Margin="29,117,0,0" TextWrapping="Wrap" Text="Card Number" VerticalAlignment="Top"/>
-        <TextBlock x:Name="lastNameBlock" HorizontalAlignment="Left" Margin="29,70,0,0" TextWrapping="Wrap" Text="Last Name" VerticalAlignment="Top"/>
-        <Button x:Name="button" Content="Back to Home" HorizontalAlignment="Left" Margin="326,209,0,0" VerticalAlignment="Top" Width="173" Click="button_Click_1"/>
+    <Grid Margin="0,0,0,0">
+        <Grid.RowDefinitions>
+            <RowDefinition x:Name="upperMainRow" Height="6*"></RowDefinition>
+            <RowDefinition x:Name="lowerRow" Height="1*"></RowDefinition>
+        </Grid.RowDefinitions>
+        <Grid x:Name="customersGrid" Grid.Row="0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition x:Name="leftCol" Width="1*"></ColumnDefinition>
+                <ColumnDefinition x:Name="rightCol" Width="1*"></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+            <Grid x:Name="newUserGrid" Grid.Column="0">
+                <Grid.RowDefinitions>
+                    <RowDefinition x:Name="FirstNameRow" Height="1*"></RowDefinition>
+                    <RowDefinition x:Name="lastNameRow" Height="1*"></RowDefinition>
+                    <RowDefinition x:Name="cardNumRow" Height="1*"></RowDefinition>
+                    <RowDefinition x:Name="SaveButtonRow" Height="1*"></RowDefinition>
+                </Grid.RowDefinitions>
+                <Grid x:Name="firstNameGrid" Grid.Row="0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="1*"></ColumnDefinition>
+                        <ColumnDefinition Width="1*"></ColumnDefinition>
+                    </Grid.ColumnDefinitions>
+                    <TextBox x:Name="firstNameBox" Style="{StaticResource textBoxStyle}" Grid.Column="1"/>
+                    <TextBlock x:Name="firstNameBlock" Style="{StaticResource textBlockStyle}" FontSize="15" 
+                               FontWeight="Bold" Grid.Column="0" Text="FirstName"/>
+                </Grid>
+                <Grid x:Name="lastNameGrid" Grid.Row="1">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="1*"></ColumnDefinition>
+                        <ColumnDefinition Width="1*"></ColumnDefinition>
+                    </Grid.ColumnDefinitions>
+                    <TextBox x:Name="lastNameBox" Style="{StaticResource textBoxStyle}" Grid.Column="1"/>
+                    <TextBlock x:Name="lastNameBlock" Style="{StaticResource textBlockStyle}" FontSize="15" 
+                               FontWeight="Bold" Grid.Column="0" Text="Last Name"/>
+                </Grid>
+                <Grid x:Name="cardNumGrid" Grid.Row="2">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="1*"></ColumnDefinition>
+                        <ColumnDefinition Width="1*"></ColumnDefinition>
+                    </Grid.ColumnDefinitions>
+                    <TextBox x:Name="cardNumBox" Style="{StaticResource textBoxStyle}" Grid.Column="1"/>
+                    <TextBlock x:Name="cardNumBlock" Style="{StaticResource textBlockStyle}" FontSize="15" FontWeight="Bold" 
+                               Grid.Column="0" Text="Card Number"/>
+                </Grid>
+                <Button x:Name="Save" Content="Save new customer" Grid.Row="3" Style="{StaticResource buttonStyle}"
+                        Click="button_Click" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+            </Grid>
+            <DataGrid x:Name="customerGrid" HorizontalAlignment="Stretch" Margin="10,10,10,10" VerticalAlignment="Stretch"
+                      Grid.Column="1"/>
+
+        </Grid>
+        <Grid x:Name="lowerGrid" Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="1*"></ColumnDefinition>
+                <ColumnDefinition Width="1*"></ColumnDefinition>
+                <ColumnDefinition Width="1*"></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+            <Button x:Name="backButton" Content="Back to Home" Grid.Column="0" Style="{StaticResource buttonStyle}" 
+                    HorizontalAlignment="Center" VerticalAlignment="Center" Click="button_Click_1"/>
+            <Button x:Name="matrixButton" Content="Initialize Matrix" Grid.Column="1" Style="{StaticResource buttonStyle}"
+                    HorizontalAlignment="Center" VerticalAlignment="Stretch" Click="matrixButton_Click"/>
+            <Button x:Name="matrixDefButton" Content="Define Matrix" Grid.Column="2" Style="{StaticResource buttonStyle}"
+                    HorizontalAlignment="Center" Click="matrixDefButton_Click"/>
+
+        </Grid>
 
     </Grid>
 </Page>

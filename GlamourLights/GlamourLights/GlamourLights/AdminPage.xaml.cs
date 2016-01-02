@@ -14,6 +14,7 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using GlamourLights.Model;
 using System.Data.Entity;
+using GlamourLights.Controller;
 
 namespace GlamourLights
 {
@@ -22,17 +23,17 @@ namespace GlamourLights
     /// </summary>
     public partial class AdminPage : Page
     {
-        private ShopDb shop;
+        private ShopManager shopMan;
         public AdminPage()
         {
             InitializeComponent();
         }
-        public AdminPage(ShopDb shop)
+        public AdminPage(ShopManager shopMan)
         {
-            this.shop = shop;
-            shop.customer.Load();
+            this.shopMan = shopMan;
+            shopMan.shopState.shopDb.customer.Load();
             InitializeComponent();
-            customerGrid.ItemsSource = shop.customer.Local;
+            customerGrid.ItemsSource = shopMan.shopState.shopDb.customer.Local;
         }
 
         private void button_Click(object sender, RoutedEventArgs e)
@@ -41,8 +42,8 @@ namespace GlamourLights
             cust.firstName = firstNameBox.Text;
             cust.lastName = lastNameBox.Text;
             cust.cardNumber = cardNumBox.Text;
-            shop.customer.Add(cust);
-            shop.SaveChanges();
+            shopMan.shopState.shopDb.customer.Add(cust);
+            shopMan.shopState.shopDb.SaveChanges();
         }
 
         private void button_Click_1(object sender, RoutedEventArgs e)
@@ -51,6 +52,16 @@ namespace GlamourLights
             lastNameBox.Clear();
             cardNumBox.Clear();
             this.NavigationService.GoBack();
+        }
+
+        private void matrixButton_Click(object sender, RoutedEventArgs e)
+        {
+            shopMan.com.InitializeMatrix();
+        }
+
+        private void matrixDefButton_Click(object sender, RoutedEventArgs e)
+        {
+            MessageBox.Show("NEED TO BE IMPLEMENTED")
         }
     }
 }

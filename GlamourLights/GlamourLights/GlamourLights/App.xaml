@@ -4,6 +4,29 @@
              xmlns:local="clr-namespace:GlamourLights"
              StartupUri="MainWindow.xaml">
     <Application.Resources>
-         
+        <Style x:Key="buttonStyle" TargetType="Button">
+            <Setter Property="Foreground" Value="SeaGreen"></Setter>
+            <Setter Property="FontWeight" Value="DemiBold"></Setter>
+            <Setter Property="Margin" Value="10,10,10,10"></Setter>
+            <Setter Property="FontSize" Value="20"></Setter>
+            <Setter Property="VerticalAlignment" Value="Stretch"></Setter>
+            <Setter Property="HorizontalAlignment" Value="Stretch"></Setter>
+        </Style>
+        <Style x:Key="textBlockStyle" TargetType="TextBlock">
+            <Setter Property="Foreground" Value="SeaGreen"></Setter>
+            <Setter Property="FontWeight" Value="DemiBold"></Setter>
+            <Setter Property="Margin" Value="10,10,10,10"></Setter>
+            <Setter Property="FontSize" Value="20"></Setter>
+            <Setter Property="VerticalAlignment" Value="Center"></Setter>
+            <Setter Property="HorizontalAlignment" Value="Center"></Setter>
+            <Setter Property="TextWrapping" Value="Wrap"></Setter>
+        </Style>
+        <Style x:Key="textBoxStyle" TargetType="TextBox">
+            <Setter Property="Margin" Value="10,10,10,10"></Setter>
+            <Setter Property="FontSize" Value="15"></Setter>
+            <Setter Property="VerticalAlignment" Value="Center"></Setter>
+            <Setter Property="HorizontalAlignment" Value="Stretch"></Setter>
+            <Setter Property="TextWrapping" Value="Wrap"></Setter>
+        </Style>
     </Application.Resources>
 </Application>

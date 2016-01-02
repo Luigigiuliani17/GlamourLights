@@ -47,7 +47,7 @@ namespace GlamourLights
                 if (textBox.Text == "admin")
                 {
                     textBox.Clear();
-                    this.NavigationService.Navigate(new AdminPage(sm.shopState.shopDb));
+                    this.NavigationService.Navigate(new AdminPage(sm));
                 }
                 else
                 {
