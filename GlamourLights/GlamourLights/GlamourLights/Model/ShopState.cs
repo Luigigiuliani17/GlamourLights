@@ -30,6 +30,9 @@ namespace GlamourLights.Model
         public bool[] active_colors { get; set; }
         public List<CarpetPath> active_path { get; set; }
 
+        //dictionary of active_lights with lightId as key and values: true (if lights used) /false (if lights not used) 
+        public Dictionary<int, bool> active_lights { get; set; }
+
         //  Default cost of a node
         public const int DEFAULT_COST = 1;
         public const int MAX_USERS_NUMBER = 4;
@@ -42,6 +45,7 @@ namespace GlamourLights.Model
 
         public Dictionary<int, string> shelves_position { get; set; }
         public Dictionary<int, string> department_position { get; set; }
+        public Dictionary<string, int> lights_position { get; set; }
 
         /// <summary>
         /// constructor that creates a new shop state by 
@@ -65,9 +69,16 @@ namespace GlamourLights.Model
             createShopGraph();
             shopDb = new ShopDb();
 
-            //retrieve shleves and department position
+            //retrieve shleves, department  adn lights position
             shelves_position = par.parseShelvesPosition();
             department_position = par.parseDepartmentPosition();
+            lights_position = par.parseLightsPositions();
+
+            //set to false every lights (no light used at start!)
+            foreach (var l in active_lights.Keys)
+            {
+                active_lights[l] = false;
+            }
 
             //find and set initial position
             for(int i=0; i<shop_layout_matrix.GetLength(0); i++)

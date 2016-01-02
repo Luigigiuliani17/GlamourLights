@@ -72,6 +72,17 @@ namespace GlamourLights.Properties {
         }
         
         /// <summary>
+        ///   Cerca una stringa localizzata simile a 16;10;1
+        ///32;20;2
+        ///5;2;3.
+        /// </summary>
+        internal static string lights_position {
+            get {
+                return ResourceManager.GetString("lights_position", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Cerca una stringa localizzata simile a 1;16;10
         ///2;32;20
         ///3;5;2.

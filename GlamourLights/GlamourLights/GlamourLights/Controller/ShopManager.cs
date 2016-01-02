@@ -14,6 +14,7 @@ namespace GlamourLights.Controller
         public ShopState shopState { get; set; }
         public Comunicator com { get; set; }
         public Recommender recc { get; set; }
+
         public  const double MAX_DEVIATION_FACTOR = 1.8;
 
         public ShopManager(ShopState shop)
@@ -134,7 +135,7 @@ namespace GlamourLights.Controller
           
             //support variables
             int noRecCost = 0, recCost = 0;
-            CarpetPath noRecPath, recPath;
+            CarpetPath noRecPath;
             
             //calculatepath cost of the path without recommendations
             noRecPath = calculateSubPath(x1, y1, x2, y2, color);
@@ -161,6 +162,12 @@ namespace GlamourLights.Controller
                     xrec2 = Int32.Parse(parameters[0]);
                     yrec2 = Int32.Parse(parameters[1]);
 
+                    //verify if both recommendations have a light available
+                    int lightId1 = shopState.lights_position[xrec1 + ";" + yrec1];
+                    int lightId2 = shopState.lights_position[xrec2 + ";" + yrec2];
+                    if (shopState.active_lights[lightId1] || shopState.active_lights[lightId2])
+                        continue;
+
                     //calculate paths from start to rec1, from rec1 to rec2, from rec2 to destination
                     CarpetPath subPath1 = calculateSubPath(x1, y1, xrec1, yrec1, color);
                     CarpetPath subPath2 = calculateSubPath(xrec1, yrec1, xrec2, yrec2, color);
@@ -174,6 +181,8 @@ namespace GlamourLights.Controller
                     {
                         subPath1.appendPath(subPath2);
                         subPath1.appendPath(subPath3);
+                        subPath1.lightsCodes[0] = shopState.lights_position[xrec1 + ";" + yrec1];
+                        subPath1.lightsCodes[1] = shopState.lights_position[xrec2 + ";" + yrec2];
                         return subPath1;
                     }
                 }
@@ -189,6 +198,11 @@ namespace GlamourLights.Controller
                 xrec1 = Int32.Parse(parameters[0]);
                 yrec1 = Int32.Parse(parameters[1]);
 
+                //if the recomendation has the light not available, then skip it
+                int lightId1 = shopState.lights_position[xrec1 + ";" + yrec1];
+                if (shopState.active_lights[lightId1])
+                    continue;
+
                 //calculate subpath from start to rec and from rec to destination
                 CarpetPath subPath1 = calculateSubPath(x1, y1, xrec1, yrec1, color);
                 CarpetPath subPath2 = calculateSubPath(xrec1, yrec1, x2, y2, color);
@@ -198,7 +212,9 @@ namespace GlamourLights.Controller
                 double ratio = (double)recCost / (double)noRecCost;
                 if (ratio < MAX_DEVIATION_FACTOR)
                 {
-                    subPath1.appendPath(subPath2);                 
+                    subPath1.appendPath(subPath2);
+                    subPath1.lightsCodes[0] = shopState.lights_position[xrec1 + ";" + yrec1];
+                    subPath1.lightsCodes[1] = -1;
                     return subPath1;
                 }
             }

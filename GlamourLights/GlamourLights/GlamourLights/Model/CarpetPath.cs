@@ -12,13 +12,14 @@ namespace GlamourLights.Model
         public int[] x_cordinates { get; set; }
         public int[] y_cordinates { get; set; }
         public int cost { get; set; }
+        public int[] lightsCodes { get; set; } 
 
         public CarpetPath()
         {
 
         }
         /// <summary>
-        /// function that creates a new path 
+        /// function that creates a new path (without lights!!!!!!!!!!)
         /// </summary>
         /// <param name="x_cordinates"></param> array of x_cordinates of the path
         /// <param name="y_cordinates"></param> array of y_cordinates of the path
@@ -29,6 +30,28 @@ namespace GlamourLights.Model
             this.y_cordinates = y_cordinates;
             this.color = color;
             this.cost = cost;
+            this.lightsCodes = new int[2];
+            this.lightsCodes[0] = -1;
+            this.lightsCodes[1] = -1;
+        }
+
+        /// <summary>
+        /// ///OVERLOADING/// function that creates a path with up to 2 light codes
+        /// </summary>
+        /// <param name="x_cordinates"></param> array of x_cordinates of the path
+        /// <param name="y_cordinates"></param> array of y_cordinates of the path
+        /// <param name="color"></param> color of the path
+        /// <param name="cost"></param> cost of the path
+        /// <param name="lightsCodes"></param> codes of the lights to be switched on
+        public CarpetPath(int[] x_cordinates, int[] y_cordinates, CarpetColors color, int cost, int[] lightsCodes)
+        {
+            this.x_cordinates = x_cordinates;
+            this.y_cordinates = y_cordinates;
+            this.color = color;
+            this.cost = cost;
+            this.lightsCodes = new int[2];
+            this.lightsCodes[0] = lightsCodes[0];
+            this.lightsCodes[1] = lightsCodes[1];
         }
 
         /// <summary>

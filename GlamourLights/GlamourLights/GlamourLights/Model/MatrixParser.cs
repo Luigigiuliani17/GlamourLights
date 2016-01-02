@@ -72,7 +72,7 @@ namespace GlamourLights.Model
         public Dictionary<int, string> parseDepartmentPosition()
         {
             Dictionary<int, string> department_pos = new Dictionary<int, string>();
-            using (StreamReader sr = new StreamReader("../../Resources/shelves_position.txt"))
+            using (StreamReader sr = new StreamReader("../../Resources/department_position.txt"))
             {
                 int x_pos;
                 int y_pos;
@@ -92,6 +92,36 @@ namespace GlamourLights.Model
                 }
             }
             return department_pos;
+        }
+
+        /// <summary>
+        /// parser of the light position-----> pattern   x_pos;y_pos;lighId   (x_pos;y_pos is the string key of the dictionary)
+        /// </summary>
+        /// <returns></returns>
+        public Dictionary<string, int> parseLightsPositions()
+        {
+            Dictionary<string, int> lights_pos = new Dictionary<string, int>();
+            using (StreamReader sr = new StreamReader("../../Resources/lights_position.txt"))
+            {
+                int x_pos;
+                int y_pos;
+                int lightId;
+
+                string[] parameters;
+                string currentLine;
+
+                while ((currentLine = sr.ReadLine()) != null)
+                {
+                    parameters = currentLine.Split(';');
+                    x_pos = Int32.Parse(parameters[0]);
+                    y_pos = Int32.Parse(parameters[1]);
+                    lightId = Int32.Parse(parameters[2]);
+                    lights_pos.Add(x_pos + ";" + y_pos, lightId);
+
+
+                }
+            }
+            return lights_pos;
         }
     }
 }
