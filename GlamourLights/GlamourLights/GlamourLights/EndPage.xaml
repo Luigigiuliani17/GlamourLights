@@ -1,0 +1,19 @@
+﻿<Page x:Class="GlamourLights.EndPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:GlamourLights"
+      mc:Ignorable="d" 
+      d:DesignHeight="520" d:DesignWidth="720"
+      VerticalAlignment="Stretch" HorizontalAlignment="Stretch"
+      Title="EndPage">
+
+    <Grid>
+        <TextBlock x:Name="textBlock" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="10,10,10,10" TextWrapping="Wrap"
+                   FontSize="25" Foreground="SeaGreen" FontWeight="DemiBold">
+            
+        </TextBlock>
+
+    </Grid>
+</Page>
