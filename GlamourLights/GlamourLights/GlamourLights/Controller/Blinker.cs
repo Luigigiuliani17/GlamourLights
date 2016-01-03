@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading;
 using System.IO.Ports;
+using System.Collections.Concurrent;
 using GlamourLights.Model;
 
 namespace GlamourLights.Controller
@@ -12,18 +13,20 @@ namespace GlamourLights.Controller
     class Blinker
     {
         //These lists will contain strings formatted in such a way "x;y"
-        List<string> red = new List<string>();
-        List<string> green = new List<string>();
-        List<string> blue = new List<string>();
-        List<string> yellow = new List<string>();
+        ConcurrentBag<BlinkPoint> red = new ConcurrentBag<BlinkPoint>();
+        ConcurrentBag<BlinkPoint> green = new ConcurrentBag<BlinkPoint>();
+        ConcurrentBag<BlinkPoint> blue = new ConcurrentBag<BlinkPoint>();
+        ConcurrentBag<BlinkPoint> yellow = new ConcurrentBag<BlinkPoint>();
         int n_overlapping = 0;
         public bool blink { get; set; }
+        public bool insideBlink { get; set; }
         ShopState state;
 
         public Blinker(ShopState state)
         {
             this.state = state;
             this.blink = false;
+            this.insideBlink = false;
         }
 
         /// <summary>
@@ -35,6 +38,7 @@ namespace GlamourLights.Controller
         /// <returns></returns>
         public bool CheckOverlapping(CarpetPath path)
         {
+            Console.WriteLine("CheckOverlapping --> START");
             bool isOverlapping = false;
 
             if (state.active_path.Count > 0)
@@ -52,40 +56,44 @@ namespace GlamourLights.Controller
                     //If the vertex has more than 1 color active, put it in the right lists
                     if (vertex.n_activeColors > 1)
                     {
+                        Console.WriteLine("Ci sono sovrapposizioni");
                         isOverlapping = true;
 
-                        lock(red)
-                        {
+                        //lock(red)
+                        //{
                             if (vertex.active_colors[0] == true)
-                                red.Add(path_coord[i]);
-                        }
+                                red.Add(new BlinkPoint(path_coord[i]));
+                        //}
 
-                        lock(green)
-                        {
+                        //lock(green)
+                        //{
                             if (vertex.active_colors[1] == true)
-                                green.Add(path_coord[i]);
-                        }
+                                green.Add(new BlinkPoint(path_coord[i]));
+                        //}
 
-                        lock(blue)
-                        {
-                            if (vertex.active_colors[2] == true)
-                                blue.Add(path_coord[i]);
-                        }
+                        //lock(blue)
+                        //{
+                        if (vertex.active_colors[2] == true)
+                                blue.Add(new BlinkPoint(path_coord[i]));
+                        //}
 
-                        lock(yellow)
-                        {
-                            if (vertex.active_colors[3] == true)
-                                yellow.Add(path_coord[i]);
-                        }
+                        //lock(yellow)
+                        //{
+                        if (vertex.active_colors[3] == true)
+                                yellow.Add(new BlinkPoint(path_coord[i]));
+                        //}
                     }
                 }
                 if (isOverlapping)
                 {
                     n_overlapping += 1;
                     blink = true;
+                    Console.WriteLine("Valore di blink: " + blink);
                     return true;
+                    Console.WriteLine("CheckOverlapping --> END with TRUE");
                 }
-            } 
+            }
+            Console.WriteLine("CheckOverlapping --> END with FALSE");
             return false;
         }
 
@@ -94,71 +102,96 @@ namespace GlamourLights.Controller
         /// </summary>
         public void StartBlink(SerialPort serial)
         {
+            Console.WriteLine("StartBlink --> START");
+            insideBlink = true;
             string[] mess = new string[2];
             //This will loop until the variable is set to false blinking the needed points
-            while(blink)
+            Console.WriteLine("STARTING loop");
+            while (blink)
             {
                 //red list
                 if (red.Count > 0)
                 {
-                    lock(red)
-                    {
-                        foreach (string s in red)
+                    Console.WriteLine("Blink ROSSO");
+                    //lock(red)
+                    //{
+                        foreach (BlinkPoint p in red)
                         {
-                            mess = s.Split(';');
+                        if (p.isValid == true)
+                        {
+                            mess = p.coord.Split(';');
+                            string message = mess[0] + ":" + mess[1] + ":" + ((int)CarpetColors.red + 1);
+                            Console.WriteLine("serial message red: " + message);
                             if (serial.IsOpen)
-                                serial.WriteLine(mess[0] + ":" + mess[1] + ":" + (int)CarpetColors.red + 1);
+                                serial.WriteLine(message);
                         }
-                    }
-                    Thread.Sleep(200);
+                        }
+                    //}
+                    Thread.Sleep(300);
                 }
-
                 //green list
                 if (green.Count > 0)
                 {
-                    lock(green)
-                    {
-                        foreach (string s in green)
+                    //lock(green)
+                    //{
+                        foreach (BlinkPoint p in green)
                         {
-                            mess = s.Split(';');
+                        if (p.isValid == true)
+                        {
+                            mess = p.coord.Split(';');
+                            string message = mess[0] + ":" + mess[1] + ":" + ((int)CarpetColors.green + 1);
                             if (serial.IsOpen)
-                                serial.WriteLine(mess[0] + ":" + mess[1] + ":" + (int)CarpetColors.green + 1);
+                                serial.WriteLine(message);
                         }
-                    }
-                    Thread.Sleep(200);
+                        }
+                    //}
+                    Thread.Sleep(300);
                 }
 
                 //blue list
                 if (blue.Count > 0)
                 {
-                    lock(blue)
-                    {
-                        foreach (string s in blue)
+                    Console.WriteLine("Blink BLUE");
+                    //ock(blue)
+                    //{
+                        foreach (BlinkPoint p in blue)
                         {
-                            mess = s.Split(';');
+                        if (p.isValid == true)
+                        {
+                            mess = p.coord.Split(';');
+                            string message = mess[0] + ":" + mess[1] + ":" + ((int)CarpetColors.blue + 1);
+                            Console.WriteLine("serial message blue: " + message);
                             if (serial.IsOpen)
-                                serial.WriteLine(mess[0] + ":" + mess[1] + ":" + (int)CarpetColors.blue + 1);
+                                serial.WriteLine(message);
                         }
-                    }
-                    Thread.Sleep(200);
+                        }
+                    //}
+                    Thread.Sleep(300);
                 }
 
                 //yellow list
                 if (yellow.Count > 0)
                 {
-                    lock(yellow)
-                    {
-                        foreach (string s in yellow)
+                    //lock(yellow)
+                    //{
+                        foreach (BlinkPoint p in yellow)
                         {
-                            mess = s.Split(';');
+                        if (p.isValid == true)
+                        {
+                            mess = p.coord.Split(';');
+                            string message = mess[0] + ":" + mess[1] + ":" + ((int)CarpetColors.yellow + 1);
                             if (serial.IsOpen)
-                                serial.WriteLine(mess[0] + ":" + mess[1] + ":" + (int)CarpetColors.yellow + 1);
+                                serial.WriteLine(message);
                         }
-                    }
-                    Thread.Sleep(200);
+                        }
+                    //}
+                    Thread.Sleep(300);
                 }
+                Console.WriteLine("RESTARTING loop");
             }
-
+            Console.WriteLine("ENDING loop");
+            Console.WriteLine("StartBlink --> END");
+            insideBlink = false;
             return;
         }
 
@@ -167,12 +200,13 @@ namespace GlamourLights.Controller
         /// </summary>
         public void UpdateBlinker(CarpetPath path)
         {
+            Console.WriteLine("UpdateBlinker --> START");
             Dictionary<string, Graphvertex> graph = state.shop_graph;
             int[] x = path.x_cordinates;
             int[] y = path.y_cordinates;
             string[] coord = new string[x.Length];
             int color_code = (int)path.color;
-            List<string> list = new List<string>();
+            ConcurrentBag<BlinkPoint> list = new ConcurrentBag<BlinkPoint>();
             bool overlapping_found = false;
 
             //Checking which list must be updated with switch over the color_id
@@ -205,21 +239,27 @@ namespace GlamourLights.Controller
                 graph[coord[i]].active_colors[color_code] = false;
                 graph[coord[i]].n_activeColors -= 1;
 
-                //removing coordinates from the right list
-                if(list.Contains(coord[i]))
+                //invaliding coordinates from the right list
+                foreach (BlinkPoint p in list)
                 {
-                    overlapping_found = true;
-                    list.Remove(coord[i]);
+                    if (p.coord == coord[i])
+                    {
+                        overlapping_found = true;
+                        p.isValid = false;
+                    }
                 }
             }
 
             //setting number of overlapping if found
             if (overlapping_found == true)
                 n_overlapping -= 1;
-
+            Console.WriteLine("Number of overlapping " + n_overlapping);
             //check if blinking is needed again, if not the variable is set to false
-            if(n_overlapping == 0)
+            if (n_overlapping == 0)
                 blink = false;
+            Console.WriteLine("Is necessary to blink: " + blink);
+
+            Console.WriteLine("UpdateBlinker --> END");
         }
 
     }

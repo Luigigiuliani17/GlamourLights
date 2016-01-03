@@ -110,12 +110,12 @@ namespace GlamourLights.Controller
             }
             //Check if there is overlapping, if yes the method to blink the matrix is fired in another thread
             //But only of is not fired yet
-            if (blink.CheckOverlapping(path) && blink.blink == false)
+            if (blink.CheckOverlapping(path)  && blink.insideBlink == false)
             {
-                new Thread(delegate ()
-                {
-                    blink.StartBlink(serial);
-                }).Start();
+               new Thread(delegate ()
+               {
+                 blink.StartBlink(serial);
+               }).Start();
             }
             //Timer part, in wich we bind the number of path to send to the handler, setting the time to wait 30 seconds
             var timer = new System.Timers.Timer { Interval = 20000, AutoReset = false };
