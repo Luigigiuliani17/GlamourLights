@@ -34,7 +34,14 @@ namespace GlamourLights
             this.shopMan = shopMan;
             LoggedCust = loggedCust;
             InitializeComponent();
-            welcomeBlock.Text = "Welcome Back, " + LoggedCust.firstName.ToUpper() + " " + LoggedCust.lastName.ToUpper() + "!";
+            if (loggedCust.customerId == -1)
+            {
+                welcomeBlock.Text = "Hello Customer!";
+            }
+            else
+            {
+                welcomeBlock.Text = "Welcome Back, " + LoggedCust.firstName.ToUpper() + " " + LoggedCust.lastName.ToUpper() + "!";
+            }
         }
 
         private void ClothesButton_Click(object sender, RoutedEventArgs e)
