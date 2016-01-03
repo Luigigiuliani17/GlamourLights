@@ -5,19 +5,25 @@
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:local="clr-namespace:GlamourLights"
       mc:Ignorable="d" 
-      d:DesignHeight="300" d:DesignWidth="300"
+      d:DesignHeight="520" d:DesignWidth="720"
       VerticalAlignment="Stretch" HorizontalAlignment="Stretch"
       Title="Home">
 
     <Grid>
-        <TextBox x:Name="textBox" HorizontalAlignment="Left" Height="23" Margin="108,246,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="120" KeyUp="onKeyUp"/>
-        <Rectangle Fill="#FFF4F4F5" HorizontalAlignment="Stretch" Stroke="Black" VerticalAlignment="Stretch" />
-        <TextBlock x:Name="block" HorizontalAlignment="Stretch" Margin="25,99,20,0"  TextWrapping="Wrap" Text="Scan your Card here!" VerticalAlignment="Top" FontSize="26.667" Width="255" Foreground="#FF10F705" FontWeight="SemiBold"/>
-        <Button x:Name="button" Content="Not a Card Holder? Cick here!" HorizontalAlignment="Stretch" Margin="32,239,0,0" VerticalAlignment="Top" Width="229" Height="42" FontSize="13.333" FontWeight="SemiBold" Foreground="#FF10F705" RenderTransformOrigin="0.504,0.139"/>
-        <Button x:Name="button1" Content="Inizializza" HorizontalAlignment="Left" Margin="62,46,0,0" VerticalAlignment="Top" Width="75" Click="button1_Click"/>
-        <Button x:Name="button2" Content="Percorso" HorizontalAlignment="Left" Margin="181,46,0,0" VerticalAlignment="Top" Width="75" Click="button2_Click"/>
-        <Button x:Name="button3" Content="Button" HorizontalAlignment="Left" Margin="122,15,0,0" VerticalAlignment="Top" Width="75" Click="button3_Click"/>
+        <Grid.RowDefinitions>
+            <RowDefinition x:Name="mainRow" Height="5*"></RowDefinition>
+            <RowDefinition x:Name="lowerRow" Height="1*"></RowDefinition>
+        </Grid.RowDefinitions>
 
+        <TextBox x:Name="cardNumBox" Style="{StaticResource textBoxStyle}" Grid.Row="1" HorizontalAlignment="Center"
+                 KeyUp="onKeyUp">
+        </TextBox>
+        <Button x:Name="noCardButton" Style="{StaticResource buttonStyle}" Grid.Row="1" Click="noCardButton_Click">
+            Not a Card Holder? Click here!
+        </Button>
+        <TextBlock x:Name="mainBlock" Style="{StaticResource textBlockStyle}" FontSize="25" FontWeight="Bold" Grid.Row="0">
+            Please, scan your Card on the reader
+        </TextBlock>
 
 
 

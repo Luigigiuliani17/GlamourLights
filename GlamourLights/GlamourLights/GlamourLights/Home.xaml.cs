@@ -23,7 +23,6 @@ namespace GlamourLights
     /// </summary>
     public partial class Home : Page
     {
-        Comunicator com;
         ShopManager sm;
         public Home()
         {
@@ -32,55 +31,43 @@ namespace GlamourLights
         public Home(ShopManager shopM)
         {
             InitializeComponent();
-            //this.shop = shop;
-            textBox.Focus();
-            textBox.Clear();
+            cardNumBox.Focus();
+            cardNumBox.Clear();
             sm = shopM;
-            com = sm.com;
-            // st = new ShopState();
         }
 
         private void onKeyUp(object sender, KeyEventArgs e)
         {
             if(e.Key == Key.Enter)
             {
-                if (textBox.Text == "admin")
+                if (cardNumBox.Text.ToLower() == "admin")
                 {
-                    textBox.Clear();
+                    cardNumBox.Clear();
                     this.NavigationService.Navigate(new AdminPage(sm));
                 }
                 else
                 {
-                    Console.WriteLine(textBox.Text);
+                    Console.WriteLine(cardNumBox.Text);
                     sm.shopState.shopDb.customer.Load();
-                    String cardNum = textBox.Text;
+                    String cardNum = cardNumBox.Text;
                     //customer cust = shop.customer.SqlQuery("SELECT * FROM customer WHERE cardNumber = @p0", cardNum).First<customer>();
                     var L2EQuery = sm.shopState.shopDb.customer.Where(c => c.cardNumber.Equals(cardNum));
                     var cust = L2EQuery.FirstOrDefault<customer>();
-                    textBox.Clear();
+                    cardNumBox.Clear();
                     this.NavigationService.Navigate(new SelectionPage(sm, cust));
                 }
             }
         }
 
-        private void button1_Click(object sender, RoutedEventArgs e)
+        /// <summary>
+        /// TODO Decide how to handle this. the most likely situation is to pass to selection page a mock customer 
+        /// with special id
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void noCardButton_Click(object sender, RoutedEventArgs e)
         {
-            com.InitializeMatrix();
-        }
-
-        private void button2_Click(object sender, RoutedEventArgs e)
-        {
-            //int[] x = { 10, 10, 10, 10, 10, 10, 11, 12, 13, 14, 15, 14, 13 };
-            //int[] y = { 0, 1, 2, 3, 4, 5, 5, 5, 5, 5, 5, 6, 6 };
-            CarpetColors col = CarpetColors.blue;
-            //CarpetPath path = new CarpetPath(x,y,col,1);
-            CarpetPath path = sm.calculateSubPath(3, 1, 62, 30, col);
-            com.DrawPath(path);
-        }
-
-        private void button3_Click(object sender, RoutedEventArgs e)
-        {
-           
+            MessageBox.Show("need to be implemented", "Error!");
         }
     }
 }
