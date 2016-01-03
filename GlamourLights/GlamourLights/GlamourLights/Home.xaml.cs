@@ -67,7 +67,6 @@ namespace GlamourLights
         /// <param name="e"></param>
         private void noCardButton_Click(object sender, RoutedEventArgs e)
         {
-            MessageBox.Show("need to be implemented", "Error!");
             customer mockCust = new customer();
             mockCust.customerId = -1;
             mockCust.firstName = "Mock";
