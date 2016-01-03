@@ -161,6 +161,8 @@ namespace GlamourLights.Controller
             //Retrieving coordinates
             int[] x_coord = path_to_erase.x_cordinates;
             int[] y_coord = path_to_erase.y_cordinates;
+            //Update blinker: cheking if the path is overlapping with another
+            blink.UpdateBlinker(path_to_erase);
             if (serial.IsOpen)
             {
                 for (int i = 0; i < path_to_erase.x_cordinates.Length; i++)
@@ -171,8 +173,6 @@ namespace GlamourLights.Controller
             //Erasing a path from the list 
             state.active_colors[path_id] = false;
             state.active_path.Remove(path_to_erase);
-            //Update blinker: cheking if the path is overlapping with another
-            blink.UpdateBlinker(path_to_erase);
             //Lowering the path cost by 5
             for (int i = 0; i < x_coord.Length; i++)
             {
