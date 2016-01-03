@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Timers;
 using System.IO.Ports;
+using System.Threading;
 using GlamourLights.Model;
 
 namespace GlamourLights.Controller
@@ -31,15 +32,18 @@ namespace GlamourLights.Controller
         ShopState state;
         List<CarpetPath> active_path;
         SerialPort serial = new SerialPort();
+        Blinker blink;
         DateTime start, stop;
         
         public Comunicator(ShopState shop)
         {
             this.state = shop;
-            serial.PortName = "COM3";
+            this.blink = new Blinker(shop);
+            serial.PortName = "COM4";
             serial.BaudRate = 9600;
             serial.Open();
             Console.WriteLine("inizializzato la porta");
+
         }
 
         /// <summary>
@@ -85,8 +89,8 @@ namespace GlamourLights.Controller
             //Retriving the color name
             int path_id = (int)path.color;
             int color = path_id + 1;
-            Console.WriteLine("id del path " + path_id);
-            Console.WriteLine("codice del path " + color);
+            //update of vertex colors
+            this.UpdateColorVertex(path);
             //Setting the correct things in the shop state
             state.active_colors[path_id] = true;
             state.active_path.Add(path);
@@ -101,12 +105,21 @@ namespace GlamourLights.Controller
                 if (serial.IsOpen)
                 {
                     serial.WriteLine(x_coord[i] + ":" + y_coord[i] + ":" + color);
-                    System.Threading.Thread.Sleep(200);
+                    Thread.Sleep(200);
                 }
             }
-             //Timer part, in wich we bind the number of path to send to the handler, setting the time to wait 30 seconds
-            var timer = new Timer { Interval = 40000, AutoReset = false };
-            timer.Elapsed += (sender, e) => ErasePath(sender, e, path_id);
+            //Check if there is overlapping, if yes the method to blink the matrix is fired in another thread
+            //But only of is not fired yet
+            if (blink.CheckOverlapping(path) && blink.blink == false)
+            {
+                new Thread(delegate ()
+                {
+                    blink.StartBlink(serial);
+                }).Start();
+            }
+            //Timer part, in wich we bind the number of path to send to the handler, setting the time to wait 30 seconds
+            var timer = new System.Timers.Timer { Interval = 20000, AutoReset = false };
+            timer.Elapsed += (sender, e) => CallErasePath(sender, e, path_id);
             timer.Start();
             start = DateTime.Now;
             Console.WriteLine("starting at: " + start);
@@ -114,13 +127,25 @@ namespace GlamourLights.Controller
 
         /// <summary>
         /// This method will be called every time e path's timer finish.
-        /// will be passed to it the number of path, with wich the method can create the string to turn off the lights
-        /// in the LED Matrix
+        /// will be passed to it the number of path, with wich the method will call the true method that will erase
+        /// the path in another thread
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
         /// <param name="path_id"></param>
-         void ErasePath(object sender, ElapsedEventArgs e, int path_id)
+         void CallErasePath(object sender, ElapsedEventArgs e, int path_id)
+        {
+            new Thread(delegate () {
+                this.ErasePath(path_id);
+            }).Start();
+        }
+
+        /// <summary>
+        /// This method is fired by the event occurring when the timer elapse
+        /// This method will form the right string to be passed to the serial port to switch off the lights
+        /// </summary>
+        /// <param name="path_id"></param>
+        private void ErasePath(int path_id)
         {
             stop = DateTime.Now;
             Console.WriteLine("Finishing at: " + stop);
@@ -128,7 +153,7 @@ namespace GlamourLights.Controller
             Console.WriteLine("total elapse time: " + time);
             //I have to find the path to erase from the list, giving the path_number
             CarpetPath path_to_erase = new CarpetPath();
-            foreach(CarpetPath p in state.active_path)
+            foreach (CarpetPath p in state.active_path)
             {
                 if ((int)p.color == path_id)
                     path_to_erase = p;
@@ -140,17 +165,44 @@ namespace GlamourLights.Controller
             {
                 for (int i = 0; i < path_to_erase.x_cordinates.Length; i++)
                     serial.WriteLine(x_coord[i] + ":" + y_coord[i] + ":" + "-1");
-                
+
             }
             //Set the accupation of the specific color to false again
             //Erasing a path from the list 
             state.active_colors[path_id] = false;
             state.active_path.Remove(path_to_erase);
+            //Update blinker: cheking if the path is overlapping with another
+            blink.UpdateBlinker(path_to_erase);
             //Lowering the path cost by 5
             for (int i = 0; i < x_coord.Length; i++)
             {
                 state.shop_graph[x_coord[i] + ";" + y_coord[i]].cost -= 5;
             }
         }
+
+        /// <summary>
+        /// This function will update the colors present in a specific vertex of the carpet
+        /// </summary>
+        /// <param name="path"></param>
+        private void UpdateColorVertex(CarpetPath path)
+        {
+            Dictionary<string, Graphvertex> graph = state.shop_graph;
+            int[] x = path.x_cordinates;
+            int[] y = path.y_cordinates;
+            string[] coord = new string[x.Length];
+            int color_code = (int)path.color;
+
+            //this will create the array with the keys for the dictionary
+            for(int i=0; i<x.Length; i++)
+                coord[i] = x[i] + ";" + y[i];
+
+            //Loop through the dictionary to update colors of vertex and the number of active colors
+            for (int i = 0; i < coord.Length; i++)
+            {
+                graph[coord[i]].active_colors[color_code] = true;
+                graph[coord[i]].n_activeColors += 1;
+            }
+        }
+
     }
 }
