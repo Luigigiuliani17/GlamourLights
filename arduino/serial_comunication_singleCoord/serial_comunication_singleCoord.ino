@@ -8,6 +8,11 @@
 #define B   A1
 #define C   A2
 #define D   A3
+#define redLED1 53
+#define redLED2 2
+#define greenLED1 51
+#define blueLED1 4
+#define blueLED2 5 
 
 RGBmatrixPanel matrix(A, B, C, D, CLK, LAT, OE, false, 64);
 String message, mex1, mex2, mex3;
@@ -15,6 +20,12 @@ int x_pos, y_pos, color;
 
 void setup() {
 
+  pinMode(redLED1, OUTPUT);
+  pinMode(redLED2, OUTPUT);
+  pinMode(greenLED1, OUTPUT);
+  pinMode(blueLED1, OUTPUT);
+  pinMode(blueLED2, OUTPUT);
+  
   matrix.begin();
   matrix.setCursor(3, 12);  
   matrix.setTextColor(matrix.Color333(0,7,3));
@@ -46,18 +57,66 @@ void setup() {
 void loop() {
  
  if(Serial.available() > 0) {
-    //mex1 = Serial.readStringUntil(':');
-    //Serial.read();
-    //mex2 = Serial.readStringUntil(':');
-    //Serial.read();
-    //mex3 = Serial.readStringUntil('.');
-    //x_pos = mex1.toInt();
-    //y_pos = mex2.toInt();
-    //color = mex3.toInt();
+
     x_pos = Serial.parseInt();
     y_pos = Serial.parseInt();
     color = Serial.parseInt();
-    
+
+  if(x_pos == -1) {
+
+    int code = color;
+    switch(code) {
+
+      case 0:
+        digitalWrite(redLED1, HIGH);
+        break;
+
+      case 1:
+        digitalWrite(redLED2, HIGH);
+        break;
+
+       case 2:
+        digitalWrite(greenLED1, HIGH);
+        break;
+
+       case 4:
+        digitalWrite(blueLED1, HIGH);
+        break;
+
+       case 5:
+        digitalWrite(blueLED1, HIGH);
+        break;
+    }
+  }
+
+  if(x_pos == -2) {
+
+    int code = color;
+    switch(code) {
+
+      case 0:
+        digitalWrite(redLED1, LOW);
+        break;
+
+      case 1:
+        digitalWrite(redLED2, LOW);
+        break;
+
+       case 2:
+        digitalWrite(greenLED1, LOW);
+        break;
+
+       case 3:
+        digitalWrite(blueLED1, LOW);
+        break;
+
+       case 4:
+        digitalWrite(blueLED2, LOW);
+        break;
+    }
+  }
+
+  if(x_pos >= 0) {
     switch(color) {
 
       case 1: //red
@@ -91,5 +150,6 @@ void loop() {
       default:
         break;
       }
+    }
   }     
 }//fine del loop

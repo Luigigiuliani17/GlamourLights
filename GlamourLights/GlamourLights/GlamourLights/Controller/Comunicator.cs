@@ -99,8 +99,20 @@ namespace GlamourLights.Controller
             {
                 state.shop_graph[x_coord[i] + ";" + y_coord[i]].cost += 5;
             }
+            //if the path has raccomandations lights to switch on, here are sent the right string to the matrix
+            //Here we set also the lights that are buisy in the shop
+            for (int i = 0; i < path.lightsCodes.Length; i++)
+            {
+                if (path.lightsCodes[i] != -1)
+                    state.active_lights[path.lightsCodes[i]] = true;
+                if (serial.IsOpen)
+                {
+                    if (path.lightsCodes[i] != -1)
+                        serial.WriteLine("-1:-1:" + path.lightsCodes[i]);
+                }
+            }
             //Send a string for every coordinate, plus the color
-            for(int i=0; i<path.x_cordinates.Length; i++)
+            for (int i=0; i<path.x_cordinates.Length; i++)
             {
                 if (serial.IsOpen)
                 {
@@ -163,6 +175,23 @@ namespace GlamourLights.Controller
             int[] y_coord = path_to_erase.y_cordinates;
             //Update blinker: cheking if the path is overlapping with another
             blink.UpdateBlinker(path_to_erase);
+            //here we switch off the light 
+            //and we set that the switched off lights are free
+            for (int i = 0; i < path_to_erase.lightsCodes.Length; i++)
+            {
+                if (path_to_erase.lightsCodes[i] != -1)
+                    state.active_lights[path_to_erase.lightsCodes[i]] = false;
+                if (serial.IsOpen)
+                {
+                    if (path_to_erase.lightsCodes[i] != -1)
+                    {
+                        string mes = "-2:-2:" + path_to_erase.lightsCodes[i];
+                        serial.WriteLine(mes);
+                        Console.WriteLine("La stringa da inviare per spegnere le luci e': " + mes);
+                    }
+                }
+            }
+            //erase path
             if (serial.IsOpen)
             {
                 for (int i = 0; i < path_to_erase.x_cordinates.Length; i++)
