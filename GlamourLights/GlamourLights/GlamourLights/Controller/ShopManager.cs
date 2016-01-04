@@ -297,8 +297,21 @@ namespace GlamourLights.Controller
             xdest1 = Int32.Parse(parameters[0]);
             ydest1 = Int32.Parse(parameters[1]);
 
+            //find the best stating point
+            int min = 99;
+            int min_index = 0;
+            for(int i=0; i<shopState.start_usage.Length; i++)
+            {
+                if(shopState.start_usage[i]<min)
+                {
+                    min = shopState.start_usage[i];
+                        min_index = i;
+                }
+            }
+
+
             //calculate carpet path
-            CarpetPath path = calculateCompletePath(recommendations, shopState.x_start, shopState.y_start, xdest1, ydest1, col);
+            CarpetPath path = calculateCompletePath(recommendations, shopState.x_start[min_index], shopState.y_start[min_index], xdest1, ydest1, col);
 
             //launch comunicator function to activate path
             //this will be launched on a thread, to allow some kind of parallelism and not freeze the application while 
@@ -332,8 +345,20 @@ namespace GlamourLights.Controller
             xdest1 = Int32.Parse(parameters[0]);
             ydest1 = Int32.Parse(parameters[1]);
 
+            //find the best stating point
+            int min = 99;
+            int min_index = 0;
+            for (int i = 0; i < shopState.start_usage.Length; i++)
+            {
+                if (shopState.start_usage[i] < min)
+                {
+                    min = shopState.start_usage[i];
+                    min_index = i;
+                }
+            }
+
             //calculate carpet path
-            CarpetPath path = calculateCompletePath(recommendations, shopState.x_start, shopState.y_start, xdest1, ydest1, col);
+            CarpetPath path = calculateCompletePath(recommendations, shopState.x_start[min_index], shopState.y_start[min_index], xdest1, ydest1, col);
 
             //launch comunicator function to activate path
             //this will be launched on a thread, to allow some kind of parallelism and not freeze the application while 

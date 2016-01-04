@@ -38,8 +38,9 @@ namespace GlamourLights.Model
         public const int MAX_USERS_NUMBER = 4;
 
         //TODO define how to do this correctly
-        public int x_start;
-        public int y_start;
+        public int[] x_start;
+        public int[] y_start;
+        public int[] start_usage;
 
         public ShopDb shopDb { get; set; }
 
@@ -81,14 +82,23 @@ namespace GlamourLights.Model
                 active_lights[l.Value] = false;
             }
 
-            //find and set initial position
+            //find and set the initial positions
+            List<int> x = new List<int>();
+            List<int> y = new List<int>();
             for (int i = 0; i < shop_layout_matrix.GetLength(0); i++)
                 for (int j = 0; j < shop_layout_matrix.GetLength(1); j++)
                     if (shop_layout_matrix[i, j] == 2)
                     {
-                        x_start = i;
-                        y_start = j;
+                        x.Add(i);
+                        y.Add(j);
                     }
+            x_start = x.ToArray();
+            y_start = y.ToArray();
+            start_usage = new int[x_start.Length];
+            for(int i=0; i<start_usage.Length; i++)
+            {
+                start_usage[i] = 0;
+            }
         }
 
         private void createShopGraph()
