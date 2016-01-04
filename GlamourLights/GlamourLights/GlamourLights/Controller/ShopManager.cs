@@ -163,7 +163,7 @@ namespace GlamourLights.Controller
                     xrec2 = Int32.Parse(parameters[0]);
                     yrec2 = Int32.Parse(parameters[1]);
 
-                    //verify if both recommendations have a light available
+                    //verify if both recommendations have a light available, if not change recommendation
                     int lightId1 = shopState.lights_position[xrec1 + ";" + yrec1];
                     int lightId2 = shopState.lights_position[xrec2 + ";" + yrec2];
                     if (shopState.active_lights[lightId1] || shopState.active_lights[lightId2])
@@ -171,8 +171,28 @@ namespace GlamourLights.Controller
 
                     //calculate paths from start to rec1, from rec1 to rec2, from rec2 to destination
                     CarpetPath subPath1 = calculateSubPath(x1, y1, xrec1, yrec1, color);
+                    //Adding to the path cost 5
+                    for (int e = 0; e < subPath1.x_cordinates.Length; e++)
+                    {
+                       shopState.shop_graph[subPath1.x_cordinates[e] + ";" + subPath1.x_cordinates[e]].cost += 5;
+                    }
                     CarpetPath subPath2 = calculateSubPath(xrec1, yrec1, xrec2, yrec2, color);
+                    //Adding to the path cost 5
+                    for (int e = 0; e < subPath2.x_cordinates.Length; e++)
+                    {
+                        shopState.shop_graph[subPath2.x_cordinates[e] + ";" + subPath2.x_cordinates[e]].cost += 5;
+                    }
                     CarpetPath subPath3 = calculateSubPath(xrec2, yrec2, x2, y2, color);
+
+                    //removing from the path cost 5
+                    for (int e = 0; e < subPath1.x_cordinates.Length; e++)
+                    {
+                        shopState.shop_graph[subPath1.x_cordinates[e] + ";" + subPath1.x_cordinates[e]].cost += -5;
+                    } //removing from the path cost 5
+                    for (int e = 0; e < subPath2.x_cordinates.Length; e++)
+                    {
+                        shopState.shop_graph[subPath2.x_cordinates[e] + ";" + subPath2.x_cordinates[e]].cost += -5;
+                    }
 
                     //calculate total cost and verify if it is acceptable
                     recCost = subPath1.cost + subPath2.cost + subPath3.cost;
@@ -206,7 +226,18 @@ namespace GlamourLights.Controller
 
                 //calculate subpath from start to rec and from rec to destination
                 CarpetPath subPath1 = calculateSubPath(x1, y1, xrec1, yrec1, color);
+                //Adding to the path cost 5
+                for (int e = 0; e < subPath1.x_cordinates.Length; e++)
+                {
+                    shopState.shop_graph[subPath1.x_cordinates[e] + ";" + subPath1.x_cordinates[e]].cost += 5;
+                }
                 CarpetPath subPath2 = calculateSubPath(xrec1, yrec1, x2, y2, color);
+
+                //removing from the path cost 5
+                for (int e = 0; e < subPath1.x_cordinates.Length; e++)
+                {
+                    shopState.shop_graph[subPath1.x_cordinates[e] + ";" + subPath1.x_cordinates[e]].cost += -5;
+                }
 
                 //calculate cost and compare with noPath cost, if acceptable then construct path and return
                 recCost = subPath1.cost + subPath2.cost;
