@@ -59,29 +59,17 @@ namespace GlamourLights.Controller
                         Console.WriteLine("Ci sono sovrapposizioni");
                         isOverlapping = true;
 
-                        //lock(red)
-                        //{
                             if (vertex.active_colors[0] == true)
-                                red.Add(new BlinkPoint(path_coord[i]));
-                        //}
+                                    red.Add(new BlinkPoint(path_coord[i]));
 
-                        //lock(green)
-                        //{
                             if (vertex.active_colors[1] == true)
-                                green.Add(new BlinkPoint(path_coord[i]));
-                        //}
+                                    green.Add(new BlinkPoint(path_coord[i]));
 
-                        //lock(blue)
-                        //{
-                        if (vertex.active_colors[2] == true)
-                                blue.Add(new BlinkPoint(path_coord[i]));
-                        //}
+                            if (vertex.active_colors[2] == true)
+                                    blue.Add(new BlinkPoint(path_coord[i]));
 
-                        //lock(yellow)
-                        //{
-                        if (vertex.active_colors[3] == true)
-                                yellow.Add(new BlinkPoint(path_coord[i]));
-                        //}
+                            if (vertex.active_colors[3] == true)
+                                    yellow.Add(new BlinkPoint(path_coord[i]));
                     }
                 }
                 if (isOverlapping)
@@ -113,8 +101,6 @@ namespace GlamourLights.Controller
                 if (red.Count > 0)
                 {
                     Console.WriteLine("Blink ROSSO");
-                    //lock(red)
-                    //{
                         foreach (BlinkPoint p in red)
                         {
                         if (p.isValid == true)
@@ -126,14 +112,10 @@ namespace GlamourLights.Controller
                                 serial.WriteLine(message);
                         }
                         }
-                    //}
                     Thread.Sleep(300);
                 }
-                //green list
                 if (green.Count > 0)
                 {
-                    //lock(green)
-                    //{
                         foreach (BlinkPoint p in green)
                         {
                         if (p.isValid == true)
@@ -144,7 +126,6 @@ namespace GlamourLights.Controller
                                 serial.WriteLine(message);
                         }
                         }
-                    //}
                     Thread.Sleep(300);
                 }
 
@@ -152,8 +133,6 @@ namespace GlamourLights.Controller
                 if (blue.Count > 0)
                 {
                     Console.WriteLine("Blink BLUE");
-                    //ock(blue)
-                    //{
                         foreach (BlinkPoint p in blue)
                         {
                         if (p.isValid == true)
@@ -165,15 +144,12 @@ namespace GlamourLights.Controller
                                 serial.WriteLine(message);
                         }
                         }
-                    //}
                     Thread.Sleep(300);
                 }
 
                 //yellow list
                 if (yellow.Count > 0)
                 {
-                    //lock(yellow)
-                    //{
                         foreach (BlinkPoint p in yellow)
                         {
                         if (p.isValid == true)
@@ -184,7 +160,6 @@ namespace GlamourLights.Controller
                                 serial.WriteLine(message);
                         }
                         }
-                    //}
                     Thread.Sleep(300);
                 }
                 Console.WriteLine("RESTARTING loop");
@@ -213,7 +188,7 @@ namespace GlamourLights.Controller
             switch(color_code)
             {
                 case 0 :
-                    list = blue;
+                    list = red;
                     break;
 
                 case 1:
