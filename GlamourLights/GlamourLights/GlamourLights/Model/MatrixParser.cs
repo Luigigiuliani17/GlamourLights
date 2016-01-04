@@ -123,5 +123,20 @@ namespace GlamourLights.Model
             }
             return lights_pos;
         }
+
+        /// <summary>
+        /// rebuild the txt of the shop layout
+        /// </summary>
+        /// <param name="lines"></param> 
+        internal void uploadTxt(List<string> lines, string path)
+        {
+            using (StreamWriter sr = new StreamWriter(path))
+            {
+                foreach(string s in lines)
+                {
+                    sr.WriteLine(s);
+                }
+            }
+        }
     }
 }

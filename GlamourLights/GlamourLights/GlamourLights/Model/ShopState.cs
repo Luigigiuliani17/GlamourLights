@@ -11,7 +11,7 @@ namespace GlamourLights.Model
        green = 1,
        blue =2,
        yellow = 3
-    } 
+    }
     /// <summary>
     /// class that contains all the informations about the shop state
     /// - matrix of the shop (-1 = wall; 0= shelf; 1= free; 2= free used as stating point for the paths)
@@ -59,11 +59,11 @@ namespace GlamourLights.Model
             //set at false every used colour
             active_colors = new bool[MAX_USERS_NUMBER];
             active_path = new List<CarpetPath>();
-            for (int i=0; i<MAX_USERS_NUMBER; i++)
+            for (int i = 0; i < MAX_USERS_NUMBER; i++)
             {
                 active_colors[i] = false;
             }
-      
+
             MatrixParser par = new MatrixParser();
             shop_layout_matrix = par.parseMatrix();
             createShopGraph();
@@ -82,9 +82,9 @@ namespace GlamourLights.Model
             }
 
             //find and set initial position
-            for(int i=0; i<shop_layout_matrix.GetLength(0); i++)
-                for(int j=0; j<shop_layout_matrix.GetLength(1); j++)
-                    if(shop_layout_matrix[i,j]==2)
+            for (int i = 0; i < shop_layout_matrix.GetLength(0); i++)
+                for (int j = 0; j < shop_layout_matrix.GetLength(1); j++)
+                    if (shop_layout_matrix[i, j] == 2)
                     {
                         x_start = i;
                         y_start = j;
@@ -95,19 +95,19 @@ namespace GlamourLights.Model
         {
             shop_graph = new Dictionary<string, Graphvertex>();
             //get matrix dimension
-            int numRows = shop_layout_matrix.GetUpperBound(0)+1;
-            int numCols = shop_layout_matrix.GetUpperBound(1)+1;
-           
+            int numRows = shop_layout_matrix.GetUpperBound(0) + 1;
+            int numCols = shop_layout_matrix.GetUpperBound(1) + 1;
+
             //generate graph from the parsed matrix
-            for (int i=0; i< numRows; i++) 
-                for(int j=0; j<numCols; j++)
+            for (int i = 0; i < numRows; i++)
+                for (int j = 0; j < numCols; j++)
                 {
                     //if there is a wall or a shelf
                     if (shop_layout_matrix[i, j] == -1 || shop_layout_matrix[i, j] == 0)
                         continue;
                     //create a new vertex and add it to the vertex dictionary
                     Graphvertex Vnext = new Graphvertex(DEFAULT_COST, i, j);
-                    
+
                     string k = i + ";" + j;
                     shop_graph.Add(k, Vnext);
                 }
@@ -118,20 +118,20 @@ namespace GlamourLights.Model
                 int y = vcur.y_cord;
 
                 //add up (if exists)
-                if (x!=0)
-                    if(shop_layout_matrix[x-1,y]>0)
+                if (x != 0)
+                    if (shop_layout_matrix[x - 1, y] > 0)
                     {
-                        string k = (x-1) + ";" + y;
+                        string k = (x - 1) + ";" + y;
                         Graphvertex vcheck;
                         shop_graph.TryGetValue(k, out vcheck);
                         vcur.adjacent_nodes.Add(k, vcheck);
                     }
 
                 //add right (if exists)
-                if (y != numCols-1)
-                    if (shop_layout_matrix[x, y+1] > 0)
+                if (y != numCols - 1)
+                    if (shop_layout_matrix[x, y + 1] > 0)
                     {
-                        string k = x + ";" + (y+1);
+                        string k = x + ";" + (y + 1);
                         Graphvertex vcheck;
                         shop_graph.TryGetValue(k, out vcheck);
                         vcur.adjacent_nodes.Add(k, vcheck);
@@ -139,9 +139,9 @@ namespace GlamourLights.Model
 
                 //add down (if exists)
                 if (x != numRows - 1)
-                    if (shop_layout_matrix[x+1, y] > 0)
+                    if (shop_layout_matrix[x + 1, y] > 0)
                     {
-                        string k = (x+1) + ";" + y;
+                        string k = (x + 1) + ";" + y;
                         Graphvertex vcheck;
                         shop_graph.TryGetValue(k, out vcheck);
                         vcur.adjacent_nodes.Add(k, vcheck);
@@ -149,14 +149,57 @@ namespace GlamourLights.Model
 
                 //add left (if exists)
                 if (y != 0)
-                    if (shop_layout_matrix[x, y-1] > 0)
+                    if (shop_layout_matrix[x, y - 1] > 0)
                     {
-                        string k = x + ";" + (y-1);
+                        string k = x + ";" + (y - 1);
                         Graphvertex vcheck;
                         shop_graph.TryGetValue(k, out vcheck);
                         vcur.adjacent_nodes.Add(k, vcheck);
                     }
             }
+        }
+
+        /// <summary>
+        /// rebuild the shop matrix txt by preparing the input and calling matrixParser.uploadTxt
+        /// </summary>
+        public void rebuild_shop_matrix()
+        {
+            //create a list of lines
+            List<String> lines = new List<string>();
+            for (int i = 0; i < shop_layout_matrix.GetLength(0); i++)
+                for (int j = 0; j < shop_layout_matrix.GetLength(1); j++)
+                {
+                    lines.Add(i + ";" + j + ";" + shop_layout_matrix[i, j]);
+
+                }
+
+            //call the right method of the parser
+            MatrixParser par = new MatrixParser();
+            par.uploadTxt(lines, "../../Resources/shop_layout.txt");
+        }
+
+        /// <summary>
+        /// rebuild the shelves position txt by preparing the input and calling matrixparser.uploadTxt
+        /// </summary>
+        public void rebuild_shelves_position()
+        {
+            //prepare input by creating a list of string to be written
+            List<String> lines = new List<string>();
+            foreach (var v in shelves_position)
+            {
+                //retrieve x,y coordinates of each shelf
+                String[] parameters;
+                int x_cord, y_cord;
+                parameters = shelves_position[v.Key].Split(';');
+                x_cord = Int32.Parse(parameters[0]);
+                y_cord = Int32.Parse(parameters[1]);
+
+                lines.Add(v.Key + ";" + x_cord + ";" + y_cord);
+            }
+
+            //call the right method of the parser
+            MatrixParser par = new MatrixParser();
+            par.uploadTxt(lines, "../../Resources/shelves_position.txt");
         }
     }
 }
