@@ -14,5 +14,8 @@
                    FontSize="25" FontWeight="DemiBold" Foreground="SeaGreen">
 
         </TextBlock>
+        <Button x:Name="startButton" HorizontalAlignment="Left" Margin="307,463,0,0" VerticalAlignment="Top" Width="75" Click="startButton_Click">
+            Start
+        </Button>
     </Grid>
 </Page>

@@ -39,7 +39,7 @@ namespace GlamourLights.Controller
         {
             this.state = shop;
             this.blink = new Blinker(shop);
-            serial.PortName = "COM4";
+            serial.PortName = "COM3";
             serial.BaudRate = 9600;
             serial.Open();
             Console.WriteLine("inizializzato la porta");

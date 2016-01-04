@@ -50,8 +50,8 @@ namespace GlamourLights
                 if (colInt != -1)
                 {
                     col = (CarpetColors)colInt;
-                    shopMan.executePathFinding(itemSelected, Loggedcust.customerId, col);
-                    this.NavigationService.Navigate(new EndPage(col, shopMan));
+                    //shopMan.executePathFinding(itemSelected, Loggedcust.customerId, col);
+                    this.NavigationService.Navigate(new EndPage(col, shopMan, Loggedcust.customerId, itemSelected));
                 }
                 else
                 {

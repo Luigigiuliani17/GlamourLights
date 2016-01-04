@@ -15,6 +15,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using System.Timers;
 
 namespace GlamourLights
 {
@@ -23,13 +24,22 @@ namespace GlamourLights
     /// </summary>
     public partial class EndPage : Page
     {
+        private int customerId;
+        private item itemSelected;
+        private ShopManager shopMan;
+        private CarpetColors col;
+
         public EndPage()
         {
             InitializeComponent();
         }
-        public EndPage(CarpetColors col, ShopManager sm)
+        public EndPage(CarpetColors col, ShopManager sm, int customerId, item itemSelected)
         {
             InitializeComponent();
+            this.customerId = customerId;
+            this.itemSelected = itemSelected;
+            this.col = col;
+            this.shopMan = sm;
             switch (col)
             {
                 case CarpetColors.blue:
@@ -48,8 +58,24 @@ namespace GlamourLights
                     endBlock.Text = "Something went wrong, Retry!";
                     break;
             }
-            Thread.Sleep(5000);
-            this.NavigationService.Navigate(new Home(sm));
+
+        }
+
+        /// <summary>
+        /// redirect to the home page, probably not the best code, but it works, who cares!
+        /// </summary>
+        private void Redirect()
+        {
+            this.NavigationService.RemoveBackEntry();
+            this.NavigationService.RemoveBackEntry();
+            this.NavigationService.GoBack();
+
+        }
+
+        private void startButton_Click(object sender, RoutedEventArgs e)
+        {
+            shopMan.executePathFinding(itemSelected, customerId, col);
+            Redirect();
         }
     }
 }

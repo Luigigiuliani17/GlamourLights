@@ -76,9 +76,9 @@ namespace GlamourLights.Model
 
             //set to false every lights (no light used at start!)
             active_lights = new Dictionary<int, bool>();
-            foreach (var l in active_lights.Keys)
+            foreach (var l in lights_position)
             {
-                active_lights[l] = false;
+                active_lights[l.Value] = false;
             }
 
             //find and set initial position

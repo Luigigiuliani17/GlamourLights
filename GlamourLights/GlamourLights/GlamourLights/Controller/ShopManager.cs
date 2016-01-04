@@ -21,6 +21,7 @@ namespace GlamourLights.Controller
         {
             this.shopState = shop;
             this.com = new Comunicator(shop);
+            this.recc = new Recommender(shop.shopDb);
             
         }
 

@@ -44,6 +44,9 @@ namespace GlamourLights
             cust.cardNumber = cardNumBox.Text;
             shopMan.shopState.shopDb.customer.Add(cust);
             shopMan.shopState.shopDb.SaveChanges();
+            firstNameBox.Clear();
+            lastNameBox.Clear();
+            cardNumBox.Clear();
         }
 
         private void button_Click_1(object sender, RoutedEventArgs e)
