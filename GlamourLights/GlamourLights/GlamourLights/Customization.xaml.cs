@@ -12,6 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using GlamourLights.Controller;
 
 namespace GlamourLights
 {
@@ -20,9 +21,15 @@ namespace GlamourLights
     /// </summary>
     public partial class Customization : Page
     {
+        public ShopManager shopManager { get; set; }
         public Customization()
         {
             InitializeComponent();
+        }
+
+        public Customization(ShopManager sm)
+        {
+            this.shopManager = sm;
         }
     }
 }

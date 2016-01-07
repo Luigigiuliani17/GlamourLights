@@ -64,7 +64,7 @@ namespace GlamourLights
 
         private void matrixDefButton_Click(object sender, RoutedEventArgs e)
         {
-            MessageBox.Show("NEED TO BE IMPLEMENTED");
+            this.NavigationService.Navigate(new Customization(shopMan));
         }
     }
 }
