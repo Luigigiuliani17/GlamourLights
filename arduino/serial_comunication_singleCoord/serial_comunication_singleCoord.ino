@@ -9,10 +9,10 @@
 #define C   A2
 #define D   A3
 #define redLED1 53
-#define redLED2 2
+#define redLED2 50
 #define greenLED1 51
-#define blueLED1 4
-#define blueLED2 5 
+#define blueLED1 49
+#define blueLED2 47
 
 RGBmatrixPanel matrix(A, B, C, D, CLK, LAT, OE, false, 64);
 String message, mex1, mex2, mex3;
@@ -32,7 +32,7 @@ void setup() {
   matrix.println("Pronta!");
   delay(3000);
   matrix.fillScreen(matrix.Color333(0,0,0));
-  Serial.begin(9600);
+  Serial.begin(38400);
 }
 
 /*all'interno del loop avverrano le seguenti cose:

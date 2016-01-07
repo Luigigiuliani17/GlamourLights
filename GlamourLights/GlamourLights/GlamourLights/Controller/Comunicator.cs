@@ -89,13 +89,17 @@ namespace GlamourLights.Controller
             //Retriving the color name
             int path_id = (int)path.color;
             int color = path_id + 1;
-            //update of vertex colors
-            this.UpdateColorVertex(path);
             //Setting the correct things in the shop state
             state.active_colors[path_id] = true;
             state.active_path.Add(path);
+            //updating usage of start point
+            for (int i = 0; i < state.start_usage.Length; i++)
+            {
+                if (state.x_start[i] == x_coord[0] && state.y_start[i] == y_coord[0])
+                    state.start_usage[i] += 1;
+            }
             //Adding to the path cost 5
-            for(int i=0; i<x_coord.Length; i++)
+            for (int i=0; i<x_coord.Length; i++)
             {
                 state.shop_graph[x_coord[i] + ";" + y_coord[i]].cost += 5;
             }
@@ -120,6 +124,8 @@ namespace GlamourLights.Controller
                     Thread.Sleep(200);
                 }
             }
+            //update of vertex colors
+            this.UpdateColorVertex(path);
             //Check if there is overlapping, if yes the method to blink the matrix is fired in another thread
             //But only of is not fired yet
             if (blink.CheckOverlapping(path)  && blink.insideBlink == false)
@@ -173,8 +179,12 @@ namespace GlamourLights.Controller
             //Retrieving coordinates
             int[] x_coord = path_to_erase.x_cordinates;
             int[] y_coord = path_to_erase.y_cordinates;
-            //Update blinker: cheking if the path is overlapping with another
-            blink.UpdateBlinker(path_to_erase);
+            //updating usage of start point
+            for (int i = 0; i < state.start_usage.Length; i++)
+            {
+                if (state.x_start[i] == x_coord[0] && state.y_start[i] == y_coord[0])
+                    state.start_usage[i] -= 1;
+            }
             //here we switch off the light 
             //and we set that the switched off lights are free
             for (int i = 0; i < path_to_erase.lightsCodes.Length; i++)
@@ -198,6 +208,8 @@ namespace GlamourLights.Controller
                     serial.WriteLine(x_coord[i] + ":" + y_coord[i] + ":" + "-1");
 
             }
+            //Update blinker: cheking if the path is overlapping with another
+            blink.UpdateBlinker(path_to_erase);
             //Set the accupation of the specific color to false again
             //Erasing a path from the list 
             state.active_colors[path_id] = false;
