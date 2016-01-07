@@ -1,4 +1,5 @@
-﻿using System;
+﻿
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -39,7 +40,8 @@ namespace GlamourLights.Controller
         public bool CheckOverlapping(CarpetPath path)
         {
             Console.WriteLine("CheckOverlapping --> START");
-            bool isOverlapping = false;
+            int color = (int)path.color;
+            bool[] color_found = new bool[4];
 
             if (state.active_path.Count > 0)
             {
@@ -56,8 +58,12 @@ namespace GlamourLights.Controller
                     //If the vertex has more than 1 color active, put it in the right lists
                     if (vertex.n_activeColors > 1)
                     {
-                        Console.WriteLine("Ci sono sovrapposizioni");
-                        isOverlapping = true;
+                        //Check wich how many colors the path is overlapping
+                        for (int j = 0; j<vertex.active_colors.Length; j++)
+                        {
+                            if (vertex.active_colors[j] == true)
+                                color_found[j] = true;
+                        }
 
                             if (vertex.active_colors[0] == true)
                                     red.Add(new BlinkPoint(path_coord[i]));
@@ -72,13 +78,18 @@ namespace GlamourLights.Controller
                                     yellow.Add(new BlinkPoint(path_coord[i]));
                     }
                 }
-                if (isOverlapping)
+                for (int z = 0; z < color_found.Length; z++)
                 {
-                    n_overlapping += 1;
+                    if (color_found[z] == true && color != z)
+                        n_overlapping += 1;
+                }
+                if(n_overlapping > 0)
+                { 
                     blink = true;
                     Console.WriteLine("Valore di blink: " + blink);
-                    return true;
                     Console.WriteLine("CheckOverlapping --> END with TRUE");
+                    return true;
+                    
                 }
             }
             Console.WriteLine("CheckOverlapping --> END with FALSE");
@@ -183,6 +194,7 @@ namespace GlamourLights.Controller
             int color_code = (int)path.color;
             ConcurrentBag<BlinkPoint> list = new ConcurrentBag<BlinkPoint>();
             bool overlapping_found = false;
+            bool[] color_found = new bool[4];
 
             //Checking which list must be updated with switch over the color_id
             switch(color_code)
@@ -211,8 +223,13 @@ namespace GlamourLights.Controller
             //Loop through the dictionary to update colors of vertex and the number of active colors
             for (int i = 0; i < coord.Length; i++)
             {
-                graph[coord[i]].active_colors[color_code] = false;
-                graph[coord[i]].n_activeColors -= 1;
+                Graphvertex vertex = graph[coord[i]];
+                vertex.active_colors[color_code] = false;
+                vertex.n_activeColors -= 1;
+
+                for (int j = 0; j < vertex.active_colors.Length; j++)
+                    if (vertex.active_colors[j] == true)
+                        color_found[j] = true;
 
                 //invaliding coordinates from the right list
                 foreach (BlinkPoint p in list)
@@ -226,8 +243,11 @@ namespace GlamourLights.Controller
             }
 
             //setting number of overlapping if found
-            if (overlapping_found == true)
-                n_overlapping -= 1;
+            for (int z = 0; z < color_found.Length; z++)
+            {
+                if (color_found[z] == true)
+                    n_overlapping -= 1;
+            }
             Console.WriteLine("Number of overlapping " + n_overlapping);
             //check if blinking is needed again, if not the variable is set to false
             if (n_overlapping == 0)
