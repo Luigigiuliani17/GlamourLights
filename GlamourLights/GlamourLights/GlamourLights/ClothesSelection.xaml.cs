@@ -37,7 +37,7 @@ namespace GlamourLights
             Itms = new List<ItemImage>();
             foreach (item itm in shopMan.shopState.shopDb.item.Local)
             {
-                Itms.Add(new ItemImage(itm.itemId));
+                Itms.Add(new ItemImage(itm.itemId, itm.name, itm.fabric));
             }
             itms.ItemsSource = Itms;
         }
@@ -83,12 +83,18 @@ namespace GlamourLights
     public class ItemImage
     {
         public int ItemId { get; set; }
+        public string ItemName { get; set; }
+        public string ItemFabric { get; set; }
         public BitmapImage Image { get; set; }
 
-        public ItemImage(int id)
+
+        public ItemImage(int id, string name, string fabric)
         {
             ItemId = id;
-            Image = new BitmapImage(new Uri("https://yt3.ggpht.com/-UXFADeUgtQY/AAAAAAAAAAI/AAAAAAAAAAA/huGrZbZYaUM/s100-c-k-no/photo.jpg"));
+            Uri uri = new Uri(@"Resources\Images\img_" + id + ".png", UriKind.Relative);
+            Image = new BitmapImage(uri);
+            ItemName = name;
+            ItemFabric = fabric;
         }
     }
 }

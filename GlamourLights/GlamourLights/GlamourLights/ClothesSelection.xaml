@@ -28,7 +28,9 @@
                             <DataTemplate>
                                 <StackPanel>
                                     <Image Source="{Binding Image}" />
-                                    <TextBlock Text="{Binding ItemId}" Style="{StaticResource textBlockStyle}"/>
+                                    <TextBlock Text="{Binding ItemName}" Style="{StaticResource textBlockStyle}"/>
+                                    <TextBlock Text="{Binding ItemFabric}" Style="{StaticResource textBlockStyle}"
+                                               FontSize="15"></TextBlock>
                                 </StackPanel>
                             </DataTemplate>
                         </DataGridTemplateColumn.CellTemplate>
@@ -56,6 +58,7 @@
                     Back
                 </Button>
             </Grid>
+     
 
         </Grid>
     </Grid>
