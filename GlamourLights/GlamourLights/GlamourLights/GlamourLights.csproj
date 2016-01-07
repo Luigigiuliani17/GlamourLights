@@ -111,6 +111,7 @@
       <DependentUpon>Home.xaml</DependentUpon>
     </Compile>
     <Compile Include="Model\Graphvertex.cs" />
+    <Compile Include="Model\matrixButton.cs" />
     <Compile Include="Model\MatrixParser.cs" />
     <Compile Include="Model\customer.cs" />
     <Compile Include="Model\item.cs" />
