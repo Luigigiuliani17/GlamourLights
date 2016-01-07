@@ -10,11 +10,13 @@
       Title="EndPage">
 
     <Grid>
-        <TextBlock x:Name="endBlock" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="10,10,10,10" TextWrapping="Wrap"
-                   FontSize="25" FontWeight="DemiBold" Foreground="SeaGreen">
-
+        <Grid.RowDefinitions>
+            <RowDefinition Height="5*"></RowDefinition>
+            <RowDefinition Height="1*"></RowDefinition>
+        </Grid.RowDefinitions>
+        <TextBlock x:Name="endBlock" Style="{StaticResource textBlockStyle}" Grid.Row="0" FontSize="35">
         </TextBlock>
-        <Button x:Name="startButton" HorizontalAlignment="Left" Margin="307,463,0,0" VerticalAlignment="Top" Width="75" Click="startButton_Click">
+        <Button x:Name="startButton" Style="{StaticResource buttonStyle}" Grid.Row="1" FontSize="25" Click="startButton_Click">
             Start
         </Button>
     </Grid>

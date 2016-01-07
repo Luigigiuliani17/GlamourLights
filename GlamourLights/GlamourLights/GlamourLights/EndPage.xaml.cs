@@ -43,16 +43,16 @@ namespace GlamourLights
             switch (col)
             {
                 case CarpetColors.blue:
-                    endBlock.Text = "Your color is BLUE" + "\n" + "Follow it!";
+                    endBlock.Text = "Your color is. BLUE Follow it!";
                     break;
                 case CarpetColors.green:
-                    endBlock.Text = "Your color is GREEN" + "\n" + "Follow it!";
+                    endBlock.Text = "Your color is. GREEN Follow it!";
                     break;
                 case CarpetColors.red:
-                    endBlock.Text = "Your color is RED" + "\n" + "Follow it!";
+                    endBlock.Text = "Your color is RED. Follow it!";
                     break;
                 case CarpetColors.yellow:
-                    endBlock.Text = "Your color is YELLOW" + "\n" + "Follow it!";
+                    endBlock.Text = "Your color is YELLOW. Follow it!";
                     break;
                 default:
                     endBlock.Text = "Something went wrong, Retry!";

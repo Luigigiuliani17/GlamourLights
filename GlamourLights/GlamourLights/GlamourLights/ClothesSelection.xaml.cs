@@ -26,13 +26,20 @@ namespace GlamourLights
     {
         private ShopManager shopMan;
         private customer Loggedcust;
+        public List <ItemImage> Itms { get; set; }
         public ClothesSelection(ShopManager sm, customer cust)
         {
             InitializeComponent();
             shopMan = sm;
             Loggedcust = cust;
             shopMan.shopState.shopDb.item.Load();
-            itemDataGrid.ItemsSource = shopMan.shopState.shopDb.item.Local;
+            //itemDataGrid.ItemsSource = shopMan.shopState.shopDb.item.Local;
+            Itms = new List<ItemImage>();
+            foreach (item itm in shopMan.shopState.shopDb.item.Local)
+            {
+                Itms.Add(new ItemImage(itm.itemId));
+            }
+            itms.ItemsSource = Itms;
         }
 
         /// <summary>
@@ -42,16 +49,18 @@ namespace GlamourLights
         /// <param name="e"></param>
         private void selectionButton_Click(object sender, RoutedEventArgs e)
         {
-            if (!itemDataGrid.SelectedItem.Equals(null))
+            if (!itms.SelectedItem.Equals(null))
             {
-                item itemSelected = ((item)itemDataGrid.SelectedItem);
+                ItemImage itemSelected = ((ItemImage)itms.SelectedItem);
+                var Query = shopMan.shopState.shopDb.item.Where<item>(it => it.itemId == itemSelected.ItemId);
+                item itemFound = (item)Query.FirstOrDefault<item>();
                 int colInt = shopMan.getAvailableColor();
                 CarpetColors col;
                 if (colInt != -1)
                 {
                     col = (CarpetColors)colInt;
                     //shopMan.executePathFinding(itemSelected, Loggedcust.customerId, col);
-                    this.NavigationService.Navigate(new EndPage(col, shopMan, Loggedcust.customerId, itemSelected));
+                    this.NavigationService.Navigate(new EndPage(col, shopMan, Loggedcust.customerId, itemFound));
                 }
                 else
                 {
@@ -68,6 +77,18 @@ namespace GlamourLights
         private void backButton_Click(object sender, RoutedEventArgs e)
         {
             this.NavigationService.GoBack();
+        }
+    }
+
+    public class ItemImage
+    {
+        public int ItemId { get; set; }
+        public BitmapImage Image { get; set; }
+
+        public ItemImage(int id)
+        {
+            ItemId = id;
+            Image = new BitmapImage(new Uri("https://yt3.ggpht.com/-UXFADeUgtQY/AAAAAAAAAAI/AAAAAAAAAAA/huGrZbZYaUM/s100-c-k-no/photo.jpg"));
         }
     }
 }
