@@ -16,7 +16,7 @@
                 <RowDefinition x:Name="mainRow" Height="5*"></RowDefinition>
                 <RowDefinition x:Name="lowerRow" Height="1*"></RowDefinition>
             </Grid.RowDefinitions>
-            <TextBlock x:Name="block" Style="{StaticResource textBlockStyle}" Grid.Row="0"></TextBlock>
+            <TextBlock x:Name="block" Style="{DynamicResource TextBlockStyle}" Grid.Row="0"></TextBlock>
             <DataGrid Name="itms" Grid.Row="1"  VerticalAlignment="Stretch" HorizontalAlignment="Stretch"       
               Margin="10"
               AutoGenerateColumns="False"
@@ -28,8 +28,8 @@
                             <DataTemplate>
                                 <StackPanel>
                                     <Image Source="{Binding Image}" />
-                                    <TextBlock Text="{Binding ItemName}" Style="{StaticResource textBlockStyle}"/>
-                                    <TextBlock Text="{Binding ItemFabric}" Style="{StaticResource textBlockStyle}"
+                                    <TextBlock Text="{Binding ItemName}" Style="{DynamicResource TextBlockStyle}"/>
+                                    <TextBlock Text="{Binding ItemFabric}" Style="{DynamicResource TextBlockStyle}"
                                                FontSize="15"></TextBlock>
                                 </StackPanel>
                             </DataTemplate>
@@ -51,10 +51,10 @@
                     <ColumnDefinition x:Name="backCol" Width="1*"></ColumnDefinition>
                     <ColumnDefinition x:Name="driveCol" Width="3*"></ColumnDefinition>
                 </Grid.ColumnDefinitions>
-                <Button x:Name="selectionButton" Style="{StaticResource buttonStyle}" Grid.Column="1" Click="selectionButton_Click">
+                <Button x:Name="selectionButton" Style="{DynamicResource ButtonStyle}" Grid.Column="1" Click="selectionButton_Click">
                     Drive me to that product!
                 </Button>
-                <Button x:Name="backButton" Style="{StaticResource buttonStyle}" Grid.Column="0" Click="backButton_Click">
+                <Button x:Name="backButton" Style="{DynamicResource ButtonStyle}" Grid.Column="0" Click="backButton_Click">
                     Back
                 </Button>
             </Grid>

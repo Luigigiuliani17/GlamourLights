@@ -31,8 +31,8 @@
                         <ColumnDefinition Width="1*"></ColumnDefinition>
                         <ColumnDefinition Width="1*"></ColumnDefinition>
                     </Grid.ColumnDefinitions>
-                    <TextBox x:Name="firstNameBox" Style="{StaticResource textBoxStyle}" Grid.Column="1"/>
-                    <TextBlock x:Name="firstNameBlock" Style="{StaticResource textBlockStyle}" FontSize="15" 
+                    <TextBox x:Name="firstNameBox" Style="{DynamicResource TextBoxStyle}" Grid.Column="1"/>
+                    <TextBlock x:Name="firstNameBlock" Style="{DynamicResource TextBlockStyle}" FontSize="15" 
                                FontWeight="Bold" Grid.Column="0" Text="FirstName"/>
                 </Grid>
                 <Grid x:Name="lastNameGrid" Grid.Row="1">
@@ -40,8 +40,8 @@
                         <ColumnDefinition Width="1*"></ColumnDefinition>
                         <ColumnDefinition Width="1*"></ColumnDefinition>
                     </Grid.ColumnDefinitions>
-                    <TextBox x:Name="lastNameBox" Style="{StaticResource textBoxStyle}" Grid.Column="1"/>
-                    <TextBlock x:Name="lastNameBlock" Style="{StaticResource textBlockStyle}" FontSize="15" 
+                    <TextBox x:Name="lastNameBox" Style="{DynamicResource TextBoxStyle}" Grid.Column="1"/>
+                    <TextBlock x:Name="lastNameBlock" Style="{DynamicResource TextBlockStyle}" FontSize="15" 
                                FontWeight="Bold" Grid.Column="0" Text="Last Name"/>
                 </Grid>
                 <Grid x:Name="cardNumGrid" Grid.Row="2">
@@ -49,11 +49,11 @@
                         <ColumnDefinition Width="1*"></ColumnDefinition>
                         <ColumnDefinition Width="1*"></ColumnDefinition>
                     </Grid.ColumnDefinitions>
-                    <TextBox x:Name="cardNumBox" Style="{StaticResource textBoxStyle}" Grid.Column="1"/>
-                    <TextBlock x:Name="cardNumBlock" Style="{StaticResource textBlockStyle}" FontSize="15" FontWeight="Bold" 
+                    <TextBox x:Name="cardNumBox" Style="{DynamicResource TextBoxStyle}" Grid.Column="1"/>
+                    <TextBlock x:Name="cardNumBlock" Style="{DynamicResource TextBlockStyle}" FontSize="15" FontWeight="Bold" 
                                Grid.Column="0" Text="Card Number"/>
                 </Grid>
-                <Button x:Name="Save" Content="Save new customer" Grid.Row="3" Style="{StaticResource buttonStyle}"
+                <Button x:Name="Save" Content="Save new customer" Grid.Row="3" Style="{DynamicResource ButtonStyle}"
                         Click="button_Click" HorizontalAlignment="Center" VerticalAlignment="Center"/>
             </Grid>
             <DataGrid x:Name="customerGrid" HorizontalAlignment="Stretch" Margin="10,10,10,10" VerticalAlignment="Stretch"
@@ -66,11 +66,11 @@
                 <ColumnDefinition Width="1*"></ColumnDefinition>
                 <ColumnDefinition Width="1*"></ColumnDefinition>
             </Grid.ColumnDefinitions>
-            <Button x:Name="backButton" Content="Back to Home" Grid.Column="0" Style="{StaticResource buttonStyle}" 
+            <Button x:Name="backButton" Content="Back to Home" Grid.Column="0" Style="{DynamicResource ButtonStyle}" 
                     HorizontalAlignment="Center" VerticalAlignment="Center" Click="button_Click_1"/>
-            <Button x:Name="matrixButton" Content="Initialize Matrix" Grid.Column="1" Style="{StaticResource buttonStyle}"
+            <Button x:Name="matrixButton" Content="Initialize Matrix" Grid.Column="1" Style="{DynamicResource ButtonStyle}"
                     HorizontalAlignment="Center" VerticalAlignment="Stretch" Click="matrixButton_Click"/>
-            <Button x:Name="matrixDefButton" Content="Define Matrix" Grid.Column="2" Style="{StaticResource buttonStyle}"
+            <Button x:Name="matrixDefButton" Content="Define Matrix" Grid.Column="2" Style="{DynamicResource ButtonStyle}"
                     HorizontalAlignment="Center" Click="matrixDefButton_Click"/>
 
         </Grid>
