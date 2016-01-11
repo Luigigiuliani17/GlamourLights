@@ -16,36 +16,29 @@
                 <RowDefinition x:Name="mainRow" Height="5*"></RowDefinition>
                 <RowDefinition x:Name="lowerRow" Height="1*"></RowDefinition>
             </Grid.RowDefinitions>
-            <TextBlock x:Name="block" Style="{DynamicResource TextBlockStyle}" Grid.Row="0"></TextBlock>
-            <DataGrid Name="itms" Grid.Row="1"  VerticalAlignment="Stretch" HorizontalAlignment="Stretch"       
-              Margin="10"
-              AutoGenerateColumns="False"
-              IsReadOnly="True"
-              ItemsSource="{Binding Path=Itms}">
-                <DataGrid.Columns>
-                    <DataGridTemplateColumn>
-                        <DataGridTemplateColumn.CellTemplate>
-                            <DataTemplate>
-                                <StackPanel>
-                                    <Image Source="{Binding Image}" />
-                                    <TextBlock Text="{Binding ItemName}" Style="{DynamicResource TextBlockStyle}"/>
-                                    <TextBlock Text="{Binding ItemFabric}" Style="{DynamicResource TextBlockStyle}"
-                                               FontSize="15"></TextBlock>
-                                </StackPanel>
-                            </DataTemplate>
-                        </DataGridTemplateColumn.CellTemplate>
-                    </DataGridTemplateColumn>
+            <TextBlock x:Name="block" Style="{DynamicResource TextBlockStyle}" Grid.Row="0">
+                Please, select a product
+            </TextBlock>
+            <ListBox Grid.Row="1" Style="{DynamicResource ListBoxStyle}" x:Name="itms" ItemsSource="{Binding Path=Itms}"
+                     VerticalAlignment="Stretch" HorizontalAlignment="Stretch" ScrollViewer.CanContentScroll="True"
+                     ScrollViewer.HorizontalScrollBarVisibility="Disabled" 
+                     ItemContainerStyle="{DynamicResource ListBoxItemStyle}">
+                <ListBox.ItemTemplate>
+                    <DataTemplate>
+                        <StackPanel Orientation="Vertical">
+                            <Image Source="{Binding Image}" Width="200"/>
+                            <TextBlock Text="{Binding ItemName}" Style="{DynamicResource TextBlockStyle}"></TextBlock>
+                            <TextBlock Text="{Binding ItemFabric}" Style="{DynamicResource TextBlockStyle}" FontSize="15"></TextBlock>
+                        </StackPanel>
+                    </DataTemplate>
+                </ListBox.ItemTemplate>
+                <ListBox.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <WrapPanel IsItemsHost="True" Orientation="Horizontal"></WrapPanel>
+                    </ItemsPanelTemplate>
+                </ListBox.ItemsPanel>
+            </ListBox>
 
-                </DataGrid.Columns>
-            </DataGrid>
-            <!--<DataGrid x:Name="itemDataGrid" CanUserAddRows="False" CanUserDeleteRows="False" AutoGenerateColumns="False" ItemsSource="{Binding}" 
-                      HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="10,10,10,10" Grid.Row="1" RowHeight="50">
-                <DataGrid.Columns>
-                    <DataGridTextColumn Header="Name" Binding="{Binding name}" x:Name="cName" Width="1*"></DataGridTextColumn>
-                    <DataGridTextColumn Header="Color" Binding="{Binding color}" x:Name="cColor" Width="1*"></DataGridTextColumn>
-                    <DataGridTextColumn Header="Fabric" Binding="{Binding fabric}" x:Name="cFabric" Width="1*"></DataGridTextColumn>
-                </DataGrid.Columns>
-            </DataGrid>-->
             <Grid x:Name="lowerGrid" Grid.Row="2">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition x:Name="backCol" Width="1*"></ColumnDefinition>

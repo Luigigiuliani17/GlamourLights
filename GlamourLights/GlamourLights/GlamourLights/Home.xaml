@@ -15,13 +15,15 @@
             <RowDefinition x:Name="lowerRow" Height="1*"></RowDefinition>
         </Grid.RowDefinitions>
 
-        <TextBox x:Name="cardNumBox" Style="{DynamicResource TextBoxStyle}" Grid.Row="1" HorizontalAlignment="Center"
+        <TextBox x:Name="cardNumBox" Style="{DynamicResource TextBoxStyle}" Grid.Row="1" 
+                 HorizontalAlignment="Center" VerticalAlignment="Center"
                  KeyUp="onKeyUp">
         </TextBox>
         <Button x:Name="noCardButton" Style="{DynamicResource ButtonStyle}" Grid.Row="1" Click="noCardButton_Click">
             Not a Card Holder? Click here!
         </Button>
-        <TextBlock x:Name="mainBlock" Style="{DynamicResource TextBlockStyle}" FontSize="25" FontWeight="Bold" Grid.Row="0">
+        <TextBlock x:Name="mainBlock" Style="{DynamicResource TextBlockStyle}" FontSize="25" FontWeight="Bold" Grid.Row="0" 
+                   HorizontalAlignment="Center" VerticalAlignment="Center">
             Please, scan your Card on the reader
         </TextBlock>
 

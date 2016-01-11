@@ -65,7 +65,8 @@ namespace GlamourLights
                 else
                 {
                     //TODO need to pop something on the ui to show that we have run out of available colors
-                    MessageBox.Show("All our path are current busy. Please wait a second!", "Oh that's awkard");
+                    Thread MexBox = new Thread(() => MessageBox.Show("All our path are current busy. Please wait a second!", "Oh that's awkard"));
+                    MexBox.Start();
                 }
             }
             
