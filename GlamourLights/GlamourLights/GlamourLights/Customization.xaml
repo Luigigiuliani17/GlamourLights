@@ -10,6 +10,8 @@
       Title="Customization">
 
     <Grid>
-        
+        <Grid x:Name="buttonGrid" HorizontalAlignment="Stretch" Margin="10,10,10,104" VerticalAlignment="Stretch" />
+        <Button x:Name="save_button" Content="Salva modifiche" HorizontalAlignment="Left" Margin="308,456,0,0" VerticalAlignment="Top" Width="75" Click="save_button_Click"/>
+
     </Grid>
 </Page>

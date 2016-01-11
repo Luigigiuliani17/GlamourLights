@@ -176,6 +176,7 @@ namespace GlamourLights.Model
         {
             //create a list of lines
             List<String> lines = new List<string>();
+            lines.Add(shop_layout_matrix.GetLength(0)+";"+shop_layout_matrix.GetLength(1));
             for (int i = 0; i < shop_layout_matrix.GetLength(0); i++)
                 for (int j = 0; j < shop_layout_matrix.GetLength(1); j++)
                 {
