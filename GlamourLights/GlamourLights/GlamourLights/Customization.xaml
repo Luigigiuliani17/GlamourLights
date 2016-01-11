@@ -10,8 +10,10 @@
       Title="Customization">
 
     <Grid>
-        <Grid x:Name="buttonGrid" HorizontalAlignment="Stretch" Margin="10,10,10,104" VerticalAlignment="Stretch" />
-        <Button x:Name="save_button" Content="Salva modifiche" HorizontalAlignment="Left" Margin="308,456,0,0" VerticalAlignment="Top" Width="75" Click="save_button_Click"/>
+        <Grid x:Name="buttonGrid" HorizontalAlignment="Stretch" Margin="10,10,10,69" VerticalAlignment="Stretch" />
+        <Button x:Name="save_button" Content="Salva modifiche" HorizontalAlignment="Left" Margin="278,480,0,0" VerticalAlignment="Top" Width="156" Click="save_button_Click"/>
+        <ListBox x:Name="department_List" HorizontalAlignment="Left" Margin="592,200,0,0" VerticalAlignment="Top" Height="280" Width="118" ItemsSource="{Binding Path=shelves_list}" SelectionChanged="department_List_SelectionChanged"/>
+        <Button x:Name="changeMode" Content="Modalità shop_layout" HorizontalAlignment="Left" Margin="492,480,0,0" VerticalAlignment="Top" Width="196" Click="changeMode_Click"/>
 
     </Grid>
 </Page>
