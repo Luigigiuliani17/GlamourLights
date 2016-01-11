@@ -12,11 +12,14 @@ namespace GlamourLights.Model
         public int x_cord { get; set; }
         public int y_cord { get; set; }
 
-        public matrixButton (int x, int y)
-        {
+        //kind = -1 if wall, 0 if shelf, 1 if free, 2 if start
+        public int kind { get; set; }
 
-            this.x_cord = x_cord;
-            this.y_cord = y_cord;
+        public matrixButton (int x, int y, int kind) 
+        {
+            this.x_cord = x;
+            this.y_cord = y;
+            this.kind = kind;
         }
     }
 }

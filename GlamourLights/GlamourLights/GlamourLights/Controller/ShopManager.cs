@@ -118,6 +118,32 @@ namespace GlamourLights.Controller
             return final_result;    
         }
 
+        internal void saveChanges()
+        {
+            shopState.rebuild_shop_matrix();
+            shopState = new ShopState();
+        }
+
+        /// <summary>
+        /// change the kind of a single cell of the matrix from "shelf" to "free" and viceversa 
+        /// (if by mistake the user try to change a wall or a starting point, no changed will be made)
+        /// </summary>
+        /// <param name="x_cord"></param> of the cell to be changed
+        /// <param name="y_cord"></param> of the cell to be changed
+        internal void changeKind(int x_cord, int y_cord)
+        {
+            if(shopState.shop_layout_matrix[x_cord,y_cord]==1)
+            {
+                shopState.shop_layout_matrix[x_cord, y_cord] = 0;
+
+            }
+            else
+            {
+                if (shopState.shop_layout_matrix[x_cord, y_cord] == 0)
+                    shopState.shop_layout_matrix[x_cord, y_cord] = 1;
+            }
+        }
+
         /// <summary>
         /// calculate the path between a starting point, a destination and up to 2 recommendation. (using calculateSubPath() multiple times)
         /// -If the path crossing both recommendation is too long, it will try to calculate the path with only 1 recommendation. 
