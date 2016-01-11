@@ -26,7 +26,7 @@
                 <ListBox.ItemTemplate>
                     <DataTemplate>
                         <StackPanel Orientation="Vertical">
-                            <Image Source="{Binding Image}" Width="200"/>
+                            <Image Source="{Binding Image}" Width="150"/>
                             <TextBlock Text="{Binding ItemName}" Style="{DynamicResource TextBlockStyle}"></TextBlock>
                             <TextBlock Text="{Binding ItemFabric}" Style="{DynamicResource TextBlockStyle}" FontSize="15"></TextBlock>
                         </StackPanel>

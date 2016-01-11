@@ -24,6 +24,7 @@ namespace GlamourLights
     {
         private ShopManager shopMan;
         private customer LoggedCust { set; get; }
+        public BitmapImage DepImage { get; set; }
         public SelectionPage()
         {
             InitializeComponent();
@@ -34,6 +35,7 @@ namespace GlamourLights
             this.shopMan = shopMan;
             LoggedCust = loggedCust;
             InitializeComponent();
+            DepImage = new BitmapImage(new Uri(@"Resources\photo.png", UriKind.Relative));
             if (loggedCust.customerId == -1)
             {
                 welcomeBlock.Text = "Hello Customer!";

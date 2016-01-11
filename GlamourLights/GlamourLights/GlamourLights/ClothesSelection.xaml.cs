@@ -92,7 +92,7 @@ namespace GlamourLights
         public ItemImage(int id, string name, string fabric)
         {
             ItemId = id;
-            Uri uri = new Uri(@"Resources\Images\img_" + id + ".png", UriKind.Relative);
+            Uri uri = new Uri(@"Resources\Images\Clothes\img_" + id + ".jpg", UriKind.Relative);
             Image = new BitmapImage(uri);
             ItemName = name;
             ItemFabric = fabric;

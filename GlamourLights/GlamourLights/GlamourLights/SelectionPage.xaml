@@ -25,10 +25,10 @@
                     <ColumnDefinition x:Name="depCol" Width="1*"></ColumnDefinition>
                     <ColumnDefinition x:Name="clothesCol" Width="1*"></ColumnDefinition>
                 </Grid.ColumnDefinitions>
-                <Button x:Name="depButton" Grid.Column="0" Style="{DynamicResource ButtonStyle}" Click="DepButton_Click">
+                <Button x:Name="depButton" Grid.Column="0" Style="{DynamicResource ButtonDepSelectionStyle}" Click="DepButton_Click">
                     Search By Department
                 </Button>
-                <Button x:Name="clothesButton" Grid.Column="1" Style="{DynamicResource ButtonStyle}" Click="ClothesButton_Click">
+                <Button x:Name="clothesButton" Grid.Column="1" Style="{DynamicResource ButtonClothesSelectionStyle}" Click="ClothesButton_Click">
                     Search By Clothes
                 </Button>
             </Grid>
