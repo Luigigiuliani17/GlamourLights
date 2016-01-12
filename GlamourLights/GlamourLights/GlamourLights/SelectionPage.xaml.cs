@@ -48,7 +48,6 @@ namespace GlamourLights
 
         private void ClothesButton_Click(object sender, RoutedEventArgs e)
         {
-            clothesButton.Content = "hello";
             this.NavigationService.Navigate(new ClothesSelection(shopMan, LoggedCust));
         }
 

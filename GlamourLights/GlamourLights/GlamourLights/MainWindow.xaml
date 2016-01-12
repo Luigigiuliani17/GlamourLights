@@ -5,11 +5,13 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:GlamourLights"
         mc:Ignorable="d"
-        Title="MainWindow" MinWidth="720" MinHeight="550" >
+        Title="Glamour Lights" MinWidth="720" MinHeight="550" Icon="Resources/Images/favicon.ico">
     <Window.Resources>
     </Window.Resources>
     <Grid>
-        <Frame x:Name="mainFrame" Content="" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" NavigationUIVisibility="Hidden" />
+        <Frame x:Name="mainFrame" Content="" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" 
+               NavigationUIVisibility="Hidden" Style="{DynamicResource FrameStyle}">
+        </Frame>
 
     </Grid>
 </Window>

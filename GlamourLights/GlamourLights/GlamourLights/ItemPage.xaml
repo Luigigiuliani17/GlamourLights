@@ -26,11 +26,15 @@
                     <RowDefinition Height="1*"/>
                     <RowDefinition Height="1*"/>
                     <RowDefinition Height="1*"/>
+                    <RowDefinition Height="1*"/>
                 </Grid.RowDefinitions>
                 <TextBlock x:Name="descriptionBlock" Style="{DynamicResource TextBlockStyle}" Grid.Row="1"
                            FontSize="15"/>
                 <TextBlock x:Name="nameBlock" Style="{DynamicResource TextBlockStyle}" Grid.Row="0"/>
-                <TextBlock x:Name="fabric"/>
+                <TextBlock x:Name="fabricBlock" Style="{DynamicResource TextBlockStyle}" Grid.Row="3"/>
+                <TextBlock x:Name="fabircLabel" Style="{DynamicResource TextBlockStyle}" Grid.Row="2">
+                    Fabric
+                </TextBlock>
             </Grid>
         </Grid>
 

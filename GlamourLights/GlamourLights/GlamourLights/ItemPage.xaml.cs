@@ -39,6 +39,8 @@ namespace GlamourLights
             var Query = shopMan.shopState.shopDb.item.Where<item>(it => it.itemId == itm.ItemId);
             itemSelected = Query.FirstOrDefault<item>();
             nameBlock.Text = itemSelected.name;
+            fabricBlock.Text = itemSelected.fabric;
+            descriptionBlock.Text = itemSelected.description;
             ShopMan = shopMan;
         }
 

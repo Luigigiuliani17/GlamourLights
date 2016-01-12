@@ -255,6 +255,7 @@
     <Content Include="Resources\Images\Clothes\img_4.jpg">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Resource Include="Resources\Images\favicon.ico" />
     <Content Include="Resources\Images\Graphics\clothes.jpg">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
@@ -267,6 +268,9 @@
     <Resource Include="Resources\Images\Graphics\dep.jpg" />
     <Resource Include="Resources\Images\Graphics\dep_over.jpg" />
     <Resource Include="Resources\Images\Graphics\dep_pressed.jpg" />
+    <Content Include="Resources\Images\bg.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="Resources\photo.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
