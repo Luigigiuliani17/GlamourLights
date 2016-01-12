@@ -212,5 +212,29 @@ namespace GlamourLights.Model
             MatrixParser par = new MatrixParser();
             par.uploadTxt(lines, "../../Resources/shelves_position.txt");
         }
+
+        /// <summary>
+        /// rebuild the department position txt by preparing the input and calling matrixparser.uploadTxt
+        /// </summary>
+        public void rebuild_department_position()
+        {
+            //prepare input by creating a list of string to be written
+            List<String> lines = new List<string>();
+            foreach (var v in department_position)
+            {
+                //retrieve x,y coordinates of each shelf
+                String[] parameters;
+                int x_cord, y_cord;
+                parameters = department_position[v.Key].Split(';');
+                x_cord = Int32.Parse(parameters[0]);
+                y_cord = Int32.Parse(parameters[1]);
+
+                lines.Add(v.Key + ";" + x_cord + ";" + y_cord);
+            }
+
+            //call the right method of the parser
+            MatrixParser par = new MatrixParser();
+            par.uploadTxt(lines, "../../Resources/department_position.txt");
+        }
     }
 }

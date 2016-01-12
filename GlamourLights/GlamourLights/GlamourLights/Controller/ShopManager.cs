@@ -121,6 +121,8 @@ namespace GlamourLights.Controller
         internal void saveChanges()
         {
             shopState.rebuild_shop_matrix();
+            shopState.rebuild_shelves_position();
+            shopState.rebuild_department_position();
             shopState = new ShopState();
         }
 
@@ -190,10 +192,18 @@ namespace GlamourLights.Controller
                     yrec2 = Int32.Parse(parameters[1]);
 
                     //verify if both recommendations have a light available, if not change recommendation
-                    int lightId1 = shopState.lights_position[xrec1 + ";" + yrec1];
-                    int lightId2 = shopState.lights_position[xrec2 + ";" + yrec2];
-                    if (shopState.active_lights[lightId1] || shopState.active_lights[lightId2])
+                    try
+                    {
+                        int lightId1 = shopState.lights_position[xrec1 + ";" + yrec1];
+                        int lightId2 = shopState.lights_position[xrec2 + ";" + yrec2];
+                        if (shopState.active_lights[lightId1] || shopState.active_lights[lightId2])
+                            continue;
+                    } catch (KeyNotFoundException e)
+                    {
                         continue;
+                    }
+                    
+                    
 
                     //calculate paths from start to rec1, from rec1 to rec2, from rec2 to destination
                     CarpetPath subPath1 = calculateSubPath(x1, y1, xrec1, yrec1, color);
@@ -246,9 +256,16 @@ namespace GlamourLights.Controller
                 yrec1 = Int32.Parse(parameters[1]);
 
                 //if the recomendation has the light not available, then skip it
-                int lightId1 = shopState.lights_position[xrec1 + ";" + yrec1];
-                if (shopState.active_lights[lightId1])
+                try
+                {
+                    int lightId1 = shopState.lights_position[xrec1 + ";" + yrec1];
+                    if (shopState.active_lights[lightId1])
+                        continue;
+                } catch ( KeyNotFoundException e)
+                {
                     continue;
+                }
+                
 
                 //calculate subpath from start to rec and from rec to destination
                 CarpetPath subPath1 = calculateSubPath(x1, y1, xrec1, yrec1, color);

@@ -10,10 +10,31 @@
       Title="Customization">
 
     <Grid>
-        <Grid x:Name="buttonGrid" HorizontalAlignment="Stretch" Margin="10,10,10,69" VerticalAlignment="Stretch" />
-        <Button x:Name="save_button" Content="Salva modifiche" HorizontalAlignment="Left" Margin="278,480,0,0" VerticalAlignment="Top" Width="156" Click="save_button_Click"/>
-        <ListBox x:Name="department_List" HorizontalAlignment="Left" Margin="592,200,0,0" VerticalAlignment="Top" Height="280" Width="118" ItemsSource="{Binding Path=shelves_list}" SelectionChanged="department_List_SelectionChanged"/>
-        <Button x:Name="changeMode" Content="Modalità shop_layout" HorizontalAlignment="Left" Margin="492,480,0,0" VerticalAlignment="Top" Width="196" Click="changeMode_Click"/>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="5*" />
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
 
+        <Grid.RowDefinitions>
+            <RowDefinition Height="6*" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+
+        <Grid x:Name="buttonGrid" Grid.Column="0" Grid.Row="0" HorizontalAlignment="Stretch" Margin="10,10,10,10" VerticalAlignment="Stretch" >
+        </Grid>
+
+        <Grid x:Name="subGrid" Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+            <Button x:Name="back_button"  Grid.Column="0" Content="Back" HorizontalAlignment="stretch" Margin="10,15,10,20" VerticalAlignment="stretch"  Click="back_button_Click"/>
+            <Button x:Name="save_button" Grid.Column="1" Content="Salva modifiche" HorizontalAlignment="Stretch" Margin="10,15,10,20" VerticalAlignment="Stretch" Click="save_button_Click"/>
+            <Button x:Name="changeMode" Grid.Column="2" Content="Modalità shop_layout" HorizontalAlignment="stretch" Margin="10,15,10,20" VerticalAlignment="Stretch" Click="changeMode_Click"/>
+        </Grid> 
+ 
+        <ListBox x:Name="Listbox" Grid.Column="1" Grid.Row="0" Style ="{DynamicResource ListBoxStyle}" HorizontalAlignment="Stretch" Margin="10,10,10,10" VerticalAlignment="Stretch" ItemsSource="{Binding Path=shelves_list}" SelectionChanged="department_List_SelectionChanged"/>
+  
     </Grid>
 </Page>
