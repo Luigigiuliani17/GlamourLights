@@ -30,9 +30,9 @@ namespace GlamourLights.Controller
             var recItem = L2EQuery.FirstOrDefault<item>();
             var L2EQuery2 = shopDb.item.Where(i => i.itemId == 2);
             var recItem2 = L2EQuery2.FirstOrDefault<item>();
-            var L2EQuery3 = shopDb.item.Where(i => i.itemId == 2);
+            var L2EQuery3 = shopDb.item.Where(i => i.itemId == 3);
             var recItem3 = L2EQuery2.FirstOrDefault<item>();
-            var L2EQuery4 = shopDb.item.Where(i => i.itemId == 2);
+            var L2EQuery4 = shopDb.item.Where(i => i.itemId == 4);
             var recItem4 = L2EQuery2.FirstOrDefault<item>();
             item[] items = new item[4];
             items[0] = recItem;
