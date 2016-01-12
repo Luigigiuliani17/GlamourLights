@@ -20,7 +20,8 @@ using System.Timers;
 namespace GlamourLights
 {
     /// <summary>
-    /// Logica di interazione per EndPage.xaml
+    /// Logica di interazione per EndPage.xaml ==> this one doesn't do to much, it only excutes the pathfinding
+    /// and nothing more
     /// </summary>
     public partial class EndPage : Page
     {
@@ -68,10 +69,18 @@ namespace GlamourLights
         {
             this.NavigationService.RemoveBackEntry();
             this.NavigationService.RemoveBackEntry();
+            this.NavigationService.RemoveBackEntry();
             this.NavigationService.GoBack();
 
         }
 
+        /// <summary>
+        /// This one calls the excute pathfinding and then return to the homePage.
+        /// i can't instantiate a new Home because i need to have the the right shopMAnager
+        /// that exctues the paths on the carpet
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void startButton_Click(object sender, RoutedEventArgs e)
         {
             shopMan.executePathFinding(itemSelected, customerId, col);

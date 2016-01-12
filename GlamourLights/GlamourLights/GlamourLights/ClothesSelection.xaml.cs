@@ -48,6 +48,12 @@ namespace GlamourLights
             this.NavigationService.GoBack();
         }
 
+        /// <summary>
+        /// Simulate the mouse click. When the mouse button (the left one) is released, it'll pick the item selected
+        /// and pass the control to ItemPage
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void itms_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
         {
             ItemImage itemSelected = (ItemImage)itms.SelectedItem;
@@ -55,6 +61,9 @@ namespace GlamourLights
         }
     }
 
+    /// <summary>
+    /// This is kinda helper Class to have the stuff I need most in the listBox
+    /// </summary>
     public class ItemImage
     {
         public int ItemId { get; set; }

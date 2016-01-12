@@ -39,14 +39,24 @@ namespace GlamourLights
             var Query = shopMan.shopState.shopDb.item.Where<item>(it => it.itemId == itm.ItemId);
             itemSelected = Query.FirstOrDefault<item>();
             blockBlock.Text = itemSelected.name;
-
+            ShopMan = shopMan;
         }
 
+        /// <summary>
+        /// Pretty self explained
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void bacKButton_Click(object sender, RoutedEventArgs e)
         {
             this.NavigationService.GoBack();
         }
 
+        /// <summary>
+        /// check wheter there is a color available and if so, it send all the stuff needed to EndPage
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void sendButton_Click(object sender, RoutedEventArgs e)
         {
             int colInt = ShopMan.getAvailableColor();
