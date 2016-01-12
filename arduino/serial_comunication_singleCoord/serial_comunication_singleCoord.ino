@@ -8,11 +8,11 @@
 #define B   A1
 #define C   A2
 #define D   A3
-#define redLED1 53
-#define redLED2 50
-#define greenLED1 51
+#define redLED1 51
+#define redLED2 39
+#define greenLED1 53
 #define blueLED1 49
-#define blueLED2 47
+#define blueLED2 41
 
 RGBmatrixPanel matrix(A, B, C, D, CLK, LAT, OE, false, 64);
 String message, mex1, mex2, mex3;
@@ -55,27 +55,40 @@ void setup() {
  *        ce ne sbattiamo le palle (metodo fancazzista)
 */
 void loop() {
- 
- if(Serial.available() > 0) {
 
-    x_pos = Serial.parseInt();
+ if(Serial.available()>3) {
+
+    message = Serial.readStringUntil('.');
+    Serial.println(message);
+    
+    int commaIndex = message.indexOf(':');
+    int secondCommaIndex = message.indexOf(':', commaIndex+1);
+
+    x_pos = message.substring(0, commaIndex).toInt();
+    y_pos = message.substring(commaIndex+1, secondCommaIndex).toInt();
+    color = message.substring(secondCommaIndex+1, message.length()).toInt();
+
+    /*x_pos = Serial.parseInt();
     y_pos = Serial.parseInt();
-    color = Serial.parseInt();
-
+    color = Serial.parseInt();*/
+    
+    String str=String(x_pos)+"-"+String(y_pos)+"-"+String(color);
+    Serial.println(str);
+    
   if(x_pos == -1) {
 
     int code = color;
     switch(code) {
 
-      case 0:
+      case 1:
         digitalWrite(redLED1, HIGH);
         break;
 
-      case 1:
+      case 2:
         digitalWrite(redLED2, HIGH);
         break;
 
-       case 2:
+       case 3:
         digitalWrite(greenLED1, HIGH);
         break;
 
@@ -84,7 +97,7 @@ void loop() {
         break;
 
        case 5:
-        digitalWrite(blueLED1, HIGH);
+        digitalWrite(blueLED2, HIGH);
         break;
     }
   }
@@ -94,23 +107,23 @@ void loop() {
     int code = color;
     switch(code) {
 
-      case 0:
+      case 1:
         digitalWrite(redLED1, LOW);
         break;
 
-      case 1:
+      case 2:
         digitalWrite(redLED2, LOW);
         break;
 
-       case 2:
+       case 3:
         digitalWrite(greenLED1, LOW);
         break;
 
-       case 3:
+       case 4:
         digitalWrite(blueLED1, LOW);
         break;
 
-       case 4:
+       case 5:
         digitalWrite(blueLED2, LOW);
         break;
     }
@@ -136,11 +149,11 @@ void loop() {
         break;
         
       case 5: //wall
-        matrix.drawPixel(x_pos, y_pos, matrix.Color333(3, 7, 3));
+        matrix.drawPixel(x_pos, y_pos, matrix.Color888(100, 100, 100, true));
         break;
 
       case 6: //shelf
-        matrix.drawPixel(x_pos, y_pos, matrix.Color333(3, 0, 7));
+        matrix.drawPixel(x_pos, y_pos, matrix.Color888(153, 0, 76, true));
         break;
 
       case -1: //black
@@ -150,6 +163,6 @@ void loop() {
       default:
         break;
       }
-    }
-  }     
+    } 
+ }    
 }//fine del loop

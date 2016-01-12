@@ -64,11 +64,13 @@ namespace GlamourLights.Controller
                     {
                         if (matrix[i, j] == -1)
                         {
-                            serial.WriteLine(i + ":" + j + ":" + "5"); //walls
+                            serial.WriteLine( i + ":" + j + ":" + "5."); //walls
+                            Thread.Sleep(10);
                         }
                         if (matrix[i, j] == 0)
                         {
-                            serial.WriteLine(i + ":" + j + ":" + "6"); //shelves 
+                            serial.WriteLine( i + ":" + j + ":" + "6."); //shelves 
+                            Thread.Sleep(10);
                         }
                     }
                 }
@@ -105,27 +107,34 @@ namespace GlamourLights.Controller
             }
             //if the path has raccomandations lights to switch on, here are sent the right string to the matrix
             //Here we set also the lights that are buisy in the shop
+            for (int j = 1; j < 6; j++)
+                Console.WriteLine("Le luci attive in questo momento sono (PRIMA): " + state.active_lights[j]);
             for (int i = 0; i < path.lightsCodes.Length; i++)
             {
                 if (path.lightsCodes[i] != -1)
                     state.active_lights[path.lightsCodes[i]] = true;
+                Console.WriteLine("Il path e' il :" + path.color + "e le luci sono: " + path.lightsCodes[i]);
                 if (serial.IsOpen)
                 {
                     if (path.lightsCodes[i] != -1)
-                        serial.WriteLine("-1:-1:" + path.lightsCodes[i]);
+                        serial.WriteLine("-1:-1:" + path.lightsCodes[i] + ".");
                 }
             }
+            for (int j = 1; j < 6; j++)
+                Console.WriteLine("Le luci attive in questo momento sono (DOPO): " + state.active_lights[j]);
             //Send a string for every coordinate, plus the color
             for (int i=0; i<path.x_cordinates.Length; i++)
             {
                 if (serial.IsOpen)
                 {
-                    serial.WriteLine(x_coord[i] + ":" + y_coord[i] + ":" + color);
+                    serial.WriteLine(x_coord[i] + ":" + y_coord[i] + ":" + color + ".");
+                    this.UpdateColorVertex(x_coord[i], y_coord[i], (int)path.color);
+                    blink.AddOverlapping(x_coord[i], y_coord[i]);
                     Thread.Sleep(200);
                 }
             }
             //update of vertex colors
-            this.UpdateColorVertex(path);
+            ///this.UpdateColorVertex(path);
             //Check if there is overlapping, if yes the method to blink the matrix is fired in another thread
             //But only of is not fired yet
             if (blink.CheckOverlapping(path)  && blink.insideBlink == false)
@@ -165,17 +174,15 @@ namespace GlamourLights.Controller
         /// <param name="path_id"></param>
         private void ErasePath(int path_id)
         {
-            stop = DateTime.Now;
-            Console.WriteLine("Finishing at: " + stop);
-            TimeSpan time = stop - start;
-            Console.WriteLine("total elapse time: " + time);
             //I have to find the path to erase from the list, giving the path_number
             CarpetPath path_to_erase = new CarpetPath();
+            Console.WriteLine("sto cercando il path da cancellare");
             foreach (CarpetPath p in state.active_path)
             {
                 if ((int)p.color == path_id)
                     path_to_erase = p;
             }
+            Console.WriteLine("Il path da cancellare e':" + path_to_erase.color);
             //Retrieving coordinates
             int[] x_coord = path_to_erase.x_cordinates;
             int[] y_coord = path_to_erase.y_cordinates;
@@ -195,21 +202,23 @@ namespace GlamourLights.Controller
                 {
                     if (path_to_erase.lightsCodes[i] != -1)
                     {
-                        string mes = "-2:-2:" + path_to_erase.lightsCodes[i];
+                        string mes = "-2:-2:" + path_to_erase.lightsCodes[i] + ".";
                         serial.WriteLine(mes);
                         Console.WriteLine("La stringa da inviare per spegnere le luci e': " + mes);
                     }
                 }
             }
+            //Update blinker: cheking if the path is overlapping with another
+            blink.UpdateBlinker(path_to_erase);
             //erase path
             if (serial.IsOpen)
             {
                 for (int i = 0; i < path_to_erase.x_cordinates.Length; i++)
-                    serial.WriteLine(x_coord[i] + ":" + y_coord[i] + ":" + "-1");
-
+                {
+                    serial.WriteLine(x_coord[i] + ":" + y_coord[i] + ":" + "-1.");
+                    Thread.Sleep(10);
+                }
             }
-            //Update blinker: cheking if the path is overlapping with another
-            blink.UpdateBlinker(path_to_erase);
             //Set the accupation of the specific color to false again
             //Erasing a path from the list 
             state.active_colors[path_id] = false;
@@ -245,5 +254,16 @@ namespace GlamourLights.Controller
             }
         }
 
+        private void UpdateColorVertex(int x, int y, int color_code)
+        {
+            Dictionary<string, Graphvertex> graph = state.shop_graph;
+            string coord = x + ";" + y;
+
+            //this will create the array with the keys for the dictionary
+
+            //Loop through the dictionary to update colors of vertex and the number of active colors
+                graph[coord].active_colors[color_code] = true;
+                graph[coord].n_activeColors += 1;
+         }
     }
 }
