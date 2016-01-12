@@ -25,13 +25,20 @@ namespace GlamourLights.Controller
         /// <returns></returns> a list of recommendations
         public item[] getPersonalizedRecommendations(int cust_id)
         {
+            
             var L2EQuery = shopDb.item.Where(i => i.itemId == 1);
             var recItem = L2EQuery.FirstOrDefault<item>();
             var L2EQuery2 = shopDb.item.Where(i => i.itemId == 2);
             var recItem2 = L2EQuery2.FirstOrDefault<item>();
-            item[] items = new item[2];
+            var L2EQuery3 = shopDb.item.Where(i => i.itemId == 2);
+            var recItem3 = L2EQuery2.FirstOrDefault<item>();
+            var L2EQuery4 = shopDb.item.Where(i => i.itemId == 2);
+            var recItem4 = L2EQuery2.FirstOrDefault<item>();
+            item[] items = new item[4];
             items[0] = recItem;
             items[1] = recItem2;
+            items[2] = recItem3;
+            items[3] = recItem4;
             return items;
         }
 
@@ -43,7 +50,20 @@ namespace GlamourLights.Controller
         /// <returns></returns> some not personalized recommendations
         public item[] getNotPersonalizedRecommendations()
         {
-            return null;
+            var L2EQuery = shopDb.item.Where(i => i.itemId == 1);
+            var recItem = L2EQuery.FirstOrDefault<item>();
+            var L2EQuery2 = shopDb.item.Where(i => i.itemId == 2);
+            var recItem2 = L2EQuery2.FirstOrDefault<item>();
+            var L2EQuery3 = shopDb.item.Where(i => i.itemId == 3);
+            var recItem3 = L2EQuery2.FirstOrDefault<item>();
+            var L2EQuery4 = shopDb.item.Where(i => i.itemId == 4);
+            var recItem4 = L2EQuery2.FirstOrDefault<item>();
+            item[] items = new item[4];
+            items[0] = recItem4;
+            items[1] = recItem3;
+            items[2] = recItem2;
+            items[3] = recItem;
+            return items;
         }
     }
 }
