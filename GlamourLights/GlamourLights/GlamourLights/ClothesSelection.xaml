@@ -22,7 +22,7 @@
             <ListBox Grid.Row="1" Style="{DynamicResource ListBoxStyle}" x:Name="itms" ItemsSource="{Binding Path=Itms}"
                      VerticalAlignment="Stretch" HorizontalAlignment="Stretch" ScrollViewer.CanContentScroll="True"
                      ScrollViewer.HorizontalScrollBarVisibility="Disabled" 
-                     ItemContainerStyle="{DynamicResource ListBoxItemStyle}">
+                     ItemContainerStyle="{DynamicResource ListBoxItemStyle}" MouseLeftButtonUp="itms_MouseLeftButtonUp">
                 <ListBox.ItemTemplate>
                     <DataTemplate>
                         <StackPanel Orientation="Vertical">
@@ -44,9 +44,6 @@
                     <ColumnDefinition x:Name="backCol" Width="1*"></ColumnDefinition>
                     <ColumnDefinition x:Name="driveCol" Width="3*"></ColumnDefinition>
                 </Grid.ColumnDefinitions>
-                <Button x:Name="selectionButton" Style="{DynamicResource ButtonStyle}" Grid.Column="1" Click="selectionButton_Click">
-                    Drive me to that product!
-                </Button>
                 <Button x:Name="backButton" Style="{DynamicResource ButtonStyle}" Grid.Column="0" Click="backButton_Click">
                     Back
                 </Button>

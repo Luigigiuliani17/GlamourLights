@@ -41,43 +41,17 @@ namespace GlamourLights
             }
             itms.ItemsSource = Itms;
         }
-
-        /// <summary>
-        /// this handles the click on the selection button after having selected an item 
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void selectionButton_Click(object sender, RoutedEventArgs e)
-        {
-            if (!itms.SelectedItem.Equals(null))
-            {
-                ItemImage itemSelected = ((ItemImage)itms.SelectedItem);
-                var Query = shopMan.shopState.shopDb.item.Where<item>(it => it.itemId == itemSelected.ItemId);
-                item itemFound = (item)Query.FirstOrDefault<item>();
-                int colInt = shopMan.getAvailableColor();
-                CarpetColors col;
-                if (colInt != -1)
-                {
-                    col = (CarpetColors)colInt;
-                    //shopMan.executePathFinding(itemSelected, Loggedcust.customerId, col);
-                    this.NavigationService.Navigate(new EndPage(col, shopMan, Loggedcust.customerId, itemFound));
-                }
-                else
-                {
-                    //TODO need to pop something on the ui to show that we have run out of available colors
-                    Thread MexBox = new Thread(() => MessageBox.Show("All our path are current busy. Please wait a second!", "Oh that's awkard"));
-                    MexBox.Start();
-                }
-            }
-            
-            
-
-
-        }
+               
 
         private void backButton_Click(object sender, RoutedEventArgs e)
         {
             this.NavigationService.GoBack();
+        }
+
+        private void itms_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
+        {
+            ItemImage itemSelected = (ItemImage)itms.SelectedItem;
+            this.NavigationService.Navigate(new ItemPage(itemSelected, Loggedcust, shopMan));
         }
     }
 
