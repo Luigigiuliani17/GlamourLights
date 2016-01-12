@@ -94,6 +94,10 @@ namespace GlamourLights.Controller
             //Setting the correct things in the shop state
             state.active_colors[path_id] = true;
             state.active_path.Add(path);
+            foreach (CarpetPath l in state.active_path)
+            {
+                Console.WriteLine(l.color);
+            }
             //updating usage of start point
             for (int i = 0; i < state.start_usage.Length; i++)
             {
@@ -107,21 +111,16 @@ namespace GlamourLights.Controller
             }
             //if the path has raccomandations lights to switch on, here are sent the right string to the matrix
             //Here we set also the lights that are buisy in the shop
-            for (int j = 1; j < 6; j++)
-                Console.WriteLine("Le luci attive in questo momento sono (PRIMA): " + state.active_lights[j]);
             for (int i = 0; i < path.lightsCodes.Length; i++)
             {
                 if (path.lightsCodes[i] != -1)
                     state.active_lights[path.lightsCodes[i]] = true;
-                Console.WriteLine("Il path e' il :" + path.color + "e le luci sono: " + path.lightsCodes[i]);
                 if (serial.IsOpen)
                 {
                     if (path.lightsCodes[i] != -1)
                         serial.WriteLine("-1:-1:" + path.lightsCodes[i] + ".");
                 }
             }
-            for (int j = 1; j < 6; j++)
-                Console.WriteLine("Le luci attive in questo momento sono (DOPO): " + state.active_lights[j]);
             //Send a string for every coordinate, plus the color
             for (int i=0; i<path.x_cordinates.Length; i++)
             {
@@ -137,7 +136,7 @@ namespace GlamourLights.Controller
             ///this.UpdateColorVertex(path);
             //Check if there is overlapping, if yes the method to blink the matrix is fired in another thread
             //But only of is not fired yet
-            if (blink.CheckOverlapping(path)  && blink.insideBlink == false)
+           if (blink.CheckOverlapping(path)  && blink.insideBlink == false)
             {
                new Thread(delegate ()
                {
@@ -223,6 +222,9 @@ namespace GlamourLights.Controller
             //Erasing a path from the list 
             state.active_colors[path_id] = false;
             state.active_path.Remove(path_to_erase);
+            foreach(CarpetPath l in state.active_path) {
+                Console.WriteLine(l.color);
+            }
             //Lowering the path cost by 5
             for (int i = 0; i < x_coord.Length; i++)
             {

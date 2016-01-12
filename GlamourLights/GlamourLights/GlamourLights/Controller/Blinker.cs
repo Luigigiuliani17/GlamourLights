@@ -7,6 +7,7 @@ using System.Threading;
 using System.IO.Ports;
 using System.Collections.Concurrent;
 using GlamourLights.Model;
+using System.Runtime.CompilerServices;
 
 namespace GlamourLights.Controller
 
@@ -22,7 +23,6 @@ namespace GlamourLights.Controller
         public bool blink { get; set; }
         public bool insideBlink { get; set; }
         ShopState state;
-        CarpetColors lastColor;
 
         public Blinker(ShopState state)
         {
@@ -69,8 +69,9 @@ namespace GlamourLights.Controller
                 }
                 for (int z = 0; z < color_found.Length; z++)
                 {
+                    Console.WriteLine("valori dell'array dei colori: " + color_found[z]);
                     if (color_found[z] == true && color != z)
-                        n_overlapping += 1;
+                        this.UpdateNOverlapping(1);
                 }
                 if(n_overlapping > 0)
                 { 
@@ -120,13 +121,13 @@ namespace GlamourLights.Controller
 
                     if (vertex.active_colors[2] == true)
                     {
-                        Console.WriteLine("aggiungo un verde");
+                        Console.WriteLine("aggiungo un blu");
                         blue.Add(new BlinkPoint(coord));
                     }
 
                     if (vertex.active_colors[3] == true)
                     {
-                        Console.WriteLine("aggiungo un verde");
+                        Console.WriteLine("aggiungo un giallo");
                         yellow.Add(new BlinkPoint(coord));
                     }
                     }
@@ -227,7 +228,6 @@ namespace GlamourLights.Controller
             string[] coord = new string[x.Length];
             int color_code = (int)path.color;
             ConcurrentBag<BlinkPoint> list = new ConcurrentBag<BlinkPoint>();
-            bool overlapping_found = false;
             bool[] color_found = new bool[4];
 
             //Checking which list must be updated with switch over the color_id
@@ -270,7 +270,6 @@ namespace GlamourLights.Controller
                 {
                     if (p.coord == coord[i])
                     {
-                        overlapping_found = true;
                         p.isValid = false;
                     }
                 }
@@ -280,7 +279,7 @@ namespace GlamourLights.Controller
             for (int z = 0; z < color_found.Length; z++)
             {
                 if (color_found[z] == true)
-                    n_overlapping -= 1;
+                    this.UpdateNOverlapping(-1);
             }
             Console.WriteLine("Number of overlapping " + n_overlapping);
             //check if blinking is needed again, if not the variable is set to false
@@ -289,6 +288,16 @@ namespace GlamourLights.Controller
             Console.WriteLine("Is necessary to blink: " + blink);
 
             Console.WriteLine("UpdateBlinker --> END");
+        }
+
+        /// <summary>
+        ///
+        /// </summary>
+        /// <param name="n"></param>
+        [MethodImpl(MethodImplOptions.Synchronized)]
+        private void UpdateNOverlapping(int n)
+        {
+            n_overlapping += n;
         }
 
     }

@@ -59,7 +59,7 @@ void loop() {
  if(Serial.available()>3) {
 
     message = Serial.readStringUntil('.');
-    Serial.println(message);
+    //Serial.println(message);
     
     int commaIndex = message.indexOf(':');
     int secondCommaIndex = message.indexOf(':', commaIndex+1);
@@ -67,13 +67,6 @@ void loop() {
     x_pos = message.substring(0, commaIndex).toInt();
     y_pos = message.substring(commaIndex+1, secondCommaIndex).toInt();
     color = message.substring(secondCommaIndex+1, message.length()).toInt();
-
-    /*x_pos = Serial.parseInt();
-    y_pos = Serial.parseInt();
-    color = Serial.parseInt();*/
-    
-    String str=String(x_pos)+"-"+String(y_pos)+"-"+String(color);
-    Serial.println(str);
     
   if(x_pos == -1) {
 
