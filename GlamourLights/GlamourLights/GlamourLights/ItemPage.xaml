@@ -24,17 +24,35 @@
             <Grid x:Name="detailsGrid" Grid.Column="1">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="1*"/>
-                    <RowDefinition Height="1*"/>
-                    <RowDefinition Height="1*"/>
-                    <RowDefinition Height="1*"/>
+                    <RowDefinition Height="3*"/>
+                    
                 </Grid.RowDefinitions>
-                <TextBlock x:Name="descriptionBlock" Style="{DynamicResource TextBlockStyle}" Grid.Row="1"
-                           FontSize="15"/>
-                <TextBlock x:Name="nameBlock" Style="{DynamicResource TextBlockStyle}" Grid.Row="0"/>
-                <TextBlock x:Name="fabricBlock" Style="{DynamicResource TextBlockStyle}" Grid.Row="3"/>
-                <TextBlock x:Name="fabircLabel" Style="{DynamicResource TextBlockStyle}" Grid.Row="2">
+
+                <TextBlock x:Name="nameBlock" Style="{DynamicResource TextBlockStyle}" Grid.Row="0" 
+                           FontSize="40" FontFamily="DemiBold"/>
+                <StackPanel HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Grid.Row="1" 
+                            Orientation="Vertical">
+                    <GroupBox x:Name="descriptionBox" BorderThickness="1" FontSize="17"
+                          BorderBrush="{StaticResource ButtonPressedBackgroundBrush}"
+                          Background="Transparent" Foreground="{StaticResource ButtonBackgroundBrush}"
+                          Margin="10,10,10,0" HorizontalAlignment="Stretch" VerticalAlignment="Top">
+                        <GroupBox.Header>
+                            Description
+                        </GroupBox.Header>
+                        <StackPanel HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                            <TextBlock x:Name="descriptionBlock" Style="{DynamicResource TextBlockStyle}" 
+                                       HorizontalAlignment="Left"
+                           FontSize="22" TextWrapping="Wrap">
+                            </TextBlock>
+                        </StackPanel>
+
+                    </GroupBox>
+                    <TextBlock x:Name="fabricBlock" Style="{DynamicResource TextBlockStyle}" VerticalAlignment="Top" 
+                               FontSize="22" HorizontalAlignment="Left" Margin="30">
                     Fabric
-                </TextBlock>
+                    </TextBlock>
+                </StackPanel>
+            
             </Grid>
         </Grid>
 

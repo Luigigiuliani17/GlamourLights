@@ -21,14 +21,13 @@
             </TextBlock>
             <ListBox Grid.Row="1" Style="{DynamicResource ListBoxStyle}" x:Name="itms" ItemsSource="{Binding Path=Itms}"
                      VerticalAlignment="Stretch" HorizontalAlignment="Stretch" ScrollViewer.CanContentScroll="True"
-                     ScrollViewer.HorizontalScrollBarVisibility="Disabled" 
+                     ScrollViewer.HorizontalScrollBarVisibility="Disabled" Margin="35"
                      ItemContainerStyle="{DynamicResource ListBoxItemStyle}" MouseLeftButtonUp="itms_MouseLeftButtonUp">
                 <ListBox.ItemTemplate>
                     <DataTemplate>
-                        <StackPanel Orientation="Vertical">
+                        <StackPanel Orientation="Vertical" Margin="10">
                             <Image Source="{Binding Image}" Width="150"/>
-                            <TextBlock Text="{Binding ItemName}" Style="{DynamicResource TextBlockStyle}"></TextBlock>
-                            <TextBlock Text="{Binding ItemFabric}" Style="{DynamicResource TextBlockStyle}" FontSize="15"></TextBlock>
+                            <TextBlock Text="{Binding ItemName}" Style="{DynamicResource TextBlockStyle}" FontSize="18"/>
                         </StackPanel>
                     </DataTemplate>
                 </ListBox.ItemTemplate>

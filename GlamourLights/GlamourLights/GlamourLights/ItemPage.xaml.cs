@@ -38,8 +38,8 @@ namespace GlamourLights
             LoggeedCust = cust;
             var Query = shopMan.shopState.shopDb.item.Where<item>(it => it.itemId == itm.ItemId);
             itemSelected = Query.FirstOrDefault<item>();
-            nameBlock.Text = itemSelected.name;
-            fabricBlock.Text = itemSelected.fabric;
+            nameBlock.Text = itemSelected.name.ToUpper();
+            fabricBlock.Text = "Fabric: " + itemSelected.fabric.ToUpper(); ;
             descriptionBlock.Text = itemSelected.description;
             ShopMan = shopMan;
         }

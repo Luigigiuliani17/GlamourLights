@@ -35,7 +35,7 @@ namespace GlamourLights
             shopMan.shopState.shopDb.item.Load();
             //itemDataGrid.ItemsSource = shopMan.shopState.shopDb.item.Local;
             Itms = new List<ItemImage>();
-            foreach (item itm in shopMan.shopState.shopDb.item.Local)
+            foreach (item itm in shopMan.shopState.shopDb.item.Local.OrderBy(it => it.name))
             {
                 Itms.Add(new ItemImage(itm.itemId, itm.name, itm.fabric));
             }

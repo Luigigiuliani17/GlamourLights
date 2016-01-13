@@ -871,7 +871,7 @@
     <Style x:Key="GroupBoxStyle" TargetType="{x:Type GroupBox}">
         <Setter Property="FontFamily" Value="Segoe UI" />
         <Setter Property="FontSize" Value="14.667" />
-        <Setter Property="Foreground" Value="{StaticResource ForegroundBrush}" />
+        <Setter Property="Foreground" Value="{StaticResource Button}" />
         <Setter Property="BorderBrush" Value="{StaticResource GroupBoxBorderBrush}" />
         <Setter Property="BorderThickness" Value="1" />
         <Setter Property="Padding" Value="5" />
