@@ -10,31 +10,32 @@ using GlamourLights.Model;
 
 namespace GlamourLights.Controller
 {
-    /* Class that will manage the comunication between the software and hardware (luminous carpet or in our case
-    with the arduino board)
-    comunication will be unilateral (software -> hardware)
-    with well formatted strings, composed in this way:
-    "x0_pos:x1_pos:y0_pos:y1_pos:color"
-    which represents the "segment" of LED that will be switched on (or off, if the color is black) 
-    x0_pos -> x1_pos = the first and the last x coordinates of the segment 
-    y0_pos -> y1_pos = the first and the last y coordinates of the segment
-    color = "red" or "green" or "blue" or "yellow" or "black"
-             the last one represents the switching off the LED, the others the colors of the LEDs to switch on
 
-    In the class will be also calculated the "prohibite" zones, that will be never illuminated by any LED and 
-    rapresent the shelves and the walls of the shop
-    the matrix numbers will represent the following things:
-    -1 = wall
-     0 = shelf
-    */
+    /// <summary>
+    ///  Class that will manage the comunication between the software and hardware (luminous carpet or in our case
+    /// with the arduino board)
+    /// comunication will be unilateral(software -> hardware)
+    /// with well formatted strings, composed in this way:
+    ///"x_pos:y_pos:color"
+    ///which represents the "segment" of LED that will be switched on (or off, if the color is black) 
+    ///x_pos  = the x coordinates of the point
+    ///y_pos = the y coordinates of the point
+    ///color = "red" or "green" or "blue" or "yellow" or "black"
+    ///         the last one represents the switching off the LED, the others the colors of the LEDs to switch on
+    ///
+    /// In the class will be also calculated the "prohibite" zones, that will be never illuminated by any LED and
+    ///rapresent the shelves and the walls of the shop
+    ///the matrix numbers will represent the following things:
+    ///-1 = wall
+    ///0 = shelf
+    /// </summary>
+
     public class Comunicator
     {
         ShopState state;
-        List<CarpetPath> active_path;
         SerialPort serial = new SerialPort();
         Blinker blink;
-        DateTime start, stop;
-        
+
         public Comunicator(ShopState shop)
         {
             this.state = shop;
@@ -59,17 +60,17 @@ namespace GlamourLights.Controller
             {
                 for (int j = 0; j < matrix.GetLength(1); j++)
                 {
-                    
+
                     if (serial.IsOpen)
                     {
                         if (matrix[i, j] == -1)
                         {
-                            serial.WriteLine( i + ":" + j + ":" + "5."); //walls
+                            serial.WriteLine(i + ":" + j + ":" + "5."); //walls
                             Thread.Sleep(10);
                         }
                         if (matrix[i, j] == 0)
                         {
-                            serial.WriteLine( i + ":" + j + ":" + "6."); //shelves 
+                            serial.WriteLine(i + ":" + j + ":" + "6."); //shelves 
                             Thread.Sleep(10);
                         }
                     }
@@ -105,7 +106,7 @@ namespace GlamourLights.Controller
                     state.start_usage[i] += 1;
             }
             //Adding to the path cost 5
-            for (int i=0; i<x_coord.Length; i++)
+            for (int i = 0; i < x_coord.Length; i++)
             {
                 state.shop_graph[x_coord[i] + ";" + y_coord[i]].cost += 5;
             }
@@ -122,7 +123,7 @@ namespace GlamourLights.Controller
                 }
             }
             //Send a string for every coordinate, plus the color
-            for (int i=0; i<path.x_cordinates.Length; i++)
+            for (int i = 0; i < path.x_cordinates.Length; i++)
             {
                 if (serial.IsOpen)
                 {
@@ -136,19 +137,17 @@ namespace GlamourLights.Controller
             ///this.UpdateColorVertex(path);
             //Check if there is overlapping, if yes the method to blink the matrix is fired in another thread
             //But only of is not fired yet
-           if (blink.CheckOverlapping(path)  && blink.insideBlink == false)
+            if (blink.CheckOverlapping(path) && blink.insideBlink == false)
             {
-               new Thread(delegate ()
-               {
-                 blink.StartBlink(serial);
-               }).Start();
+                new Thread(delegate ()
+                {
+                    blink.StartBlink(serial);
+                }).Start();
             }
             //Timer part, in wich we bind the number of path to send to the handler, setting the time to wait 30 seconds
             var timer = new System.Timers.Timer { Interval = 20000, AutoReset = false };
             timer.Elapsed += (sender, e) => CallErasePath(sender, e, path_id);
             timer.Start();
-            start = DateTime.Now;
-            Console.WriteLine("starting at: " + start);
         }
 
         /// <summary>
@@ -159,9 +158,10 @@ namespace GlamourLights.Controller
         /// <param name="sender"></param>
         /// <param name="e"></param>
         /// <param name="path_id"></param>
-         void CallErasePath(object sender, ElapsedEventArgs e, int path_id)
+        void CallErasePath(object sender, ElapsedEventArgs e, int path_id)
         {
-            new Thread(delegate () {
+            new Thread(delegate ()
+            {
                 this.ErasePath(path_id);
             }).Start();
         }
@@ -222,7 +222,8 @@ namespace GlamourLights.Controller
             //Erasing a path from the list 
             state.active_colors[path_id] = false;
             state.active_path.Remove(path_to_erase);
-            foreach(CarpetPath l in state.active_path) {
+            foreach (CarpetPath l in state.active_path)
+            {
                 Console.WriteLine(l.color);
             }
             //Lowering the path cost by 5
@@ -245,7 +246,7 @@ namespace GlamourLights.Controller
             int color_code = (int)path.color;
 
             //this will create the array with the keys for the dictionary
-            for(int i=0; i<x.Length; i++)
+            for (int i = 0; i < x.Length; i++)
                 coord[i] = x[i] + ";" + y[i];
 
             //Loop through the dictionary to update colors of vertex and the number of active colors
@@ -264,8 +265,8 @@ namespace GlamourLights.Controller
             //this will create the array with the keys for the dictionary
 
             //Loop through the dictionary to update colors of vertex and the number of active colors
-                graph[coord].active_colors[color_code] = true;
-                graph[coord].n_activeColors += 1;
-         }
+            graph[coord].active_colors[color_code] = true;
+            graph[coord].n_activeColors += 1;
+        }
     }
 }
