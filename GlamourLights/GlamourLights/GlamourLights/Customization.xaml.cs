@@ -14,6 +14,7 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using GlamourLights.Controller;
 using GlamourLights.Model;
+using System.Data.Entity;
 
 
 
@@ -37,6 +38,7 @@ namespace GlamourLights
     {
         public ShopManager shopManager { get; set; }
         public List<int> shelves_list { get; set; }
+    //    public List<shelf> shelves { get; set; }
         public List<int> department_list { get; set; }
         public modeList active_mode { get; set; }
         public int shelf_selected {get; set; }
@@ -56,10 +58,13 @@ namespace GlamourLights
             this.shopManager = sm;
             //build shelves list 
             shelves_list = new List<int>();
+            shopManager.shopState.shopDb.shelf.Load();
+      //      shelves = shopManager.shopState.shopDb.shelf.Local.ToList<shelf>();
+            
             foreach(int k in shopManager.shopState.shelves_position.Keys)
             {
                 shelves_list.Add(k);
-            }
+            }    
             //build department list
             department_list = new List<int>();
             foreach (int k in shopManager.shopState.department_position.Keys)
@@ -303,7 +308,7 @@ namespace GlamourLights
             //shop_layout--->shelves
             if (active_mode == modeList.shop_layout)
             {
-                changeMode.Content = "Modalità shelves";
+                operatingModeTextbox.Text = "Shelves mode     ";
                 active_mode = modeList.shelves_position;
                 Listbox.Visibility = Visibility.Visible;
                 Listbox.ItemsSource = shelves_list;
@@ -323,7 +328,7 @@ namespace GlamourLights
             //shelves---> department
             if (active_mode == modeList.shelves_position)
             {
-                changeMode.Content = "Modalità department_position";
+                operatingModeTextbox.Text = "Department mode";
                 active_mode = modeList.department_position;
                 Listbox.ItemsSource = department_list;
                 //return to correct color
@@ -344,7 +349,7 @@ namespace GlamourLights
             //department-->shop_layout
             if (active_mode == modeList.department_position)
             {
-                changeMode.Content = "Modalità shop_layout";
+                operatingModeTextbox.Text = "Shop layout mode";
                 active_mode = modeList.shop_layout;
                 Listbox.Visibility = Visibility.Hidden;
                 //change to correct color
