@@ -385,6 +385,7 @@ namespace GlamourLights
 
         private void back_button_Click(object sender, RoutedEventArgs e)
         {
+            shopManager.shopState = new ShopState();
             this.NavigationService.GoBack();
         }
     }

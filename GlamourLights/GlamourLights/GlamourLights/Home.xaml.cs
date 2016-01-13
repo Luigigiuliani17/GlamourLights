@@ -72,6 +72,7 @@ namespace GlamourLights
             mockCust.firstName = "Mock";
             mockCust.lastName = "Customer";
             mockCust.cardNumber = "0000";
+            cardNumBox.Clear();
             this.NavigationService.Navigate(new SelectionPage(sm, mockCust));
         }
     }

@@ -61,9 +61,10 @@ namespace GlamourLights.Properties {
         }
         
         /// <summary>
-        ///   Cerca una stringa localizzata simile a 1;7;15
-        ///2;4;17
-        ///3;22;45.
+        ///   Cerca una stringa localizzata simile a 1;55;8
+        ///2;19;17
+        ///3;42;21
+        ///.
         /// </summary>
         internal static string department_position {
             get {
@@ -72,9 +73,21 @@ namespace GlamourLights.Properties {
         }
         
         /// <summary>
-        ///   Cerca una stringa localizzata simile a 16;10;1
-        ///32;20;2
-        ///40;11;3.
+        ///   Cerca una stringa localizzata simile a .
+        /// </summary>
+        internal static string hotspot_position {
+            get {
+                return ResourceManager.GetString("hotspot_position", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Cerca una stringa localizzata simile a 55;8;1
+        ///42;21;2
+        ///19;17;3
+        ///30;27;4
+        ///8;21;5
+        ///.
         /// </summary>
         internal static string lights_position {
             get {
@@ -93,9 +106,12 @@ namespace GlamourLights.Properties {
         }
         
         /// <summary>
-        ///   Cerca una stringa localizzata simile a 1;16;10
-        ///2;32;20
-        ///3;40;11.
+        ///   Cerca una stringa localizzata simile a 1;55;8
+        ///2;42;21
+        ///3;19;17
+        ///4;30;27
+        ///5;8;21
+        ///.
         /// </summary>
         internal static string shelves_position {
             get {
@@ -138,7 +154,7 @@ namespace GlamourLights.Properties {
         ///0;30;-1
         ///0;31;-1
         ///1;0;-1
-        ///1;1;2
+        ///1;1;1
         ///1;2;1
         ///1;3;1
         ///1;4;1

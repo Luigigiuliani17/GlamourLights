@@ -116,8 +116,14 @@
     <Compile Include="Customization.xaml.cs">
       <DependentUpon>Customization.xaml</DependentUpon>
     </Compile>
+    <Compile Include="DepartmentSelection.xaml.cs">
+      <DependentUpon>DepartmentSelection.xaml</DependentUpon>
+    </Compile>
     <Compile Include="EndPage.xaml.cs">
       <DependentUpon>EndPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="GenderSelection.xaml.cs">
+      <DependentUpon>GenderSelection.xaml</DependentUpon>
     </Compile>
     <Compile Include="Home.xaml.cs">
       <DependentUpon>Home.xaml</DependentUpon>
@@ -149,7 +155,15 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="DepartmentSelection.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="EndPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="GenderSelection.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -243,6 +257,7 @@
     <None Include="Resources\photo.jpg" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Resources\hotspot_position.txt" />
     <Content Include="Resources\Images\Clothes\img_1.jpg">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>

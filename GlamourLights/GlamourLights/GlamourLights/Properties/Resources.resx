@@ -121,6 +121,9 @@
   <data name="department_position" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\department_position.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
   </data>
+  <data name="hotspot_position" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\hotspot_position.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
+  </data>
   <data name="lights_position" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\lights_position.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
   </data>
