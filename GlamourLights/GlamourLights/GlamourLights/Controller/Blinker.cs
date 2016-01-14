@@ -147,7 +147,6 @@ namespace GlamourLights.Controller
             Console.WriteLine("STARTING loop");
             while (blink)
             {
-                Console.WriteLine("Nel loop a blinkare");
                 //red list
                 if (red.Count > 0)
                 {
