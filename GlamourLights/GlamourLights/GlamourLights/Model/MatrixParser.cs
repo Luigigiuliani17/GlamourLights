@@ -117,11 +117,35 @@ namespace GlamourLights.Model
                     y_pos = Int32.Parse(parameters[1]);
                     lightId = Int32.Parse(parameters[2]);
                     lights_pos.Add(x_pos + ";" + y_pos, lightId);
-
-
                 }
             }
             return lights_pos;
+        }
+
+        /// <summary>
+        /// parse hotspot list PATTERN  "x;y" 
+        /// </summary>
+        /// <returns></returns> a list of "x;y" 
+        public List<string> parseHotspotList()
+        {
+            List<string> hotspot_list = new List<string>();
+            using (StreamReader sr = new StreamReader("../../Resources/hotspot_position.txt"))
+            {
+                int x_pos;
+                int y_pos;
+
+                string[] parameters;
+                string currentLine;
+
+                while ((currentLine = sr.ReadLine()) != null)
+                {
+                    parameters = currentLine.Split(';');
+                    x_pos = Int32.Parse(parameters[0]);
+                    y_pos = Int32.Parse(parameters[1]);
+                    hotspot_list.Add(x_pos + ";" + y_pos);
+                }
+            }
+            return hotspot_list;
         }
 
         /// <summary>

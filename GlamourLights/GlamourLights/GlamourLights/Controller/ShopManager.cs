@@ -123,6 +123,7 @@ namespace GlamourLights.Controller
             shopState.rebuild_shop_matrix();
             shopState.rebuild_shelves_position();
             shopState.rebuild_department_position();
+            shopState.rebuild_hotspot_position();
             shopState = new ShopState();
         }
 
@@ -295,6 +296,23 @@ namespace GlamourLights.Controller
             }
             //if no path with recommendations found, then return noRecPath
             return noRecPath;
+        }
+
+        public CarpetPath addHotspotToPath(CarpetPath old_path, int oldCost)
+        {
+            CarpetPath newPath = new CarpetPath();
+            //extract x,y coordinates of hotspots and put in 2 list
+            List<int> x_list = new List<int>();
+            List<int> y_list = new List<int>();
+            foreach(string h in shopState.hotspot_position)
+            {
+                String[] parameters;
+                parameters = h.Split(';');
+                x_list.Add(Int32.Parse(parameters[0]));
+                y_list.Add(Int32.Parse(parameters[1]));
+            }
+
+            return old_path;
         }
 
         /// <summary>

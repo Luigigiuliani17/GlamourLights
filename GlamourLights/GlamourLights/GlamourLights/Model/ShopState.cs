@@ -47,6 +47,7 @@ namespace GlamourLights.Model
         public Dictionary<int, string> shelves_position { get; set; }
         public Dictionary<int, string> department_position { get; set; }
         public Dictionary<string, int> lights_position { get; set; }
+        public List<string> hotspot_position { get; set; }
 
         /// <summary>
         /// constructor that creates a new shop state by 
@@ -70,10 +71,11 @@ namespace GlamourLights.Model
             createShopGraph();
             shopDb = new ShopDb();
 
-            //retrieve shleves, department  adn lights position
+            //retrieve shleves, department, lights and hotspots position
             shelves_position = par.parseShelvesPosition();
             department_position = par.parseDepartmentPosition();
             lights_position = par.parseLightsPositions();
+            hotspot_position = par.parseHotspotList();
 
             //set to false every lights (no light used at start!)
             active_lights = new Dictionary<int, bool>();
@@ -167,6 +169,19 @@ namespace GlamourLights.Model
                         vcur.adjacent_nodes.Add(k, vcheck);
                     }
             }
+        }
+
+        internal void rebuild_hotspot_position()
+        {
+            //create a list of lines
+            List<String> lines = new List<string>();
+            foreach(string h in hotspot_position)
+            {
+                lines.Add(h);
+            }
+            //call the right method of the parser
+            MatrixParser par = new MatrixParser();
+            par.uploadTxt(lines, "../../Resources/hotspot_position.txt");
         }
 
         /// <summary>

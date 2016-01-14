@@ -26,9 +26,9 @@ namespace GlamourLights
     public enum modeList
     {
         shop_layout = 0,
-        shelves_position = 1,
-        department_position =2,
-        light_position = 3
+        hotspot_position = 1,
+        shelves_position = 2,
+        department_position =3
     }
 
     /// <summary>
@@ -43,6 +43,7 @@ namespace GlamourLights
         public modeList active_mode { get; set; }
         public int shelf_selected {get; set; }
         public int department_selected { get; set; }
+        public List<string> hotspot_list { get; set; }
         public matrixButton[,] buttonMatrix;
         public Customization()
         {
@@ -56,8 +57,10 @@ namespace GlamourLights
             shelf_selected = -1;
             department_selected = -1;
             this.shopManager = sm;
-            //build shelves list 
+            //build shelves list and hotspot list 
             shelves_list = new List<int>();
+            hotspot_list = shopManager.shopState.hotspot_position;
+
             shopManager.shopState.shopDb.shelf.Load();
       //      shelves = shopManager.shopState.shopDb.shelf.Local.ToList<shelf>();
             
@@ -128,7 +131,6 @@ namespace GlamourLights
         /// <param name="e"></param>
         private void matrixButtonClick(object sender, RoutedEventArgs e)
         {
-            
             if (sender is matrixButton)
             {
                 matrixButton b = sender as matrixButton;
@@ -198,6 +200,27 @@ namespace GlamourLights
                     shopManager.shopState.department_position[department_selected] = b.x_cord + ";" + b.y_cord;
                     showLightsPositions();
                 }
+                //case 4
+                if (active_mode== modeList.hotspot_position)
+                {
+                    //if not a free spot, than return without doing anything
+                    if (b.kind != 1)
+                        return;
+
+                    //if it was an hotspot, just remove it and set the correct color
+                    if(hotspot_list.Contains(b.x_cord+";"+b.y_cord))
+                    {
+                        hotspot_list.Remove(b.x_cord + ";" + b.y_cord);
+                        b.Background = Brushes.White;
+                        return;
+                    }
+                    else
+                    {
+                        hotspot_list.Add(b.x_cord + ";" + b.y_cord);
+                        b.Background = Brushes.Orange;
+                        return;
+                    }
+                }
             }
         }
 
@@ -232,6 +255,7 @@ namespace GlamourLights
         /// <param name="e"></param>
         private void save_button_Click(object sender, RoutedEventArgs e)
         {
+            shopManager.shopState.hotspot_position = hotspot_list;
             shopManager.saveChanges();
         }
 
@@ -277,9 +301,7 @@ namespace GlamourLights
                     y = Int32.Parse(parameters[1]);
 
                     buttonMatrix[x, y].Background = Brushes.White;
-                }
-
-                
+                }               
                 try
                 {
                     //set new department_selected
@@ -305,9 +327,19 @@ namespace GlamourLights
         /// <param name="e"></param>
         private void changeMode_Click(object sender, RoutedEventArgs e)
         {
-            //shop_layout--->shelves
-            if (active_mode == modeList.shop_layout)
+            //shop_layout---->hotspot
+            if(active_mode == modeList.shop_layout)
             {
+                operatingModeTextbox.Text = "Hotspot mode   ";
+                active_mode = modeList.hotspot_position;
+                changeColorHotspotPosition(Brushes.Orange);
+                return;
+            }
+
+            //hotspot--->shelves
+            if (active_mode == modeList.hotspot_position)
+            {
+                changeColorHotspotPosition(Brushes.White);
                 operatingModeTextbox.Text = "Shelves mode     ";
                 active_mode = modeList.shelves_position;
                 Listbox.Visibility = Visibility.Visible;
@@ -365,6 +397,19 @@ namespace GlamourLights
                 }
             }
 
+        }
+
+        private void changeColorHotspotPosition(SolidColorBrush colorToBeSet)
+        {
+            String[] parameters;
+            int x, y;
+            foreach (string h in hotspot_list)
+            {
+                parameters = h.Split(';');
+                x = Int32.Parse(parameters[0]);
+                y = Int32.Parse(parameters[1]);
+                buttonMatrix[x, y].Background = colorToBeSet;
+            }
         }
 
         private void showLightsPositions()
