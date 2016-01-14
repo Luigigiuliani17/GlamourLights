@@ -1,4 +1,4 @@
-namespace GlamourLights.Model
+namespace GlamourLights
 {
     using System;
     using System.Collections.Generic;
@@ -6,26 +6,27 @@ namespace GlamourLights.Model
     using System.ComponentModel.DataAnnotations.Schema;
     using System.Data.Entity.Spatial;
 
-    [Table("shop_db.shelf")]
-    public partial class shelf
+    [Table("shop_db.department")]
+    public partial class department
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public shelf()
+        public department()
         {
-            item = new HashSet<item>();
+            shelf = new HashSet<shelf>();
         }
 
-        public int shelfId { get; set; }
+        [DatabaseGenerated(DatabaseGeneratedOption.None)]
+        public int departmentId { get; set; }
 
         [Required]
         [StringLength(45)]
-        public string name { get; set; }
+        public string departmentName { get; set; }
 
-        public int departmentCode { get; set; }
-
-        public virtual department department { get; set; }
+        [Required]
+        [StringLength(45)]
+        public string genderType { get; set; }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<item> item { get; set; }
+        public virtual ICollection<shelf> shelf { get; set; }
     }
 }

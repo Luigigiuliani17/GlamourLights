@@ -1,14 +1,14 @@
-namespace GlamourLights.Model
+namespace GlamourLights
 {
     using System;
     using System.Data.Entity;
     using System.ComponentModel.DataAnnotations.Schema;
     using System.Linq;
 
-    public partial class ShopDb : DbContext
+    public partial class Model : DbContext
     {
-        public ShopDb()
-            : base("name=ShopDb")
+        public Model()
+            : base("name=Model1")
         {
         }
 

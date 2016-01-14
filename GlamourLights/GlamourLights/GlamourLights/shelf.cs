@@ -1,4 +1,4 @@
-namespace GlamourLights.Model
+namespace GlamourLights
 {
     using System;
     using System.Collections.Generic;

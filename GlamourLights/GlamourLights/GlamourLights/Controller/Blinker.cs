@@ -283,8 +283,8 @@ namespace GlamourLights.Controller
             }
             Console.WriteLine("Number of overlapping " + n_overlapping);
             //check if blinking is needed again, if not the variable is set to false
-            if (n_overlapping == 0)
-                blink = false;
+            /*if (n_overlapping == 0)
+                blink = false;*/
             Console.WriteLine("Is necessary to blink: " + blink);
 
             Console.WriteLine("UpdateBlinker --> END");
