@@ -206,8 +206,6 @@ namespace GlamourLights.Controller
                         continue;
                     }
                     
-                    
-
                     //calculate paths from start to rec1, from rec1 to rec2, from rec2 to destination
                     CarpetPath subPath1 = calculateSubPath(x1, y1, xrec1, yrec1, color);
                     //Adding to the path cost 5
@@ -311,8 +309,7 @@ namespace GlamourLights.Controller
                 if (ratio < MAX_DEVIATION_FACTOR)
                 {
                     //try to insert hotspots in the 2 subpaths
-                    subPath1 = tryToInsertHotspot(subPath1);
-                 //   subPath2 = tryToInsertHotspot(subPath2);
+                    subPath1 = tryToInsertHotspot(subPath1,1);
 
                     subPath1.appendPath(subPath2);
                     subPath1.lightsCodes[0] = shopState.lights_position[xrec1 + ";" + yrec1];
@@ -331,9 +328,10 @@ namespace GlamourLights.Controller
                     return subPath1;
                 }
             }
+            /////////////////NOTE: code below executed if no recommendation found!!!!!!!!!!!!!!!!!!
             //if no path with recommendations found, then return noRecPath
             remaining_cost = (int)MAX_DEVIATION_FACTOR * noRecCost - noRecCost;
-            noRecPath = tryToInsertHotspot(noRecPath);
+            noRecPath = tryToInsertHotspot(noRecPath, 2);
 
             //add final light
             if (shopState.lights_position.ContainsKey(noRecPath.x_cordinates.Last() + ";" + noRecPath.y_cordinates.Last()))
@@ -459,52 +457,131 @@ namespace GlamourLights.Controller
         }
 
         /// <summary>
-        /// function that tries to insert an hotspot between the start and the arrival of a path
+        /// function that tries to insert a definite number of hotspots between the start and the arrival of a path
         /// </summary>
         /// <param name="oldPath"></param> path in which you want to insert an hotspot
+        /// <param name="num_hospots"></param> number of hotspot to try to insert. it will insert the max number possible
         /// <returns></returns> a path with an hotspot (if possible)
-        public CarpetPath tryToInsertHotspot(CarpetPath oldPath)
+        public CarpetPath tryToInsertHotspot(CarpetPath oldPath, int num_hotspots)
         {
             CarpetPath newPath1 = new CarpetPath();
             CarpetPath newPath2 = new CarpetPath();
+            CarpetPath newPath3 = new CarpetPath();
             int newCost;
 
-            string[] parameters;
-            int x, y;
-            foreach (string h in shopState.hotspot_position)
+            if(num_hotspots == 1)
             {
-                //retrieve coordinates of every hotspot
-                parameters = h.Split(';');
-                x=Int32.Parse(parameters[0]);
-                y=Int32.Parse(parameters[1]);
-
-                newPath1 = calculateSubPath(oldPath.x_cordinates[0], oldPath.y_cordinates[0], x, y, oldPath.color);
-
-                //Adding to the path cost 5
-                for (int e = 0; e < newPath1.x_cordinates.Length; e++)
+                string[] parameters;
+                int x, y;
+                foreach (string h in shopState.hotspot_position)
                 {
-                    shopState.shop_graph[newPath1.x_cordinates[e] + ";" + newPath1.y_cordinates[e]].cost += 5;
-                }
-                newPath2 = calculateSubPath(x, y, oldPath.x_cordinates.Last(), oldPath.y_cordinates.Last(), oldPath.color);
+                    //retrieve coordinates of every hotspot
+                    parameters = h.Split(';');
+                    x = Int32.Parse(parameters[0]);
+                    y = Int32.Parse(parameters[1]);
 
-                //removing from the path cost 5
-                for (int e = 0; e < newPath1.x_cordinates.Length; e++)
-                {
-                    shopState.shop_graph[newPath1.x_cordinates[e] + ";" + newPath1.y_cordinates[e]].cost += -5;
-                }
-                
-                newCost = newPath1.cost + newPath2.cost;
+                    newPath1 = calculateSubPath(oldPath.x_cordinates[0], oldPath.y_cordinates[0], x, y, oldPath.color);
 
-                //if new cost - old cost > remaining cost, continue
-                if (newCost - oldPath.cost > remaining_cost)
-                    continue;
-                else
-                {
-                    //update remaining cost
-                    remaining_cost = remaining_cost - (newCost - oldPath.cost);
-                    newPath1.appendPath(newPath2);
-                    return newPath1;
+                    //Adding to the path cost 5
+                    for (int e = 0; e < newPath1.x_cordinates.Length; e++)
+                    {
+                        shopState.shop_graph[newPath1.x_cordinates[e] + ";" + newPath1.y_cordinates[e]].cost += 5;
+                    }
+                    newPath2 = calculateSubPath(x, y, oldPath.x_cordinates.Last(), oldPath.y_cordinates.Last(), oldPath.color);
+
+                    //removing from the path cost 5
+                    for (int e = 0; e < newPath1.x_cordinates.Length; e++)
+                    {
+                        shopState.shop_graph[newPath1.x_cordinates[e] + ";" + newPath1.y_cordinates[e]].cost += -5;
+                    }
+
+                    newCost = newPath1.cost + newPath2.cost;
+
+                    //if new cost - old cost > remaining cost, continue
+                    if (newCost - oldPath.cost > remaining_cost)
+                        continue;
+                    else
+                    {
+                        //update remaining cost
+                        remaining_cost = remaining_cost - (newCost - oldPath.cost);
+                        newPath1.appendPath(newPath2);
+                        //add to recommendation list;
+
+                        newPath1.x_recommendations[1] = x;
+                        newPath1.y_recommendations[1] = y;
+                        return newPath1;
+                    }
                 }
+            }
+
+            if(num_hotspots == 2)
+            {
+                foreach(string h in shopState.hotspot_position)
+                {
+                    foreach(string k in shopState.hotspot_position)
+                    {
+                        //if same hotspot just continue
+                        if (h.Equals(k))
+                            continue;
+
+                        //extract the cordinates of the 2 hotspots
+                        string[] parameters;
+                        int x1, y1, x2, y2;
+                        parameters = h.Split(';');
+                        x1 = Int32.Parse(parameters[0]);
+                        y1 = Int32.Parse(parameters[1]);
+                        parameters = k.Split(';');
+                        x2 = Int32.Parse(parameters[0]);
+                        y2 = Int32.Parse(parameters[1]);
+
+                        /////////calculate subpaths  start-hotspot1 ,h1-h2,  h2-destination
+                        newPath1 = calculateSubPath(oldPath.x_cordinates[0], oldPath.y_cordinates[0], x1, y1, oldPath.color);
+                        //Adding to the path cost 5
+                        for (int e = 0; e < newPath1.x_cordinates.Length; e++)
+                        {
+                            shopState.shop_graph[newPath1.x_cordinates[e] + ";" + newPath1.y_cordinates[e]].cost += 5;
+                        }
+                        newPath2 = calculateSubPath(x1, y1, x2, y2, oldPath.color);
+                        //Adding to the path cost 5
+                        for (int e = 0; e < newPath2.x_cordinates.Length; e++)
+                        {
+                            shopState.shop_graph[newPath2.x_cordinates[e] + ";" + newPath2.y_cordinates[e]].cost += 5;
+                        }
+
+                        newPath3 = calculateSubPath(x2, y2, oldPath.x_cordinates.Last(),oldPath.y_cordinates.Last(), oldPath.color);
+                        //removing from the path cost 5
+                        for (int e = 0; e < newPath1.x_cordinates.Length; e++)
+                        {
+                            shopState.shop_graph[newPath1.x_cordinates[e] + ";" + newPath1.y_cordinates[e]].cost += -5;
+                        } //removing from the path cost 5
+                        for (int e = 0; e < newPath2.x_cordinates.Length; e++)
+                        {
+                            shopState.shop_graph[newPath2.x_cordinates[e] + ";" + newPath2.y_cordinates[e]].cost += -5;
+                        }
+
+                        newCost = newPath1.cost + newPath2.cost + newPath3.cost;
+                        //if new cost - old cost > remaining cost, continue
+                        if (newCost - oldPath.cost > remaining_cost)
+                            continue;
+                        else
+                        {
+                            //update remaining cost
+                            remaining_cost = remaining_cost - (newCost - oldPath.cost);
+                            newPath1.appendPath(newPath2);
+                            newPath1.appendPath(newPath3);
+
+                            //add to recommendation list;
+                            newPath1.x_recommendations[0] = x1;
+                            newPath1.y_recommendations[0] = y1;
+                            newPath1.x_recommendations[1] = x2;
+                            newPath1.y_recommendations[1] = y2;
+                            //return final ok path
+                            return newPath1;
+                        }
+                    }
+                }
+                //done if no couple of hotspots available ---> try to insert only 1 single hotspot
+                return tryToInsertHotspot(oldPath, 1);
             }
 
             //done if no hotspot reachable
