@@ -14,6 +14,7 @@ namespace GlamourLights.Controller
         public ShopState shopState { get; set; }
         public Comunicator com { get; set; }
         public Recommender recc { get; set; }
+        public int remaining_cost { get; set; }
 
         public  const double MAX_DEVIATION_FACTOR = 1.8;
 
@@ -22,6 +23,7 @@ namespace GlamourLights.Controller
             this.shopState = shop;
             this.com = new Comunicator(shop);
             this.recc = new Recommender(shop.shopDb);
+            this.remaining_cost = 0;
             
         }
 
@@ -233,10 +235,16 @@ namespace GlamourLights.Controller
 
                     //calculate total cost and verify if it is acceptable
                     recCost = subPath1.cost + subPath2.cost + subPath3.cost;
+                    remaining_cost = recCost - noRecCost;
                     double ratio = (double)recCost / (double)noRecCost;
                     //if it is ok, then create final path and return it
                     if (ratio < MAX_DEVIATION_FACTOR)
                     {
+                        //try to insert hotspots
+                //        subPath1 = tryToInsertHotspot(subPath1);
+                //        subPath2 = tryToInsertHotspot(subPath2);
+                 //       subPath3 = tryToInsertHotspot(subPath3);
+
                         subPath1.appendPath(subPath2);
                         subPath1.appendPath(subPath3);
                         subPath1.lightsCodes[0] = shopState.lights_position[xrec1 + ";" + yrec1];
@@ -285,9 +293,14 @@ namespace GlamourLights.Controller
 
                 //calculate cost and compare with noPath cost, if acceptable then construct path and return
                 recCost = subPath1.cost + subPath2.cost;
+                remaining_cost = recCost - noRecCost;
                 double ratio = (double)recCost / (double)noRecCost;
                 if (ratio < MAX_DEVIATION_FACTOR)
                 {
+                    //try to insert hotspots in the 2 subpaths
+                    subPath1 = tryToInsertHotspot(subPath1);
+                 //   subPath2 = tryToInsertHotspot(subPath2);
+
                     subPath1.appendPath(subPath2);
                     subPath1.lightsCodes[0] = shopState.lights_position[xrec1 + ";" + yrec1];
                     subPath1.lightsCodes[1] = -1;
@@ -295,25 +308,11 @@ namespace GlamourLights.Controller
                 }
             }
             //if no path with recommendations found, then return noRecPath
+            remaining_cost = (int)MAX_DEVIATION_FACTOR * noRecCost - noRecCost;
+            noRecPath = tryToInsertHotspot(noRecPath);
             return noRecPath;
         }
 
-        public CarpetPath addHotspotToPath(CarpetPath old_path, int oldCost)
-        {
-            CarpetPath newPath = new CarpetPath();
-            //extract x,y coordinates of hotspots and put in 2 list
-            List<int> x_list = new List<int>();
-            List<int> y_list = new List<int>();
-            foreach(string h in shopState.hotspot_position)
-            {
-                String[] parameters;
-                parameters = h.Split(';');
-                x_list.Add(Int32.Parse(parameters[0]));
-                y_list.Add(Int32.Parse(parameters[1]));
-            }
-
-            return old_path;
-        }
 
         /// <summary>
         /// functions that looks for an available colors and return his code. It returns -1 if no colors available
@@ -426,8 +425,59 @@ namespace GlamourLights.Controller
             //the path is be drawn
             Thread myThread = new Thread(() => com.DrawPath(path));
             myThread.Start();
-            
+        }
 
+        /// <summary>
+        /// function that tries to insert an hotspot between the start and the arrival of a path
+        /// </summary>
+        /// <param name="oldPath"></param> path in which you want to insert an hotspot
+        /// <returns></returns> a path with an hotspot (if possible)
+        public CarpetPath tryToInsertHotspot(CarpetPath oldPath)
+        {
+            CarpetPath newPath1 = new CarpetPath();
+            CarpetPath newPath2 = new CarpetPath();
+            int newCost;
+
+            string[] parameters;
+            int x, y;
+            foreach (string h in shopState.hotspot_position)
+            {
+                //retrieve coordinates of every hotspot
+                parameters = h.Split(';');
+                x=Int32.Parse(parameters[0]);
+                y=Int32.Parse(parameters[1]);
+
+                newPath1 = calculateSubPath(oldPath.x_cordinates[0], oldPath.y_cordinates[0], x, y, oldPath.color);
+
+                //Adding to the path cost 5
+                for (int e = 0; e < newPath1.x_cordinates.Length; e++)
+                {
+                    shopState.shop_graph[newPath1.x_cordinates[e] + ";" + newPath1.y_cordinates[e]].cost += 5;
+                }
+                newPath2 = calculateSubPath(x, y, oldPath.x_cordinates.Last(), oldPath.y_cordinates.Last(), oldPath.color);
+
+                //removing from the path cost 5
+                for (int e = 0; e < newPath1.x_cordinates.Length; e++)
+                {
+                    shopState.shop_graph[newPath1.x_cordinates[e] + ";" + newPath1.y_cordinates[e]].cost += -5;
+                }
+                
+                newCost = newPath1.cost + newPath2.cost;
+
+                //if new cost - old cost > remaining cost, continue
+                if (newCost - oldPath.cost > remaining_cost)
+                    continue;
+                else
+                {
+                    //update remaining cost
+                    remaining_cost = remaining_cost - (newCost - oldPath.cost);
+                    newPath1.appendPath(newPath2);
+                    return newPath1;
+                }
+            }
+
+            //done if no hotspot reachable
+            return oldPath;
         }
     }
 }

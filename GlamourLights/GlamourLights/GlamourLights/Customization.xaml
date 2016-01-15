@@ -44,7 +44,7 @@
                 <TextBlock x:Name="operatingModeTextbox"  Text="Shop layout mode" TextWrapping="Wrap" HorizontalAlignment="Stretch" Margin="10,10,10,10" VerticalAlignment="Stretch" Style="{DynamicResource TextBlockStyle}" TextAlignment="Center"/>
             </Viewbox>
 
-            <ListBox x:Name="Listbox" Grid.Row="1" Style ="{DynamicResource ListBoxStyle}" HorizontalAlignment="Stretch" Margin="10,10,10,10" VerticalAlignment="Stretch" ItemsSource="{Binding Path=shelves_list}" SelectionChanged="department_List_SelectionChanged"/>
+            <ListBox x:Name="Listbox" Grid.Row="1" Style ="{DynamicResource ListBoxStyle}" HorizontalAlignment="Stretch" Margin="10,10,10,10" VerticalAlignment="Stretch" ItemsSource="{Binding Path=shelves}" SelectionChanged="department_List_SelectionChanged"/>
         </Grid>
     </Grid>
 </Page>

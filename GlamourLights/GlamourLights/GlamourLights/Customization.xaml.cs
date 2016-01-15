@@ -37,8 +37,8 @@ namespace GlamourLights
     public partial class Customization : Page
     {
         public ShopManager shopManager { get; set; }
-        public List<int> shelves_list { get; set; }
-    //    public List<shelf> shelves { get; set; }
+    //    public List<int> shelves_list { get; set; }
+        public List<shelf> shelves { get; set; }
         public List<int> department_list { get; set; }
         public modeList active_mode { get; set; }
         public int shelf_selected {get; set; }
@@ -58,16 +58,16 @@ namespace GlamourLights
             department_selected = -1;
             this.shopManager = sm;
             //build shelves list and hotspot list 
-            shelves_list = new List<int>();
+      //      shelves_list = new List<int>();
             hotspot_list = shopManager.shopState.hotspot_position;
 
             shopManager.shopState.shopDb.shelf.Load();
-      //      shelves = shopManager.shopState.shopDb.shelf.Local.ToList<shelf>();
-            
+            shelves = shopManager.shopState.shopDb.shelf.Local.ToList<shelf>();
+       /*     
             foreach(int k in shopManager.shopState.shelves_position.Keys)
             {
                 shelves_list.Add(k);
-            }    
+            }      */
             //build department list
             department_list = new List<int>();
             foreach (int k in shopManager.shopState.department_position.Keys)
@@ -282,7 +282,12 @@ namespace GlamourLights
                 }
 
                 //set new shelf_selected
-                shelf_selected = (int)Listbox.SelectedItem;
+                string shelf_chosen = (string) Listbox.SelectedItem;
+                //find right shelves id
+                foreach (shelf s in shelves)
+                    if (s.name.Equals(shelf_chosen))
+                        shelf_selected = s.shelfId;
+
                 parameters = shopManager.shopState.shelves_position[shelf_selected].Split(';');
                 x = Int32.Parse(parameters[0]);
                 y = Int32.Parse(parameters[1]);
@@ -343,7 +348,14 @@ namespace GlamourLights
                 operatingModeTextbox.Text = "Shelves mode     ";
                 active_mode = modeList.shelves_position;
                 Listbox.Visibility = Visibility.Visible;
-                Listbox.ItemsSource = shelves_list;
+                //build shelves_names list
+                List<string> shelves_names = new List<string>();
+                foreach(shelf s in  shelves)
+                {
+                    shelves_names.Add(s.name);
+                }
+
+                Listbox.ItemsSource = shelves_names;
                 showLightsPositions();
                 String[] parameters;
                 int x, y;
