@@ -149,6 +149,10 @@ void loop() {
         matrix.drawPixel(x_pos, y_pos, matrix.Color888(153, 0, 76, true));
         break;
 
+      case 7://hotspot
+        matrix.drawPixel(x_pos, y_pos, matrix.Color333(7,7,7));
+        break;
+
       case -1: //black
         matrix.drawPixel(x_pos, y_pos, matrix.Color333(0, 0, 0));
         break;
