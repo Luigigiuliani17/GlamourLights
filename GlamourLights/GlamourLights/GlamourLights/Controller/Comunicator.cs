@@ -45,9 +45,14 @@ namespace GlamourLights.Controller
             serial.Open();
             Console.WriteLine("inizializzato la porta");
             blink.blink = true;
+            blink.whiteBlink = true;
             new Thread(delegate ()
             {
                 blink.StartBlink(serial);
+            }).Start();
+            new Thread(delegate ()
+            {
+                blink.WhiteBlinking(serial);
             }).Start();
 
         }
@@ -94,8 +99,11 @@ namespace GlamourLights.Controller
         {
             int[] x_coord = path.x_cordinates;
             int[] y_coord = path.y_cordinates;
+            int[] x_white = path.x_recommendations;
+            int[] y_white = path.y_recommendations;
             //Retriving the color name
             int path_id = (int)path.color;
+            int white = 4;
             int color = path_id + 1;
             //Setting the correct things in the shop state
             state.active_colors[path_id] = true;
@@ -119,7 +127,7 @@ namespace GlamourLights.Controller
             //Here we set also the lights that are buisy in the shop
             for (int i = 0; i < path.lightsCodes.Length; i++)
             {
-                if (path.lightsCodes[i] != -1)
+                if (path.lightsCodes[i] != -1 || path.destination_light_code != -1)
                     state.active_lights[path.lightsCodes[i]] = true;
                 if (serial.IsOpen)
                 {
@@ -132,23 +140,24 @@ namespace GlamourLights.Controller
             {
                 if (serial.IsOpen)
                 {
-                    serial.WriteLine(x_coord[i] + ":" + y_coord[i] + ":" + color + ".");
-                    this.UpdateColorVertex(x_coord[i], y_coord[i], (int)path.color);
-                    blink.AddOverlapping(x_coord[i], y_coord[i]);
-                    Thread.Sleep(200);
+                    if ((x_coord[i] == x_white[0] && y_coord[i] == y_white[0]) || (x_coord[i] == x_white[1] && y_coord[i] == y_white[1]) ||
+                        (x_coord[i] == x_coord[path.x_cordinates.Length - 1] && y_coord[i] == y_coord[path.y_cordinates.Length - 1]))
+                    {
+                        Console.WriteLine("La coordinata x bianca e:" + x_coord[i]);
+                        Console.WriteLine("La coordinata y bianca e:" + y_coord[i]);
+                        blink.AddWhitePoint(x_coord[i], y_coord[i]);
+
+                    } else {
+                        serial.WriteLine(x_coord[i] + ":" + y_coord[i] + ":" + color + ".");
+                        this.UpdateColorVertex(x_coord[i], y_coord[i], (int)path.color);
+                        blink.AddOverlapping(x_coord[i], y_coord[i]);
+                        Thread.Sleep(200);
+                    }
                 }
             }
-            //update of vertex colors
-            ///this.UpdateColorVertex(path);
-            //Check if there is overlapping, if yes the method to blink the matrix is fired in another thread
-            //But only of is not fired yet
-           /* if (blink.CheckOverlapping(path) && blink.insideBlink == false)
-            {
-                new Thread(delegate ()
-                {
-                    blink.StartBlink(serial);
-                }).Start();
-            } */
+            //Last destination light
+            if (path.destination_light_code != -1)
+                serial.WriteLine("-1:-1:" + path.destination_light_code + ".");
             //Timer part, in wich we bind the number of path to send to the handler, setting the time to wait 30 seconds
             var timer = new System.Timers.Timer { Interval = 20000, AutoReset = false };
             timer.Elapsed += (sender, e) => CallErasePath(sender, e, path_id);
@@ -180,13 +189,11 @@ namespace GlamourLights.Controller
         {
             //I have to find the path to erase from the list, giving the path_number
             CarpetPath path_to_erase = new CarpetPath();
-            Console.WriteLine("sto cercando il path da cancellare");
             foreach (CarpetPath p in state.active_path)
             {
                 if ((int)p.color == path_id)
                     path_to_erase = p;
             }
-            Console.WriteLine("Il path da cancellare e':" + path_to_erase.color);
             //Retrieving coordinates
             int[] x_coord = path_to_erase.x_cordinates;
             int[] y_coord = path_to_erase.y_cordinates;
@@ -200,7 +207,7 @@ namespace GlamourLights.Controller
             //and we set that the switched off lights are free
             for (int i = 0; i < path_to_erase.lightsCodes.Length; i++)
             {
-                if (path_to_erase.lightsCodes[i] != -1)
+                if (path_to_erase.lightsCodes[i] != -1 || path_to_erase.destination_light_code != -1)
                     state.active_lights[path_to_erase.lightsCodes[i]] = false;
                 if (serial.IsOpen)
                 {
@@ -223,6 +230,11 @@ namespace GlamourLights.Controller
                     Thread.Sleep(10);
                 }
             }
+            if (path_to_erase.destination_light_code != -1)
+            {
+                string mes1 = "-2:-2:" + path_to_erase.destination_light_code + ".";
+                serial.WriteLine(mes1);
+            }
             //Set the accupation of the specific color to false again
             //Erasing a path from the list 
             state.active_colors[path_id] = false;
@@ -239,29 +251,11 @@ namespace GlamourLights.Controller
         }
 
         /// <summary>
-        /// This function will update the colors present in a specific vertex of the carpet
+        /// Update the color of each vertex coord by coord 
         /// </summary>
-        /// <param name="path"></param>
-        private void UpdateColorVertex(CarpetPath path)
-        {
-            Dictionary<string, Graphvertex> graph = state.shop_graph;
-            int[] x = path.x_cordinates;
-            int[] y = path.y_cordinates;
-            string[] coord = new string[x.Length];
-            int color_code = (int)path.color;
-
-            //this will create the array with the keys for the dictionary
-            for (int i = 0; i < x.Length; i++)
-                coord[i] = x[i] + ";" + y[i];
-
-            //Loop through the dictionary to update colors of vertex and the number of active colors
-            for (int i = 0; i < coord.Length; i++)
-            {
-                graph[coord[i]].active_colors[color_code] = true;
-                graph[coord[i]].n_activeColors += 1;
-            }
-        }
-
+        /// <param name="x"></param>
+        /// <param name="y"></param>
+        /// <param name="color_code"></param>
         private void UpdateColorVertex(int x, int y, int color_code)
         {
             Dictionary<string, Graphvertex> graph = state.shop_graph;
@@ -272,6 +266,15 @@ namespace GlamourLights.Controller
             //Loop through the dictionary to update colors of vertex and the number of active colors
             graph[coord].active_colors[color_code] = true;
             graph[coord].n_activeColors += 1;
+        }
+
+        /// <summary>
+        /// This method will be invoked to stop blinking
+        /// </summary>
+        public void StopBlinker()
+        {
+            blink.blink = false;
+            blink.whiteBlink = false;
         }
     }
 }
