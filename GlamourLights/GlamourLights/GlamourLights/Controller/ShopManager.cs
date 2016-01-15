@@ -249,6 +249,19 @@ namespace GlamourLights.Controller
                         subPath1.appendPath(subPath3);
                         subPath1.lightsCodes[0] = shopState.lights_position[xrec1 + ";" + yrec1];
                         subPath1.lightsCodes[1] = shopState.lights_position[xrec2 + ";" + yrec2];
+
+                        //add recommendation positions
+                        subPath1.x_recommendations[0] = xrec1;
+                        subPath1.y_recommendations[0] = yrec1;
+                        subPath1.x_recommendations[1] = xrec2;
+                        subPath1.y_recommendations[1] = yrec2;
+
+                        //add final light
+                        if (shopState.lights_position.ContainsKey(subPath1.x_cordinates.Last() + ";" + subPath1.y_cordinates.Last()))
+                            subPath1.destination_light_code = shopState.lights_position[subPath1.x_cordinates.Last() + ";" + subPath1.y_cordinates.Last()];
+                        else
+                            subPath1.destination_light_code = -1;
+
                         return subPath1;
                     }
                 }
@@ -304,12 +317,30 @@ namespace GlamourLights.Controller
                     subPath1.appendPath(subPath2);
                     subPath1.lightsCodes[0] = shopState.lights_position[xrec1 + ";" + yrec1];
                     subPath1.lightsCodes[1] = -1;
+
+                    //add recomendation positions
+                    subPath1.x_recommendations[0] = xrec1;
+                    subPath1.y_recommendations[0] = yrec1;
+
+                    //add final light
+                    if (shopState.lights_position.ContainsKey(subPath1.x_cordinates.Last() + ";" + subPath1.y_cordinates.Last()))
+                        subPath1.destination_light_code = shopState.lights_position[subPath1.x_cordinates.Last() + ";" + subPath1.y_cordinates.Last()];
+                    else
+                        subPath1.destination_light_code = -1;
+
                     return subPath1;
                 }
             }
             //if no path with recommendations found, then return noRecPath
             remaining_cost = (int)MAX_DEVIATION_FACTOR * noRecCost - noRecCost;
             noRecPath = tryToInsertHotspot(noRecPath);
+
+            //add final light
+            if (shopState.lights_position.ContainsKey(noRecPath.x_cordinates.Last() + ";" + noRecPath.y_cordinates.Last()))
+                noRecPath.destination_light_code = shopState.lights_position[noRecPath.x_cordinates.Last() + ";" + noRecPath.y_cordinates.Last()];
+            else
+                noRecPath.destination_light_code = -1;
+
             return noRecPath;
         }
 

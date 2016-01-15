@@ -13,6 +13,10 @@ namespace GlamourLights.Model
         public int[] y_cordinates { get; set; }
         public int cost { get; set; }
         public int[] lightsCodes { get; set; } 
+        public int destination_light_code { get; set; }
+        public int[] x_recommendations { get; set; }
+        public int[] y_recommendations { get; set; }
+        public const int NUM_REC_MAX = 2;
 
         public CarpetPath()
         {
@@ -30,9 +34,16 @@ namespace GlamourLights.Model
             this.y_cordinates = y_cordinates;
             this.color = color;
             this.cost = cost;
-            this.lightsCodes = new int[2];
+            this.lightsCodes = new int[NUM_REC_MAX];
             this.lightsCodes[0] = -1;
             this.lightsCodes[1] = -1;
+            x_recommendations = new int[NUM_REC_MAX];
+            y_recommendations = new int[NUM_REC_MAX];
+            for(int i=0; i<NUM_REC_MAX; i++)
+            {
+                x_recommendations[i] = -1;
+                y_recommendations[i] = -1;
+            }
         }
 
         /// <summary>
@@ -49,7 +60,7 @@ namespace GlamourLights.Model
             this.y_cordinates = y_cordinates;
             this.color = color;
             this.cost = cost;
-            this.lightsCodes = new int[2];
+            this.lightsCodes = new int[NUM_REC_MAX];
             this.lightsCodes[0] = lightsCodes[0];
             this.lightsCodes[1] = lightsCodes[1];
         }
