@@ -14,6 +14,7 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.Data.Entity;
 using GlamourLights.Controller;
+using System.ComponentModel;
 
 namespace GlamourLights
 {
@@ -33,7 +34,14 @@ namespace GlamourLights
             mainFrame.Navigate(new Home(shopMan));
         }
 
-
-
+        /// <summary>
+        /// As the program is stopped the blinker is stopped too
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        public void BlinkerStop(object sender, CancelEventArgs e)
+        {
+            shopMan.com.StopBlinker();
+        }
     }
 }

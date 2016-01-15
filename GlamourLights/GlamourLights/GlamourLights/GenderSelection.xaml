@@ -5,10 +5,38 @@
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:local="clr-namespace:GlamourLights"
       mc:Ignorable="d" 
-      d:DesignHeight="300" d:DesignWidth="300"
+      d:DesignHeight="520" d:DesignWidth="720"
+      VerticalAlignment="Stretch" HorizontalAlignment="Stretch"
       Title="GenderSelection">
 
     <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="5*" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
         
+        <TextBlock Style="{DynamicResource TextBlockStyle}" Grid.Row="0">
+                Choose a section
+        </TextBlock>
+
+        <Grid Name="buttonGrid" Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="3*"></ColumnDefinition>
+                    <ColumnDefinition Width="3*"></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+            <Button Name="menButton" Grid.Column="0" Style="{DynamicResource ButtonMen}" Click="menButton_Click">
+                Men
+            </Button>
+            <Button Name="womenButton" Grid.Column="1" Style="{DynamicResource ButtonWomen}" Click="womenButton_Click">
+                Women
+            </Button>
+        </Grid>
+
+        <Button Name="returnButton" Grid.Row="2" Style="{DynamicResource ButtonStyle}" Click="returnButton_Click">
+            Go back
+        </Button>
+                
     </Grid>
+   
 </Page>

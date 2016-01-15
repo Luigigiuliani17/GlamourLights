@@ -28,6 +28,8 @@ namespace GlamourLights
         private int customerId;
         private item itemSelected;
         private ShopManager shopMan;
+        private int dep_id;
+        private bool isFromDepartment;
         private CarpetColors col;
 
         public EndPage()
@@ -41,6 +43,42 @@ namespace GlamourLights
             this.itemSelected = itemSelected;
             this.col = col;
             this.shopMan = sm;
+            this.isFromDepartment = false;
+            switch (col)
+            {
+                case CarpetColors.blue:
+                    endBlock.Text = "Your color is. BLUE Follow it!";
+                    break;
+                case CarpetColors.green:
+                    endBlock.Text = "Your color is. GREEN Follow it!";
+                    break;
+                case CarpetColors.red:
+                    endBlock.Text = "Your color is RED. Follow it!";
+                    break;
+                case CarpetColors.yellow:
+                    endBlock.Text = "Your color is YELLOW. Follow it!";
+                    break;
+                default:
+                    endBlock.Text = "Something went wrong, Retry!";
+                    break;
+            }
+
+        }
+
+        /// <summary>
+        /// Overloading of constructor for EndPage coming from the department selection
+        /// </summary>
+        /// <param name="col"></param>
+        /// <param name="sm"></param>
+        /// <param name="dep_id"></param>
+        public EndPage(CarpetColors col, ShopManager sm, int customerId, int dep_id)
+        {
+            InitializeComponent();
+            this.customerId = customerId;
+            this.col = col;
+            this.dep_id = dep_id;
+            this.shopMan = sm;
+            this.isFromDepartment = true;
             switch (col)
             {
                 case CarpetColors.blue:
@@ -67,10 +105,18 @@ namespace GlamourLights
         /// </summary>
         private void Redirect()
         {
-            this.NavigationService.RemoveBackEntry();
-            this.NavigationService.RemoveBackEntry();
-            this.NavigationService.RemoveBackEntry();
-            this.NavigationService.GoBack();
+            if (!isFromDepartment)
+            {
+                this.NavigationService.RemoveBackEntry();
+                this.NavigationService.RemoveBackEntry();
+                this.NavigationService.RemoveBackEntry();
+                this.NavigationService.GoBack();
+            } else
+            {
+                this.NavigationService.RemoveBackEntry();
+                this.NavigationService.RemoveBackEntry();
+                this.NavigationService.GoBack();
+            }
 
         }
 
@@ -83,8 +129,14 @@ namespace GlamourLights
         /// <param name="e"></param>
         private void startButton_Click(object sender, RoutedEventArgs e)
         {
-            shopMan.executePathFinding(itemSelected, customerId, col);
-            Redirect();
+            if (!isFromDepartment)
+            {
+                shopMan.executePathFinding(itemSelected, customerId, col);
+                Redirect();
+            } else
+            {
+                shopMan.executePathFinding(dep_id, customerId, col);//Qui gigi mi deve fare il metodo per calcolare il path dai department
+            }
         }
     }
 }

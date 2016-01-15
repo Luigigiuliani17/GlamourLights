@@ -5,10 +5,50 @@
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:local="clr-namespace:GlamourLights"
       mc:Ignorable="d" 
-      d:DesignHeight="300" d:DesignWidth="300"
+     d:DesignHeight="520" d:DesignWidth="720"
+      VerticalAlignment="Stretch" HorizontalAlignment="Stretch"
       Title="DepartmentSelection">
 
-    <Grid>
-        
+    <Grid x:Name="mainGrid">
+        <Grid.RowDefinitions>
+            <RowDefinition x:Name="upperRow" Height="1*"></RowDefinition>
+            <RowDefinition x:Name="mainRow" Height="5*"></RowDefinition>
+            <RowDefinition x:Name="lowerRow" Height="1*"></RowDefinition>
+        </Grid.RowDefinitions>
+        <TextBlock x:Name="block" Style="{DynamicResource TextBlockStyle}" Grid.Row="0">
+                Please, select department
+        </TextBlock>
+        <ListBox Grid.Row="1" Style="{DynamicResource ListBoxStyle}" x:Name="itms" ItemsSource="{Binding Path=Itms}"
+                     VerticalAlignment="Stretch" HorizontalAlignment="Stretch" ScrollViewer.CanContentScroll="True"
+                     ScrollViewer.HorizontalScrollBarVisibility="Disabled" Margin="35"
+                     ItemContainerStyle="{DynamicResource ListBoxItemStyle}" MouseLeftButtonUp="itms_MouseLeftButtonUp">
+            <ListBox.ItemTemplate>
+                <DataTemplate>
+                    <StackPanel Orientation="Vertical" Margin="10">
+                        <Image Source="{Binding Image}" Width="150"/>
+                        <TextBlock Text="{Binding ItemName}" Style="{DynamicResource TextBlockStyle}" FontSize="18"/>
+                    </StackPanel>
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+            <ListBox.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <WrapPanel IsItemsHost="True" Orientation="Horizontal"></WrapPanel>
+                </ItemsPanelTemplate>
+            </ListBox.ItemsPanel>
+        </ListBox>
+
+        <Grid x:Name="lowerGrid" Grid.Row="2">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition x:Name="backCol" Width="1*"></ColumnDefinition>
+                <ColumnDefinition x:Name="noElem" Width="1*"></ColumnDefinition>
+                <ColumnDefinition x:Name="driveCol" Width="1*"></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+            <Button x:Name="backButton" Style="{DynamicResource ButtonStyle}" Grid.Column="0" Click="backButton_Click">
+                Back
+            </Button>
+            <Button x:Name="guideButton" Style="{DynamicResource ButtonStyle}" Grid.Column="2" Click="guideButton_Click">
+                Guide me there
+            </Button>
+        </Grid>
     </Grid>
 </Page>
