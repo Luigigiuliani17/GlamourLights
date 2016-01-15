@@ -13,6 +13,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using GlamourLights.Controller;
+using GlamourLights.Model;
 
 namespace GlamourLights
 {
@@ -22,9 +23,11 @@ namespace GlamourLights
     public partial class GenderSelection : Page
     {
         private ShopManager shopMan;
-        private string gender;
-        public GenderSelection(ShopManager shop)
+        public customer LoggedCust { get; set; }
+
+        public GenderSelection(ShopManager shop, customer cust)
         {
+            LoggedCust = cust;
             this.shopMan = shop;
             InitializeComponent();
         }
@@ -34,16 +37,20 @@ namespace GlamourLights
             this.NavigationService.GoBack();
         }
 
-        private void menButton_Click(object sender, RoutedEventArgs e)
+        private void Button_Click(object sender, RoutedEventArgs e)
         {
-            gender = "male";
-            this.NavigationService.Navigate(new DepartmentSelection(shopMan, gender));
+            Button btn = (Button)sender;
+            if (btn.Name == "womenButton")
+            {
+                //if women is pressed i go to women page 
+                this.NavigationService.Navigate(new DepartmentSelection(shopMan, "female", LoggedCust));
+            }
+            else
+            {
+                //if men is pressed i go to men page
+                this.NavigationService.Navigate(new DepartmentSelection(shopMan, "male", LoggedCust));
+            }
         }
 
-        private void womenButton_Click(object sender, RoutedEventArgs e)
-        {
-            gender = "female";
-            this.NavigationService.Navigate(new DepartmentSelection(shopMan, gender));
-        }
     }
 }

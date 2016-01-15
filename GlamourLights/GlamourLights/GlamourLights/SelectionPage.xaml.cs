@@ -53,7 +53,7 @@ namespace GlamourLights
 
         private void DepButton_Click(object sender, RoutedEventArgs e)
         {
-            this.NavigationService.Navigate(new GenderSelection(shopMan));
+            this.NavigationService.Navigate(new GenderSelection(shopMan, LoggedCust));
         }
 
         private void backButton_Click(object sender, RoutedEventArgs e)

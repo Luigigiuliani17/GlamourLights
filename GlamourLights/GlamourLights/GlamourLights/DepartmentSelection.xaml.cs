@@ -26,16 +26,15 @@ namespace GlamourLights
     public partial class DepartmentSelection : Page
     {
         ShopManager shopMan;
-        string gender;
-        private DepImage depSelected;
         public List<DepImage> Dep { get; set; }
-        public DepartmentSelection(ShopManager shop, string gender)
+        public customer LoggedCust { get; set; }
+
+        public DepartmentSelection(ShopManager shop, string gender, customer cust)
         {
+            this.LoggedCust = cust;
             this.shopMan = shop;
-            this.gender = gender;
             InitializeComponent();
             shopMan.shopState.shopDb.department.Load();
-            //itemDataGrid.ItemsSource = shopMan.shopState.shopDb.item.Local;
             Dep = new List<DepImage>();
             foreach (department d in shopMan.shopState.shopDb.department.Where<department>(it => it.genderType == gender))
             {
@@ -62,15 +61,6 @@ namespace GlamourLights
         private void itms_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
         {
             DepImage depSelected = (DepImage)itms.SelectedItem;
-        }
-
-        /// <summary>
-        /// This will fire the method to arrive to the right department
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void guideButton_Click(object sender, RoutedEventArgs e)
-        {
             int colInt = shopMan.getAvailableColor();
             CarpetColors col;
             if (colInt != -1)
@@ -83,7 +73,6 @@ namespace GlamourLights
                 Thread myThread = new Thread(() => MessageBox.Show("All our paths are currently busy, Please try in a while", "Ooops...."));
                 myThread.Start();
             }
-            //Chiama EndPage con un parametro
         }
 
         /// <summary>

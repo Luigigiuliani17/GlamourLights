@@ -18,15 +18,15 @@
         <TextBlock x:Name="block" Style="{DynamicResource TextBlockStyle}" Grid.Row="0">
                 Please, select department
         </TextBlock>
-        <ListBox Grid.Row="1" Style="{DynamicResource ListBoxStyle}" x:Name="itms" ItemsSource="{Binding Path=Itms}"
+        <ListBox Grid.Row="1" Style="{DynamicResource ListBoxStyle}" x:Name="itms" ItemsSource="{Binding Path=Dep}"
                      VerticalAlignment="Stretch" HorizontalAlignment="Stretch" ScrollViewer.CanContentScroll="True"
                      ScrollViewer.HorizontalScrollBarVisibility="Disabled" Margin="35"
                      ItemContainerStyle="{DynamicResource ListBoxItemStyle}" MouseLeftButtonUp="itms_MouseLeftButtonUp">
             <ListBox.ItemTemplate>
                 <DataTemplate>
                     <StackPanel Orientation="Vertical" Margin="10">
-                        <Image Source="{Binding Image}" Width="150"/>
-                        <TextBlock Text="{Binding ItemName}" Style="{DynamicResource TextBlockStyle}" FontSize="18"/>
+                        <Image Source="{Binding Image}" Width="300"/>
+                        <TextBlock Text="{Binding DepName}" Style="{DynamicResource TextBlockStyle}" FontSize="18"/>
                     </StackPanel>
                 </DataTemplate>
             </ListBox.ItemTemplate>
@@ -40,15 +40,13 @@
         <Grid x:Name="lowerGrid" Grid.Row="2">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition x:Name="backCol" Width="1*"></ColumnDefinition>
-                <ColumnDefinition x:Name="noElem" Width="1*"></ColumnDefinition>
+                <ColumnDefinition x:Name="noElem" Width="2*"></ColumnDefinition>
                 <ColumnDefinition x:Name="driveCol" Width="1*"></ColumnDefinition>
             </Grid.ColumnDefinitions>
             <Button x:Name="backButton" Style="{DynamicResource ButtonStyle}" Grid.Column="0" Click="backButton_Click">
                 Back
             </Button>
-            <Button x:Name="guideButton" Style="{DynamicResource ButtonStyle}" Grid.Column="2" Click="guideButton_Click">
-                Guide me there
-            </Button>
+
         </Grid>
     </Grid>
 </Page>
