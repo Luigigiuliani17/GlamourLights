@@ -25,10 +25,10 @@
                     <ColumnDefinition Width="3*"></ColumnDefinition>
                     <ColumnDefinition Width="3*"></ColumnDefinition>
             </Grid.ColumnDefinitions>
-            <Button Name="menButton" Grid.Column="0" Style="{DynamicResource ButtonMen}" Click="menButton_Click">
+            <Button Name="menButton" Grid.Column="0" Style="{DynamicResource ButtonMen}" Click="Button_Click">
                 Men
             </Button>
-            <Button Name="womenButton" Grid.Column="1" Style="{DynamicResource ButtonWomen}" Click="womenButton_Click">
+            <Button Name="womenButton" Grid.Column="1" Style="{DynamicResource ButtonWomen}" Click="Button_Click">
                 Women
             </Button>
         </Grid>

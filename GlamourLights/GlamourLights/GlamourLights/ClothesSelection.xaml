@@ -46,6 +46,26 @@
                 <Button x:Name="backButton" Style="{DynamicResource ButtonStyle}" Grid.Column="0" Click="backButton_Click">
                     Back
                 </Button>
+                <StackPanel Orientation="Horizontal" Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Stretch">
+                    <RadioButton x:Name="AllRd" GroupName="RadioSelector" Margin="10" 
+                                 Style="{DynamicResource RadioButtonStyle}" Checked="Radio_Checked">
+                        <TextBlock x:Name="AllBlock" Style="{DynamicResource TextBlockStyle}">
+                            All Clothes
+                        </TextBlock>
+                    </RadioButton>
+                    <RadioButton x:Name="MaleRd" GroupName="RadioSelector" Margin="10" 
+                                 Style="{DynamicResource RadioButtonStyle}" Checked="Radio_Checked">
+                        <TextBlock x:Name="MaleBlock" Style="{DynamicResource TextBlockStyle}">
+                            Male
+                        </TextBlock>
+                    </RadioButton>
+                    <RadioButton x:Name="FemaleRd" GroupName="RadioSelector" Margin="10" 
+                                 Style="{DynamicResource RadioButtonStyle}" Checked="Radio_Checked">
+                        <TextBlock x:Name="FemaleBlock" Style="{DynamicResource TextBlockStyle}">
+                            Female
+                        </TextBlock>
+                    </RadioButton>
+                </StackPanel>
             </Grid>
      
 

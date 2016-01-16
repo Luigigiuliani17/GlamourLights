@@ -115,6 +115,7 @@ namespace GlamourLights
             {
                 this.NavigationService.RemoveBackEntry();
                 this.NavigationService.RemoveBackEntry();
+                this.NavigationService.RemoveBackEntry();
                 this.NavigationService.GoBack();
             }
 
@@ -135,7 +136,8 @@ namespace GlamourLights
                 Redirect();
             } else
             {
-                shopMan.executePathFinding(dep_id, customerId, col);//Qui gigi mi deve fare il metodo per calcolare il path dai department
+                shopMan.executePathFinding(dep_id, customerId, col);
+                Redirect();
             }
         }
     }
