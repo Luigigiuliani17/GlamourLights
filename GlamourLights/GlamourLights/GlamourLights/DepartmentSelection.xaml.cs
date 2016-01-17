@@ -60,18 +60,21 @@ namespace GlamourLights
         /// <param name="e"></param>
         private void itms_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
         {
-            DepImage depSelected = (DepImage)itms.SelectedItem;
-            int colInt = shopMan.getAvailableColor();
-            CarpetColors col;
-            if (colInt != -1)
+            if (itms.SelectedItem != null)
             {
-                col = (CarpetColors)colInt;
-                this.NavigationService.Navigate(new EndPage(col, shopMan, 1, depSelected.DepId));
-            }
-            else
-            {
-                Thread myThread = new Thread(() => MessageBox.Show("All our paths are currently busy, Please try in a while", "Ooops...."));
-                myThread.Start();
+                DepImage depSelected = (DepImage)itms.SelectedItem;
+                int colInt = shopMan.getAvailableColor();
+                CarpetColors col;
+                if (colInt != -1)
+                {
+                    col = (CarpetColors)colInt;
+                    this.NavigationService.Navigate(new EndPage(col, shopMan, 1, depSelected.DepId));
+                }
+                else
+                {
+                    Thread myThread = new Thread(() => MessageBox.Show("All our paths are currently busy, Please try in a while", "Ooops...."));
+                    myThread.Start();
+                }
             }
         }
 

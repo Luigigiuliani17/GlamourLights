@@ -535,11 +535,11 @@
         </Setter>
     </Style>
     
-    <!-- Da qua parte FEDE da cambiare (bottoni)-->
+    
     <Style x:Key="ButtonMen" TargetType="{x:Type Button}" BasedOn="{StaticResource ButtonStyleBase}">
         <Setter Property="Background">
             <Setter.Value>
-                <ImageBrush ImageSource="../../Resources/Images/Graphics/clothes.jpg"/>
+                <ImageBrush ImageSource="../../Resources/Images/Graphics/men_dep.jpg"/>
             </Setter.Value>
         </Setter>
         <Setter Property="Template">
@@ -555,14 +555,14 @@
             <Trigger Property="IsMouseOver" Value="True">
                 <Setter Property="Background">
                     <Setter.Value>
-                        <ImageBrush ImageSource="../../Resources/Images/Graphics/clothes_over.jpg"/>
+                        <ImageBrush ImageSource="../../Resources/Images/Graphics/men_dep_over.jpg"/>
                     </Setter.Value>
                 </Setter>
             </Trigger>
             <Trigger Property="IsPressed" Value="True">
                 <Setter Property="Background">
                     <Setter.Value>
-                        <ImageBrush ImageSource="../../Resources/Images/Graphics/clothes_pressed.jpg"/>
+                        <ImageBrush ImageSource="../../Resources/Images/Graphics/men_dep_pressed.jpg"/>
                     </Setter.Value>
                 </Setter>
             </Trigger>
@@ -572,7 +572,7 @@
     <Style x:Key="ButtonWomen" TargetType="{x:Type Button}" BasedOn="{StaticResource ButtonStyleBase}">
         <Setter Property="Background">
             <Setter.Value>
-                <ImageBrush ImageSource="../../Resources/Images/Graphics/clothes.jpg"/>
+                <ImageBrush ImageSource="../../Resources/Images/Graphics/women_dep.jpg"/>
             </Setter.Value>
         </Setter>
         <Setter Property="Template">
@@ -588,14 +588,14 @@
             <Trigger Property="IsMouseOver" Value="True">
                 <Setter Property="Background">
                     <Setter.Value>
-                        <ImageBrush ImageSource="../../Resources/Images/Graphics/clothes_over.jpg"/>
+                        <ImageBrush ImageSource="../../Resources/Images/Graphics/women_dep_over.jpg"/>
                     </Setter.Value>
                 </Setter>
             </Trigger>
             <Trigger Property="IsPressed" Value="True">
                 <Setter Property="Background">
                     <Setter.Value>
-                        <ImageBrush ImageSource="../../Resources/Images/Graphics/clothes_pressed.jpg"/>
+                        <ImageBrush ImageSource="../../Resources/Images/Graphics/women_dep_pressed.jpg"/>
                     </Setter.Value>
                 </Setter>
             </Trigger>

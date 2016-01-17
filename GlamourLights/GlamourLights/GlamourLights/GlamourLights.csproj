@@ -296,6 +296,12 @@
     <Content Include="Resources\Images\bg.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Resource Include="Resources\Images\Graphics\men_dep.jpg" />
+    <Resource Include="Resources\Images\Graphics\men_dep_over.jpg" />
+    <Resource Include="Resources\Images\Graphics\men_dep_pressed.jpg" />
+    <Resource Include="Resources\Images\Graphics\women_dep.jpg" />
+    <Resource Include="Resources\Images\Graphics\women_dep_over.jpg" />
+    <Resource Include="Resources\Images\Graphics\women_dep_pressed.jpg" />
     <Content Include="Resources\photo.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
