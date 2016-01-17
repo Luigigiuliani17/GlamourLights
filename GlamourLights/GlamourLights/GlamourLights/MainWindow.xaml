@@ -5,9 +5,8 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:GlamourLights"
         mc:Ignorable="d"
-        Closing="BlinkerStop"
         Title="Glamour Lights" MinWidth="720" MinHeight="550" Icon="Resources/Images/favicon.ico"
-        WindowState="Maximized">
+        WindowState="Maximized" WindowStyle="None" ResizeMode="NoResize" KeyDown="Window_KeyDown">
     <Window.Resources>
     </Window.Resources>
     <Grid>

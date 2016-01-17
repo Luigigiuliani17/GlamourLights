@@ -30,18 +30,17 @@ namespace GlamourLights
         {
             InitializeComponent();
             shopMan.shopState.shopDb.customer.Load();
-            // dataGrid1.ItemsSource = myDb.customer.Local;
             mainFrame.Navigate(new Home(shopMan));
         }
 
-        /// <summary>
-        /// As the program is stopped the blinker is stopped too
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        public void BlinkerStop(object sender, CancelEventArgs e)
+
+        private void Window_KeyDown(object sender, KeyEventArgs e)
         {
-            shopMan.com.StopBlinker();
+            if (e.Key == Key.Escape)
+            {
+                shopMan.com.StopBlinker();
+                this.Close();
+            }
         }
     }
 }

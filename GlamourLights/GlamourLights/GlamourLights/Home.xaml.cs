@@ -50,13 +50,16 @@ namespace GlamourLights
                     Console.WriteLine(cardNumBox.Text);
                     sm.shopState.shopDb.customer.Load();
                     String cardNum = cardNumBox.Text;
-                    //customer cust = shop.customer.SqlQuery("SELECT * FROM customer WHERE cardNumber = @p0", cardNum).First<customer>();
-                    var L2EQuery = sm.shopState.shopDb.customer.Where(c => c.cardNumber.Equals(cardNum));
-                    var cust = L2EQuery.FirstOrDefault<customer>();
+                    var Query = sm.shopState.shopDb.customer.Where(c => c.cardNumber.Equals(cardNum));
+                    var cust = Query.FirstOrDefault<customer>();
                     cardNumBox.Clear();
-                    this.NavigationService.Navigate(new SelectionPage(sm, cust));
+                    if (cust != null)
+                    {
+                        this.NavigationService.Navigate(new SelectionPage(sm, cust));
+                    }
                 }
             }
+            
         }
 
         /// <summary>

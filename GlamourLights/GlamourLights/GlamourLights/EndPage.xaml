@@ -14,9 +14,9 @@
             <RowDefinition Height="5*"></RowDefinition>
             <RowDefinition Height="1*"></RowDefinition>
         </Grid.RowDefinitions>
-        <TextBlock x:Name="endBlock" Style="{DynamicResource TextBlockStyle}" Grid.Row="0" FontSize="35">
+        <TextBlock x:Name="endBlock" Style="{DynamicResource TextBlockStyle}" Grid.Row="0" FontSize="42">
         </TextBlock>
-        <Button x:Name="startButton" Style="{DynamicResource ButtonStyle}" Grid.Row="1" FontSize="25" Click="startButton_Click">
+        <Button x:Name="startButton" Style="{DynamicResource ButtonStyle}" Grid.Row="1" Click="startButton_Click">
             Start
         </Button>
     </Grid>

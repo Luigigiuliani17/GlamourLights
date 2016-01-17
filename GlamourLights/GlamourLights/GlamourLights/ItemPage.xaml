@@ -32,7 +32,7 @@
                            FontSize="40" FontFamily="DemiBold"/>
                 <StackPanel HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Grid.Row="1" 
                             Orientation="Vertical">
-                    <GroupBox x:Name="descriptionBox" BorderThickness="1" FontSize="17"
+                    <GroupBox x:Name="descriptionBox" BorderThickness="2" FontSize="18.5"
                           BorderBrush="{StaticResource ButtonPressedBackgroundBrush}"
                           Background="Transparent" Foreground="{StaticResource ButtonBackgroundBrush}"
                           Margin="10,10,10,0" HorizontalAlignment="Stretch" VerticalAlignment="Top">
@@ -42,13 +42,13 @@
                         <StackPanel HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
                             <TextBlock x:Name="descriptionBlock" Style="{DynamicResource TextBlockStyle}" 
                                        HorizontalAlignment="Left"
-                           FontSize="22" TextWrapping="Wrap">
+                           FontSize="25" TextWrapping="Wrap">
                             </TextBlock>
                         </StackPanel>
 
                     </GroupBox>
                     <TextBlock x:Name="fabricBlock" Style="{DynamicResource TextBlockStyle}" VerticalAlignment="Top" 
-                               FontSize="22" HorizontalAlignment="Left" Margin="30">
+                               FontSize="25" HorizontalAlignment="Left" Margin="30">
                     Fabric
                     </TextBlock>
                 </StackPanel>

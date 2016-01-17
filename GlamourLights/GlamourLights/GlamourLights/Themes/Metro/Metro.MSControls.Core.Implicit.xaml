@@ -65,7 +65,7 @@
     <!-- *********************************  TextBlock Style  ********************************* -->
     <Style x:Key="TextBlockStyle" TargetType="TextBlock">
         <Setter Property="Foreground" Value="{StaticResource ForegroundBrush}" />
-        <Setter Property="FontSize" Value="25"/>
+        <Setter Property="FontSize" Value="30"/>
         <Setter Property="FontFamily" Value="Segoe UI" />
         <Setter Property="HorizontalAlignment" Value="Center"/>
         <Setter Property="VerticalAlignment" Value="Center"/>

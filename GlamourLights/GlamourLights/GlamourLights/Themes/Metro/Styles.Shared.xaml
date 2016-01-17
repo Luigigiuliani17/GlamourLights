@@ -438,7 +438,7 @@
         <Setter Property="MinHeight" Value="30" />
         <Setter Property="MinWidth" Value="30" />
         <Setter Property="Margin" Value="10,10,10,10"></Setter>
-        <Setter Property="FontSize" Value="23"></Setter>
+        <Setter Property="FontSize" Value="35"></Setter>
         <Setter Property="Foreground" Value="FloralWhite"></Setter>
         <Setter Property="Template">
             <Setter.Value>

@@ -22,7 +22,7 @@
         <Button x:Name="noCardButton" Style="{DynamicResource ButtonStyle}" Grid.Row="1" Click="noCardButton_Click">
             Not a Card Holder? Click here!
         </Button>
-        <TextBlock x:Name="mainBlock" Style="{DynamicResource TextBlockStyle}" FontSize="25" FontWeight="Bold" Grid.Row="0" 
+        <TextBlock x:Name="mainBlock" Style="{DynamicResource TextBlockStyle}" FontSize="40" FontWeight="Bold" Grid.Row="0" 
                    HorizontalAlignment="Center" VerticalAlignment="Center">
             Please, scan your Card on the reader
         </TextBlock>
