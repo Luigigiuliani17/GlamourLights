@@ -19,13 +19,29 @@ namespace GlamourLights.Controller
         ConcurrentBag<BlinkPoint> green = new ConcurrentBag<BlinkPoint>();
         ConcurrentBag<BlinkPoint> blue = new ConcurrentBag<BlinkPoint>();
         ConcurrentBag<BlinkPoint> yellow = new ConcurrentBag<BlinkPoint>();
+        ConcurrentBag<WhitePoint> white = new ConcurrentBag<WhitePoint>();
         int n_overlapping = 0;
         public bool blink { get; set; }
+        public bool whiteBlink { get; set; }
         public bool insideBlink { get; set; }
         ShopState state;
 
         public Blinker(ShopState state)
         {
+            Dictionary<int, string> shelves_position = state.shelves_position;
+            //Here we add white points to the right list with count == 0 for now
+            List<string> w_points = state.hotspot_position;
+            foreach(string s in w_points)
+            {
+                Console.WriteLine("la coordinata bianca hotspot e':" + s);
+                white.Add(new WhitePoint(s));
+            }
+            foreach(string s in shelves_position.Values)
+            {
+                Console.WriteLine("la coordinata bianca punto di arrivo e':" + s);
+                white.Add(new WhitePoint(s));
+            }
+            Console.WriteLine("Numero di elementi" + white.Count());
             this.state = state;
             this.blink = false;
             this.insideBlink = false;
@@ -208,12 +224,47 @@ namespace GlamourLights.Controller
                         }
                     Thread.Sleep(300);
                 }
+
+               
             }
             Console.WriteLine("ENDING loop");
             Console.WriteLine("StartBlink --> END");
             insideBlink = false;
             return;
         }
+
+        /// <summary>
+        /// This function will be launched to a different thread to blink the white points
+        /// </summary>
+        public void WhiteBlinking(SerialPort serial)
+        {
+            Console.WriteLine("WhiteBlink --> START");
+            insideBlink = true;
+            string[] mess = new string[2];
+            //This will loop until the variable is set to false blinking the needed points
+            while (whiteBlink)
+            {
+                List<string> list = new List<string>();
+                //Blinking of white points that are active
+                foreach (WhitePoint p in white)
+                {
+                    if (p.how_many > 0)
+                    {
+                        mess = p.coord.Split(';');
+                        string message1 = mess[0] + ":" + mess[1] + ":" + "7.";
+                        string message2 = mess[0] + ":" + mess[1] + ":" + "-1.";
+                        list.Add(message2);
+                        if (serial.IsOpen)
+                         serial.WriteLine(message1);
+                     }
+                }
+                Thread.Sleep(500);
+                foreach (string s in list)
+                    serial.WriteLine(s);
+                Thread.Sleep(500);
+            }
+        }
+
 
         /// <summary>
         /// This method will update the color lists adding or removing overlapping path from them
@@ -230,9 +281,9 @@ namespace GlamourLights.Controller
             bool[] color_found = new bool[4];
 
             //Checking which list must be updated with switch over the color_id
-            switch(color_code)
+            switch (color_code)
             {
-                case 0 :
+                case 0:
                     list = red;
                     break;
 
@@ -257,40 +308,104 @@ namespace GlamourLights.Controller
             for (int i = 0; i < coord.Length; i++)
             {
                 Graphvertex vertex = graph[coord[i]];
-                vertex.active_colors[color_code] = false;
-                vertex.n_activeColors -= 1;
-
-                for (int j = 0; j < vertex.active_colors.Length; j++)
-                    if (vertex.active_colors[j] == true)
-                        color_found[j] = true;
-
-                //invaliding coordinates from the right list
-                foreach (BlinkPoint p in list)
+                //Adjust the white points for blinking
+                if (vertex.active_colors[color_code] == false)
                 {
-                    if (p.coord == coord[i])
+                    this.RemoveWhitePoint(coord[i]);
+                } //These are normal points
+                else {
+                    vertex.active_colors[color_code] = false;
+                    vertex.n_activeColors -= 1;
+
+
+                    for (int j = 0; j < vertex.active_colors.Length; j++)
+                        if (vertex.active_colors[j] == true)
+                            color_found[j] = true;
+
+                    //invaliding coordinates from the right list
+                    foreach (BlinkPoint p in list)
                     {
-                        p.isValid = false;
+                        if (p.coord == coord[i])
+                        {
+                            p.isValid = false;
+                        }
                     }
+                }
+
+                //setting number of overlapping if found
+                for (int z = 0; z < color_found.Length; z++)
+                {
+                    if (color_found[z] == true)
+                        this.UpdateNOverlapping(-1);
+                }
+                Console.WriteLine("Number of overlapping " + n_overlapping);
+                //check if blinking is needed again, if not the variable is set to false
+                /*if (n_overlapping == 0)
+                    blink = false;*/
+                Console.WriteLine("Is necessary to blink: " + blink);
+
+                Console.WriteLine("UpdateBlinker --> END");
+            }
+        }
+
+
+        /// <summary>
+        /// Adjust the counter for each white points (adding it)
+        /// </summary>
+        /// <param name="x"></param>
+        /// <param name="y"></param>
+        public void AddWhitePoint(int x, int y)
+        {
+            string coord = x + ";" + y;
+            foreach(WhitePoint p in white)
+            {
+                Console.WriteLine("coordinate passate: " + coord);
+                Console.WriteLine("coordinate del punto: " + p.coord);
+                if (p.coord == coord) {
+                    p.how_many += 1;
+                    break;
                 }
             }
 
-            //setting number of overlapping if found
-            for (int z = 0; z < color_found.Length; z++)
+            foreach (WhitePoint p in white)
             {
-                if (color_found[z] == true)
-                    this.UpdateNOverlapping(-1);
+                if (p.how_many > 0)
+                {
+                    Console.WriteLine("Le coordinate bianche aumentate sono" + p.coord);
+                }
             }
-            Console.WriteLine("Number of overlapping " + n_overlapping);
-            //check if blinking is needed again, if not the variable is set to false
-            /*if (n_overlapping == 0)
-                blink = false;*/
-            Console.WriteLine("Is necessary to blink: " + blink);
 
-            Console.WriteLine("UpdateBlinker --> END");
         }
 
         /// <summary>
-        ///
+        /// Adjust the counter for each white points (removing it)
+        /// </summary>
+        /// <param name="x"></param>
+        /// <param name="y"></param>
+        public void RemoveWhitePoint(string coord)
+        {
+            foreach (WhitePoint p in white)
+            {
+                Console.WriteLine("coordinate passate: " + coord);
+                Console.WriteLine("coordinate del punto: " + p.coord);
+                if (p.coord == coord)
+                {
+                    p.how_many -= 1;
+                    break;
+                }
+            }
+
+            foreach (WhitePoint p in white)
+            {
+                if (p.how_many > 0)
+                {
+                    Console.WriteLine("Le coordinate bianche tolte sono" + p.coord);
+                }
+            }
+        }
+
+        /// <summary>
+        ///Call concurrent overlapping to increment the variable
         /// </summary>
         /// <param name="n"></param>
         [MethodImpl(MethodImplOptions.Synchronized)]

@@ -113,6 +113,7 @@
     <Compile Include="Controller\Comunicator.cs" />
     <Compile Include="Controller\Recommender.cs" />
     <Compile Include="Controller\ShopManager.cs" />
+    <Compile Include="Controller\WhitePoint.cs" />
     <Compile Include="Customization.xaml.cs">
       <DependentUpon>Customization.xaml</DependentUpon>
     </Compile>
