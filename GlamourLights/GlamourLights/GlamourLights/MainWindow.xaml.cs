@@ -41,7 +41,7 @@ namespace GlamourLights
         /// <param name="e"></param>
         public void BlinkerStop(object sender, CancelEventArgs e)
         {
-            //shopMan.com.StopBlinker();
+            shopMan.com.StopBlinker();
         }
     }
 }

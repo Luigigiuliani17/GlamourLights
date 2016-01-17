@@ -6,7 +6,8 @@
         xmlns:local="clr-namespace:GlamourLights"
         mc:Ignorable="d"
         Closing="BlinkerStop"
-        Title="Glamour Lights" MinWidth="720" MinHeight="550" Icon="Resources/Images/favicon.ico">
+        Title="Glamour Lights" MinWidth="720" MinHeight="550" Icon="Resources/Images/favicon.ico"
+        WindowState="Maximized">
     <Window.Resources>
     </Window.Resources>
     <Grid>

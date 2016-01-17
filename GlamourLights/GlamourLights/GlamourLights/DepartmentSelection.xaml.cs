@@ -91,7 +91,7 @@ namespace GlamourLights
             public DepImage(int id, string name)
             {
                 DepId = id;
-                Uri uri = new Uri(@"Resources\Images\Departments\img_" + id + ".jpg", UriKind.Relative);
+                Uri uri = new Uri(@"Resources\Images\Departments\dep_" + id + ".jpg", UriKind.Relative);
                 Image = new BitmapImage(uri);
                 DepName = name;
             }

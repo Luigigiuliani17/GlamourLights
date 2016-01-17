@@ -11,12 +11,12 @@
 
     <Grid x:Name="mainGrid">
         <Grid.RowDefinitions>
-            <RowDefinition x:Name="upperRow" Height="1*"></RowDefinition>
-            <RowDefinition x:Name="mainRow" Height="5*"></RowDefinition>
+            <RowDefinition x:Name="upperRow" Height="0.75*"></RowDefinition>
+            <RowDefinition x:Name="mainRow" Height="6*"></RowDefinition>
             <RowDefinition x:Name="lowerRow" Height="1*"></RowDefinition>
         </Grid.RowDefinitions>
         <TextBlock x:Name="block" Style="{DynamicResource TextBlockStyle}" Grid.Row="0">
-                Please, select department
+                Please, select a department
         </TextBlock>
         <ListBox Grid.Row="1" Style="{DynamicResource ListBoxStyle}" x:Name="itms" ItemsSource="{Binding Path=Dep}"
                      VerticalAlignment="Stretch" HorizontalAlignment="Stretch" ScrollViewer.CanContentScroll="True"
