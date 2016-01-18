@@ -25,7 +25,7 @@
                      ItemContainerStyle="{DynamicResource ListBoxItemStyle}" MouseLeftButtonUp="itms_MouseLeftButtonUp">
                 <ListBox.ItemTemplate>
                     <DataTemplate>
-                        <StackPanel Orientation="Vertical" Margin="10">
+                        <StackPanel Orientation="Vertical" Margin="18">
                             <Image Source="{Binding Image}" Width="250"/>
                             <TextBlock Text="{Binding ItemName}" Style="{DynamicResource TextBlockStyle}" FontSize="22"/>
                         </StackPanel>
