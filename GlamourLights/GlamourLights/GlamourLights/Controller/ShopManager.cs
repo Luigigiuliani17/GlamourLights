@@ -15,7 +15,7 @@ namespace GlamourLights.Controller
         public Comunicator com { get; set; }
         public Recommender recc { get; set; }
         public int remaining_cost { get; set; }
-
+        //it is the ratio between the cost of the path with the recommendation and the cost of the direct path
         public  const double MAX_DEVIATION_FACTOR = 1.8;
 
         public ShopManager(ShopState shop)
@@ -120,6 +120,9 @@ namespace GlamourLights.Controller
             return final_result;    
         }
 
+        /// <summary>
+        /// save the changes of the layout of the shop by invoking the proper fuctions in shopstate
+        /// </summary>
         internal void saveChanges()
         {
             shopState.rebuild_shop_matrix();
@@ -238,10 +241,6 @@ namespace GlamourLights.Controller
                     //if it is ok, then create final path and return it
                     if (ratio < MAX_DEVIATION_FACTOR)
                     {
-                        //try to insert hotspots
-                //        subPath1 = tryToInsertHotspot(subPath1);
-                //        subPath2 = tryToInsertHotspot(subPath2);
-                 //       subPath3 = tryToInsertHotspot(subPath3);
 
                         subPath1.appendPath(subPath2);
                         subPath1.appendPath(subPath3);
@@ -284,8 +283,7 @@ namespace GlamourLights.Controller
                 } catch ( KeyNotFoundException e)
                 {
                     continue;
-                }
-                
+                }                
 
                 //calculate subpath from start to rec and from rec to destination
                 CarpetPath subPath1 = calculateSubPath(x1, y1, xrec1, yrec1, color);

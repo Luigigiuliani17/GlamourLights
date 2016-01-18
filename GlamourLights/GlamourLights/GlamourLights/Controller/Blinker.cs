@@ -12,6 +12,13 @@ using System.Runtime.CompilerServices;
 namespace GlamourLights.Controller
 
 {
+    /// <summary>
+    /// This class is responsible to make the points that are overlapping with other to blink.
+    /// Each point will be organized in special concurrent lists that will be accessed from varius thread to add (when a new
+    /// path is created) or to invalidate (when a path is erased) the colors that are necessary to blink (normal color of the carpet)
+    /// The white points are hotspot points (with recommendation or interest points) and are organized in a special white list
+    /// that will be updated any time a path is erased or created
+    /// </summary>
     class Blinker
     {
         //These lists will contain strings formatted in such a way "x;y"
@@ -26,22 +33,21 @@ namespace GlamourLights.Controller
         public bool insideBlink { get; set; }
         ShopState state;
 
+        /// <summary>
+        /// This constructor will initialize the blinker 
+        /// </summary>
+        /// <param name="state"></param>
         public Blinker(ShopState state)
         {
             Dictionary<int, string> shelves_position = state.shelves_position;
             //Here we add white points to the right list with count == 0 for now
             List<string> w_points = state.hotspot_position;
+            //Add points in the white list from the hotspots and recommendations 
             foreach(string s in w_points)
-            {
-                Console.WriteLine("la coordinata bianca hotspot e':" + s);
                 white.Add(new WhitePoint(s));
-            }
-            foreach(string s in shelves_position.Values)
-            {
-                Console.WriteLine("la coordinata bianca punto di arrivo e':" + s);
+            //Add white points in the white list from the shelves position
+            foreach (string s in shelves_position.Values)
                 white.Add(new WhitePoint(s));
-            }
-            Console.WriteLine("Numero di elementi" + white.Count());
             this.state = state;
             this.blink = false;
             this.insideBlink = false;
@@ -85,21 +91,16 @@ namespace GlamourLights.Controller
                 }
                 for (int z = 0; z < color_found.Length; z++)
                 {
-                    Console.WriteLine("valori dell'array dei colori: " + color_found[z]);
                     if (color_found[z] == true && color != z)
                         this.UpdateNOverlapping(1);
                 }
                 if(n_overlapping > 0)
                 { 
                     blink = true;
-                    Console.WriteLine("Valore di blink: " + blink);
-                    Console.WriteLine("numero di overlapping e' " + n_overlapping);
-                    Console.WriteLine("CheckOverlapping --> END with TRUE");
                     return true;
                     
                 }
             }
-            Console.WriteLine("CheckOverlapping --> END with FALSE");
             return false;
         }
 
@@ -119,35 +120,24 @@ namespace GlamourLights.Controller
                 Dictionary<string, Graphvertex> graph = state.shop_graph;
                
                     Graphvertex vertex = graph[coord];
-                    //If the vertex has more than 1 color active, put it in the right lists
-                    if (vertex.n_activeColors > 1)
-                    {
-                    Console.WriteLine("sto per fare l'update a una delle liste.");
+                //If the vertex has more than 1 color active, put it in the right lists
+                if (vertex.n_activeColors > 1)
+                {
                     if (vertex.active_colors[0] == true)
-                    {
-                        Console.WriteLine("aggiungo un rosso");
                         red.Add(new BlinkPoint(coord));
-                    }
 
                     if (vertex.active_colors[1] == true)
-                    {
-                        Console.WriteLine("aggiungo un verde");
                         green.Add(new BlinkPoint(coord));
-                    }
+
 
                     if (vertex.active_colors[2] == true)
-                    {
-                        Console.WriteLine("aggiungo un blu");
                         blue.Add(new BlinkPoint(coord));
-                    }
+
 
                     if (vertex.active_colors[3] == true)
-                    {
-                        Console.WriteLine("aggiungo un giallo");
                         yellow.Add(new BlinkPoint(coord));
-                    }
-                    }
                 }
+           }
         }
 
 
@@ -156,11 +146,9 @@ namespace GlamourLights.Controller
         /// </summary>
         public void StartBlink(SerialPort serial)
         {
-            Console.WriteLine("StartBlink --> START");
             insideBlink = true;
             string[] mess = new string[2];
             //This will loop until the variable is set to false blinking the needed points
-            Console.WriteLine("STARTING loop");
             while (blink)
             {
                 //red list
@@ -226,15 +214,14 @@ namespace GlamourLights.Controller
                 }
 
                
-            }
-            Console.WriteLine("ENDING loop");
-            Console.WriteLine("StartBlink --> END");
+            }  
             insideBlink = false;
             return;
         }
 
         /// <summary>
         /// This function will be launched to a different thread to blink the white points
+        /// The special string will be formatted like before, "x_pos:y_pos:color." where color will be = 7
         /// </summary>
         public void WhiteBlinking(SerialPort serial)
         {
@@ -258,6 +245,7 @@ namespace GlamourLights.Controller
                          serial.WriteLine(message1);
                      }
                 }
+                //Here all the white points are switched off 
                 Thread.Sleep(500);
                 foreach (string s in list)
                     serial.WriteLine(s);
@@ -338,13 +326,6 @@ namespace GlamourLights.Controller
                     if (color_found[z] == true)
                         this.UpdateNOverlapping(-1);
                 }
-                Console.WriteLine("Number of overlapping " + n_overlapping);
-                //check if blinking is needed again, if not the variable is set to false
-                /*if (n_overlapping == 0)
-                    blink = false;*/
-                Console.WriteLine("Is necessary to blink: " + blink);
-
-                Console.WriteLine("UpdateBlinker --> END");
             }
         }
 
@@ -359,22 +340,11 @@ namespace GlamourLights.Controller
             string coord = x + ";" + y;
             foreach(WhitePoint p in white)
             {
-                Console.WriteLine("coordinate passate: " + coord);
-                Console.WriteLine("coordinate del punto: " + p.coord);
                 if (p.coord == coord) {
                     p.how_many += 1;
                     break;
                 }
             }
-
-            foreach (WhitePoint p in white)
-            {
-                if (p.how_many > 0)
-                {
-                    Console.WriteLine("Le coordinate bianche aumentate sono" + p.coord);
-                }
-            }
-
         }
 
         /// <summary>
@@ -386,20 +356,10 @@ namespace GlamourLights.Controller
         {
             foreach (WhitePoint p in white)
             {
-                Console.WriteLine("coordinate passate: " + coord);
-                Console.WriteLine("coordinate del punto: " + p.coord);
                 if (p.coord == coord)
                 {
                     p.how_many -= 1;
                     break;
-                }
-            }
-
-            foreach (WhitePoint p in white)
-            {
-                if (p.how_many > 0)
-                {
-                    Console.WriteLine("Le coordinate bianche tolte sono" + p.coord);
                 }
             }
         }

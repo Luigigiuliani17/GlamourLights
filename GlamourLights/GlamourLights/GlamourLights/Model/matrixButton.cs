@@ -7,8 +7,12 @@ using System.Windows.Controls;
 
 namespace GlamourLights.Model
 {
+    /// <summary>
+    /// kind of button used in the customization interface. It inherits from Button 
+    /// </summary>
     public class matrixButton : Button
     {
+        //position of the button (inside the matrix)
         public int x_cord { get; set; }
         public int y_cord { get; set; }
 

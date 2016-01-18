@@ -35,31 +35,30 @@ void setup() {
   Serial.begin(38400);
 }
 
-/*all'interno del loop avverrano le seguenti cose:
- * LETTURA SERIALE STRINGA
- * le stringhe sono formattate in questo modo:
- *  "x_pos:y_pos:color"
- *  x_pos = coordinata x  (int)
- *  y_pos = coordinata y  (int)
- *  color = stringa che conterra' il nome del colore da usare per il led (string) 
- * INIZIO FLOW DI DISEGNO 
+/* inside loop these things will happen :
+ * SERIAL READING OF THE STRING
+ * strings are formatted in this way, for the carpet led:
+ *  "x_pos:y_pos:color."
+ *  x_pos = x coord  (int)
+ *  y_pos = y coord (int)
+ *  color = color code for led switching on (int) 
+ * and for bigger LEDlights will be this:
+ * "-1:-1:LEDid" = to switch on the specific led
+ * "-2:-2:LEDid" = to switch off the specific led 
+ * LIGHTS SWITCHING ON OR OFF 
+ * CARPET DRAW BEGINNING 
  * if color == "black" then cancel
  * else draw
- * DRAW : accende un pixel per volta del colore corretto (con delay per effetto di accensione)
- * CANCEL : spegne tutto un percorso (spegnimento del percorso a segmenti, immediatamente, senza delay
- *          la stringa colore sara' "black"
- * REITERAZIONE DEL LOOP
- * 
- * TODO : verificare la validita' del blinking di due percorsi sovrapposti (metodo difficile)
- *        colorazione di un colore differente per le parti intersecate (metodo facile)
- *        ce ne sbattiamo le palle (metodo fancazzista)
+ * DRAW : switch on the right led of the right color for the path
+ * CANCEL : switch off all the path
+ * LOOP REITERATION 
 */
 void loop() {
 
  if(Serial.available()>3) {
 
+    //Here string is splitted in the correct way
     message = Serial.readStringUntil('.');
-    //Serial.println(message);
     
     int commaIndex = message.indexOf(':');
     int secondCommaIndex = message.indexOf(':', commaIndex+1);
@@ -67,7 +66,8 @@ void loop() {
     x_pos = message.substring(0, commaIndex).toInt();
     y_pos = message.substring(commaIndex+1, secondCommaIndex).toInt();
     color = message.substring(secondCommaIndex+1, message.length()).toInt();
-    
+
+  //Code to switch on the lights
   if(x_pos == -1) {
 
     int code = color;
@@ -95,6 +95,7 @@ void loop() {
     }
   }
 
+  //Switch lights off
   if(x_pos == -2) {
 
     int code = color;
@@ -122,6 +123,7 @@ void loop() {
     }
   }
 
+  //Here the switch with the color code in which the leds will be switched on (or off)
   if(x_pos >= 0) {
     switch(color) {
 
@@ -141,15 +143,15 @@ void loop() {
         matrix.drawPixel(x_pos, y_pos, matrix.Color333(7, 7, 0));
         break;
         
-      case 5: //wall
+      case 5: //wall light white
         matrix.drawPixel(x_pos, y_pos, matrix.Color888(100, 100, 100, true));
         break;
 
-      case 6: //shelf
+      case 6: //shelf pink
         matrix.drawPixel(x_pos, y_pos, matrix.Color888(153, 0, 76, true));
         break;
 
-      case 7://hotspot
+      case 7://hotspot white
         matrix.drawPixel(x_pos, y_pos, matrix.Color888(150, 150, 150, false));
         break;
 
@@ -162,4 +164,4 @@ void loop() {
       }
     } 
  }    
-}//fine del loop
+}//end of loop

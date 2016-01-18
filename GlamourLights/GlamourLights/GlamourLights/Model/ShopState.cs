@@ -37,13 +37,13 @@ namespace GlamourLights.Model
         public const int DEFAULT_COST = 1;
         public const int MAX_USERS_NUMBER = 4;
 
-        //TODO define how to do this correctly
+        //array of positions of start
         public int[] x_start;
         public int[] y_start;
         public int[] start_usage;
 
         public ShopDb shopDb { get; set; }
-
+        //dictionaries of shelves, department, lights and hotspots positions
         public Dictionary<int, string> shelves_position { get; set; }
         public Dictionary<int, string> department_position { get; set; }
         public Dictionary<string, int> lights_position { get; set; }
@@ -103,6 +103,9 @@ namespace GlamourLights.Model
             }
         }
 
+        /// <summary>
+        /// function that builds the shop graph used to calculate the paths
+        /// </summary>
         private void createShopGraph()
         {
             shop_graph = new Dictionary<string, Graphvertex>();
@@ -171,6 +174,10 @@ namespace GlamourLights.Model
             }
         }
 
+        /// <summary>
+        /// function to update the hotspot positions. 
+        /// it creates the list of strings necessary to update it and then it calls the parser uploadTxt()
+        /// </summary>
         internal void rebuild_hotspot_position()
         {
             //create a list of lines

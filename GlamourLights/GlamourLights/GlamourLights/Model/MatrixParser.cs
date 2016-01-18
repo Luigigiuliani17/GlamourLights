@@ -11,6 +11,10 @@ namespace GlamourLights.Model
 {
     class MatrixParser
     {
+        /// <summary>
+        /// parse the matrix of the shop layout
+        /// </summary>
+        /// <returns></returns>
         public int[,]  parseMatrix()
         {
             int[,] shop_layout = null;
@@ -69,6 +73,10 @@ namespace GlamourLights.Model
             return shelves_pos;
         }
 
+        /// <summary>
+        /// Parse the department_position txt, PATTERN:  id;x;y
+        /// </summary>
+        /// <returns></returns> the dictionary of the departments
         public Dictionary<int, string> parseDepartmentPosition()
         {
             Dictionary<int, string> department_pos = new Dictionary<int, string>();
@@ -97,7 +105,7 @@ namespace GlamourLights.Model
         /// <summary>
         /// parser of the light position-----> pattern   x_pos;y_pos;lighId   (x_pos;y_pos is the string key of the dictionary)
         /// </summary>
-        /// <returns></returns>
+        /// <returns></returns>  a dictionary of the lights
         public Dictionary<string, int> parseLightsPositions()
         {
             Dictionary<string, int> lights_pos = new Dictionary<string, int>();
@@ -151,7 +159,8 @@ namespace GlamourLights.Model
         /// <summary>
         /// rebuild the txt of the shop layout
         /// </summary>
-        /// <param name="lines"></param> 
+        /// <param name="lines"></param> list of lines ready to be written of the txt file
+        /// <param name="path"></param>  path of the proper txt file to be overwritten
         internal void uploadTxt(List<string> lines, string path)
         {
             using (StreamWriter sr = new StreamWriter(path))

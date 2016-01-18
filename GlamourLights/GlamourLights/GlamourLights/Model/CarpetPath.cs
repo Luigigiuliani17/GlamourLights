@@ -9,13 +9,21 @@ namespace GlamourLights.Model
     public class CarpetPath
     {
         public CarpetColors color { get; set; }
+
+        //arrays of x and y coordinates of the path
         public int[] x_cordinates { get; set; }
         public int[] y_cordinates { get; set; }
         public int cost { get; set; }
+
+        //codes of the lights and of the destination
         public int[] lightsCodes { get; set; } 
         public int destination_light_code { get; set; }
+
+        //list of coordinates of the recommendations
         public int[] x_recommendations { get; set; }
         public int[] y_recommendations { get; set; }
+
+        //max num of recommendations
         public const int NUM_REC_MAX = 2;
 
         public CarpetPath()
@@ -66,7 +74,7 @@ namespace GlamourLights.Model
         }
 
         /// <summary>
-        /// append the coordinates of a new path to the path already present
+        /// append the coordinates of a new path to the path already present. The color remains the one of the old path
         /// </summary>
         /// <param name="newPath"></param> path coordinates to append
         public void appendPath(CarpetPath newPath )
