@@ -47,10 +47,10 @@ namespace GlamourLights
             switch (col)
             {
                 case CarpetColors.blue:
-                    endBlock.Text = "Your color is. BLUE Follow it!";
+                    endBlock.Text = "Your color is BLUE. Follow it!";
                     break;
                 case CarpetColors.green:
-                    endBlock.Text = "Your color is. GREEN Follow it!";
+                    endBlock.Text = "Your color is GREEN. Follow it!";
                     break;
                 case CarpetColors.red:
                     endBlock.Text = "Your color is RED. Follow it!";
