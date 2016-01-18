@@ -43,7 +43,7 @@ namespace GlamourLights
                 if (cardNumBox.Text.ToLower() == "admin")
                 {
                     cardNumBox.Clear();
-                    this.NavigationService.Navigate(new AdminPage(sm));
+                    this.NavigationService.Navigate(new Customization(sm));
                 }
                 else
                 {

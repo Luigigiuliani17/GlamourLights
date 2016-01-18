@@ -30,6 +30,7 @@ namespace GlamourLights
         {
             InitializeComponent();
             shopMan.shopState.shopDb.customer.Load();
+            shopMan.com.InitializeMatrix();
             mainFrame.Navigate(new Home(shopMan));
         }
 

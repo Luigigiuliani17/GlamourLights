@@ -37,7 +37,7 @@
                           Background="Transparent" Foreground="{StaticResource ButtonBackgroundBrush}"
                           Margin="10,10,10,0" HorizontalAlignment="Stretch" VerticalAlignment="Top">
                         <GroupBox.Header>
-                            Description
+                            DESCRIPTION
                         </GroupBox.Header>
                         <StackPanel HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
                             <TextBlock x:Name="descriptionBlock" Style="{DynamicResource TextBlockStyle}" 
