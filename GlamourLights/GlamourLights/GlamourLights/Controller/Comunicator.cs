@@ -20,14 +20,15 @@ namespace GlamourLights.Controller
     ///which represents the "segment" of LED that will be switched on (or off, if the color is black) 
     ///x_pos  = the x coordinates of the point
     ///y_pos = the y coordinates of the point
-    ///color = "red" or "green" or "blue" or "yellow" or "black"
+    ///color = "red" or "green" or "blue" or "yellow" or "black" or "shelves or "walls" or "white"
     ///         the last one represents the switching off the LED, the others the colors of the LEDs to switch on
-    ///
     /// In the class will be also calculated the "prohibite" zones, that will be never illuminated by any LED and
     ///rapresent the shelves and the walls of the shop
     ///the matrix numbers will represent the following things:
     ///-1 = wall
     ///0 = shelf
+    ///To switch lights on, the x_pos and y_pos will be setted to "-1:-1:LEDcode" to switch lights on and to "-2:-2:LEDcode"
+    ///to switch lights off
     /// </summary>
 
     public class Comunicator
@@ -36,6 +37,11 @@ namespace GlamourLights.Controller
         SerialPort serial = new SerialPort();
         Blinker blink;
 
+        /// <summary>
+        /// The constructor will initialize the shop state and create a new blinker and start both threads of the normal
+        /// color blinker and the special white blinker. Also opens the right serial port
+        /// </summary>
+        /// <param name="shop"></param>
         public Comunicator(ShopState shop)
         {
             this.state = shop;
@@ -43,7 +49,6 @@ namespace GlamourLights.Controller
             serial.PortName = "COM3";
             serial.BaudRate = 38400;
             serial.Open();
-            Console.WriteLine("inizializzato la porta");
             blink.blink = true;
             blink.whiteBlink = true;
             new Thread(delegate ()
@@ -61,6 +66,7 @@ namespace GlamourLights.Controller
         /// This function will take the matrix structure in the ShopState, looping on it recognizing the walls = 4
         /// (identified with -1 in txt file) and the shelves = 5 (identified with 0 in txt file), put them in string form and comunicate them
         /// to the arduino board via serial communication.
+        /// The string created will be formatted in this way: "x_pos:y_pos:color"
         /// </summary>
         public void InitializeMatrix()
         {
@@ -92,6 +98,8 @@ namespace GlamourLights.Controller
         /// This method will be called every time is necessary to draw a path on the carpet
         /// the parameters passed will be an Object of type CarpetPath, containing all the information necessary 
         /// to create the strings and process the requests
+        /// if racommandations are present, the array of lights will be analyzed and if are present some codes different than 
+        /// -1, the right string to switch on the lights are written and sent
         /// Every time a path is called a timer will be istantiated to temporize the appearence of the path itself.
         /// and the path to be deleted is set also.
         /// </summary>
@@ -140,11 +148,10 @@ namespace GlamourLights.Controller
             {
                 if (serial.IsOpen)
                 {
+                    //White points control, here we add +1 to the counter in the right whitepoint in the blinker white list
                     if ((x_coord[i] == x_white[0] && y_coord[i] == y_white[0]) || (x_coord[i] == x_white[1] && y_coord[i] == y_white[1]) ||
                         (x_coord[i] == x_coord[path.x_cordinates.Length - 1] && y_coord[i] == y_coord[path.y_cordinates.Length - 1]))
                     {
-                        Console.WriteLine("La coordinata x bianca e:" + x_coord[i]);
-                        Console.WriteLine("La coordinata y bianca e:" + y_coord[i]);
                         blink.AddWhitePoint(x_coord[i], y_coord[i]);
 
                     } else {
@@ -159,7 +166,7 @@ namespace GlamourLights.Controller
             if (path.destination_light_code != -1)
                 serial.WriteLine("-1:-1:" + path.destination_light_code + ".");
             //Timer part, in wich we bind the number of path to send to the handler, setting the time to wait 30 seconds
-            var timer = new System.Timers.Timer { Interval = 20000, AutoReset = false };
+            var timer = new System.Timers.Timer { Interval = 30000, AutoReset = false };
             timer.Elapsed += (sender, e) => CallErasePath(sender, e, path_id);
             timer.Start();
         }
@@ -183,6 +190,7 @@ namespace GlamourLights.Controller
         /// <summary>
         /// This method is fired by the event occurring when the timer elapse
         /// This method will form the right string to be passed to the serial port to switch off the lights
+        /// and update the color of vertex in the graph and the counter of the withepoints for the blinker
         /// </summary>
         /// <param name="path_id"></param>
         private void ErasePath(int path_id)
@@ -215,11 +223,11 @@ namespace GlamourLights.Controller
                     {
                         string mes = "-2:-2:" + path_to_erase.lightsCodes[i] + ".";
                         serial.WriteLine(mes);
-                        Console.WriteLine("La stringa da inviare per spegnere le luci e': " + mes);
                     }
                 }
             }
             //Update blinker: cheking if the path is overlapping with another
+            //and update the state of the blink points that have to actually blink
             blink.UpdateBlinker(path_to_erase);
             //erase path
             if (serial.IsOpen)
@@ -251,7 +259,7 @@ namespace GlamourLights.Controller
         }
 
         /// <summary>
-        /// Update the color of each vertex coord by coord 
+        /// Update the color of each vertex of the graph coord by coord 
         /// </summary>
         /// <param name="x"></param>
         /// <param name="y"></param>
@@ -261,15 +269,13 @@ namespace GlamourLights.Controller
             Dictionary<string, Graphvertex> graph = state.shop_graph;
             string coord = x + ";" + y;
 
-            //this will create the array with the keys for the dictionary
-
-            //Loop through the dictionary to update colors of vertex and the number of active colors
+            //update colors of vertex and the number of active colors
             graph[coord].active_colors[color_code] = true;
             graph[coord].n_activeColors += 1;
         }
 
         /// <summary>
-        /// This method will be invoked to stop blinking
+        /// This method will be invoked to stop both blinkers at the end of the program
         /// </summary>
         public void StopBlinker()
         {
