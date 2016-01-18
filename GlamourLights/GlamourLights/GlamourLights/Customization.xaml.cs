@@ -37,9 +37,9 @@ namespace GlamourLights
     public partial class Customization : Page
     {
         public ShopManager shopManager { get; set; }
-    //    public List<int> shelves_list { get; set; }
         public List<shelf> shelves { get; set; }
         public List<int> department_list { get; set; }
+        //to save what is the current operating mode (shop_layout, shelf, department, etc)
         public modeList active_mode { get; set; }
         public int shelf_selected {get; set; }
         public int department_selected { get; set; }
@@ -53,32 +53,25 @@ namespace GlamourLights
         public Customization(ShopManager sm)
         {
             InitializeComponent();
-            //give an initial value to shelf_selected and department_selected
+            //give an initial standard value to shelf_selected and department_selected
             shelf_selected = -1;
             department_selected = -1;
             this.shopManager = sm;
-            //build shelves list and hotspot list 
-      //      shelves_list = new List<int>();
+            //build shelves, department and hotspot list  
             hotspot_list = shopManager.shopState.hotspot_position;
-
             shopManager.shopState.shopDb.shelf.Load();
             shelves = shopManager.shopState.shopDb.shelf.Local.ToList<shelf>();
-       /*     
-            foreach(int k in shopManager.shopState.shelves_position.Keys)
-            {
-                shelves_list.Add(k);
-            }      */
+      
             //build department list
             department_list = new List<int>();
             foreach (int k in shopManager.shopState.department_position.Keys)
             {
                 department_list.Add(k);
-            }
-
+            } 
+            //default starting mode = shop_layout
             active_mode = modeList.shop_layout;
             initializeMatrix(sm.shopState);
             Listbox.Visibility = Visibility.Hidden;
-
         }
 
         /// <summary>
@@ -101,9 +94,9 @@ namespace GlamourLights
                 buttonGrid.ColumnDefinitions.Add(new ColumnDefinition());
             }
 
-
             buttonMatrix = new matrixButton[numRows, numCols];
 
+            //prepare every single button by initializing it and setting its color and position
             for (int i = 0; i < numRows; i++)
             {
                 for (int j = 0; j < numCols; j++)
@@ -117,7 +110,9 @@ namespace GlamourLights
                     Grid.SetColumn(buttonMatrix[i, j], i);
                 }
             }
+            //load correct color on the matrix
             showLightsPositions();
+
             //add listener to the click action for every button
             for (int i = 0; i < numRows; i++)
                 for (int j = 0; j < numCols; j++)
@@ -134,7 +129,8 @@ namespace GlamourLights
             if (sender is matrixButton)
             {
                 matrixButton b = sender as matrixButton;
-                //case 1: change the button from shelf to free or viceversa (and updates its color accordingly)
+
+                //case shop_layout: change the button from shelf to free or viceversa (and updates its color accordingly)
                 if (active_mode == modeList.shop_layout)
                 {
                     if (b.kind == 1 || b.kind == 0)
@@ -142,20 +138,18 @@ namespace GlamourLights
                         shopManager.changeKind(b.x_cord, b.y_cord);
                         if (b.kind == 1)
                         {
-                            Console.WriteLine("1 diventa 0");
                             b.kind = 0;
                             updateButtonColor(b);
                         }
                         else
                         {
-                            Console.WriteLine("0 diventa 1");
                             b.kind = 1;
                             updateButtonColor(b);
                         }
                     }
                     return;
                 }
-                //case 2: update the position of the selected shelf and the color of the button
+                //case shelves-position: update the position of the selected shelf and the color of the button
                 if(active_mode == modeList.shelves_position)
                 {
                     //if no shelves seleced, or if b is not free, then return without doing anything
@@ -178,7 +172,7 @@ namespace GlamourLights
                     showLightsPositions();
                 }
 
-                //case 3: update the position of the selected department and the color of the button accordingly
+                //case department_positions: update the position of the selected department and the color of the button accordingly
                 if (active_mode == modeList.department_position)
                 {
                     //if no department seleced, or if b is not free, then return without doing anything
@@ -200,7 +194,7 @@ namespace GlamourLights
                     shopManager.shopState.department_position[department_selected] = b.x_cord + ";" + b.y_cord;
                     showLightsPositions();
                 }
-                //case 4
+                //case hotspot-position: add or remove an hotspot in the osition selected
                 if (active_mode== modeList.hotspot_position)
                 {
                     //if not a free spot, than return without doing anything
@@ -228,7 +222,7 @@ namespace GlamourLights
         /// <summary>
         /// updates the color of a single button (after update or at inizialization)
         /// </summary>
-        /// <param name="b"></param>
+        /// <param name="b"></param> button to be updated
         private void updateButtonColor(matrixButton b)
         {           
             switch ((int)b.kind)
@@ -266,7 +260,7 @@ namespace GlamourLights
         /// <param name="e"></param>
         private void department_List_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            
+            ////////NOTE: the behaviour depends of the active_mode/////////
             if (active_mode == modeList.shelves_position)
             {
                 //delete old color of old_shelf_selected
@@ -304,7 +298,6 @@ namespace GlamourLights
                     parameters = shopManager.shopState.department_position[department_selected].Split(';');
                     x = Int32.Parse(parameters[0]);
                     y = Int32.Parse(parameters[1]);
-
                     buttonMatrix[x, y].Background = Brushes.White;
                 }               
                 try
@@ -319,10 +312,8 @@ namespace GlamourLights
                 } catch (Exception e2)
                 {
                     return;
-                }
-               
-            }
-            
+                } 
+            }            
         }
 
         /// <summary>
@@ -374,7 +365,9 @@ namespace GlamourLights
             {
                 operatingModeTextbox.Text = "Department mode";
                 active_mode = modeList.department_position;
+
                 Listbox.ItemsSource = department_list;
+
                 //return to correct color
                 String[] parameters;
                 int x, y;
@@ -386,10 +379,9 @@ namespace GlamourLights
 
                     buttonMatrix[x, y].Background = Brushes.White;
                 }
-
-
                 return;
             }
+
             //department-->shop_layout
             if (active_mode == modeList.department_position)
             {
@@ -408,9 +400,12 @@ namespace GlamourLights
                     buttonMatrix[x, y].Background = Brushes.White;
                 }
             }
-
         }
 
+        /// <summary>
+        /// to set/remove the color of the hotspot positions
+        /// </summary>
+        /// <param name="colorToBeSet"></param>
         private void changeColorHotspotPosition(SolidColorBrush colorToBeSet)
         {
             String[] parameters;
@@ -424,6 +419,9 @@ namespace GlamourLights
             }
         }
 
+        /// <summary>
+        /// to show the light positions with the right color
+        /// </summary>
         private void showLightsPositions()
         {
             String[] parameters;
