@@ -15,6 +15,7 @@ using System.Windows.Shapes;
 using System.Data.Entity;
 using GlamourLights.Controller;
 using System.ComponentModel;
+using System.Threading;
 
 namespace GlamourLights
 {
@@ -30,7 +31,7 @@ namespace GlamourLights
         {
             InitializeComponent();
             shopMan.shopState.shopDb.customer.Load();
-            shopMan.com.InitializeMatrix();
+            new Thread(() => shopMan.com.InitializeMatrix()).Start();
             mainFrame.Navigate(new Home(shopMan));
         }
 
