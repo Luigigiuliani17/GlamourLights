@@ -32,7 +32,7 @@
                            FontSize="40" FontFamily="DemiBold"/>
                 <StackPanel HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Grid.Row="1" 
                             Orientation="Vertical">
-                    <GroupBox x:Name="descriptionBox" BorderThickness="2" FontSize="18.5"
+                    <GroupBox x:Name="descriptionBox" BorderThickness="2" FontSize="18.5" FontWeight="Medium"
                           BorderBrush="{StaticResource ButtonPressedBackgroundBrush}"
                           Background="Transparent" Foreground="{StaticResource ButtonBackgroundBrush}"
                           Margin="10,10,10,0" HorizontalAlignment="Stretch" VerticalAlignment="Top">
@@ -40,7 +40,7 @@
                             DESCRIPTION
                         </GroupBox.Header>
                         <StackPanel HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
-                            <TextBlock x:Name="descriptionBlock" Style="{DynamicResource TextBlockStyle}" 
+                            <TextBlock x:Name="descriptionBlock" Style="{DynamicResource TextBlockStyle}" FontWeight="Normal"
                                        HorizontalAlignment="Left"
                            FontSize="25" TextWrapping="Wrap">
                             </TextBlock>
