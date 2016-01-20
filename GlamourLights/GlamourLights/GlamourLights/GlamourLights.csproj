@@ -329,6 +329,12 @@
     <Content Include="Resources\Images\Departments\dep_4.jpg">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="Resources\Images\Departments\dep_5.jpg">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\Images\Departments\dep_6.jpg">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="Resources\Images\Graphics\clothes.jpg">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
