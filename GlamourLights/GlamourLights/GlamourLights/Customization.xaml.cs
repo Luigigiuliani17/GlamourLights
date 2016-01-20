@@ -328,6 +328,7 @@ namespace GlamourLights
             {
                 operatingModeTextbox.Text = "Hotspot mode   ";
                 active_mode = modeList.hotspot_position;
+                showLightsPositions();
                 changeColorHotspotPosition(Brushes.Orange);
                 return;
             }
@@ -367,7 +368,7 @@ namespace GlamourLights
                 active_mode = modeList.department_position;
 
                 Listbox.ItemsSource = department_list;
-
+                showLightsPositions();
                 //return to correct color
                 String[] parameters;
                 int x, y;
@@ -378,6 +379,7 @@ namespace GlamourLights
                     y = Int32.Parse(parameters[1]);
 
                     buttonMatrix[x, y].Background = Brushes.White;
+                    showLightsPositions();
                 }
                 return;
             }
@@ -399,6 +401,7 @@ namespace GlamourLights
 
                     buttonMatrix[x, y].Background = Brushes.White;
                 }
+                showLightsPositions();
             }
         }
 
