@@ -198,12 +198,20 @@ namespace GlamourLights.Controller
                     yrec2 = Int32.Parse(parameters[1]);
 
                     //verify if both recommendations have a light available, if not change recommendation
+                    //verify also that the recommendation is not the destination point
                     try
                     {
                         int lightId1 = shopState.lights_position[xrec1 + ";" + yrec1];
                         int lightId2 = shopState.lights_position[xrec2 + ";" + yrec2];
                         if (shopState.active_lights[lightId1] || shopState.active_lights[lightId2])
                             continue;
+
+                        //if first or second recommendation is the destination, just skip it
+                        if (xrec1 == x2 && yrec1 == y2)
+                            continue;
+                        if (xrec2 == x2 && yrec2 == y2)
+                            continue;
+
                     } catch (KeyNotFoundException e)
                     {
                         continue;
@@ -280,6 +288,11 @@ namespace GlamourLights.Controller
                     int lightId1 = shopState.lights_position[xrec1 + ";" + yrec1];
                     if (shopState.active_lights[lightId1])
                         continue;
+
+                    //if first recommendation is the destination, just skip it
+                    if (xrec1 == x2 && yrec1 == y2)
+                        continue;
+
                 } catch ( KeyNotFoundException e)
                 {
                     continue;
