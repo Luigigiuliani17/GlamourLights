@@ -25,20 +25,18 @@ namespace GlamourLights.Controller
         /// <returns></returns> a list of recommendations
         public item[] getPersonalizedRecommendations(int cust_id)
         {
-            
-            var L2EQuery = shopDb.item.Where(i => i.itemId == 1);
+            int item_code =3;
+            if (cust_id == 1)
+                item_code = 3;
+            if (cust_id == 3)
+                item_code = 5;
+          
+            var L2EQuery  = shopDb.item.Where(i => i.itemId == item_code);
             var recItem = L2EQuery.FirstOrDefault<item>();
-            var L2EQuery2 = shopDb.item.Where(i => i.itemId == 2);
-            var recItem2 = L2EQuery2.FirstOrDefault<item>();
-            var L2EQuery3 = shopDb.item.Where(i => i.itemId == 3);
-            var recItem3 = L2EQuery2.FirstOrDefault<item>();
-            var L2EQuery4 = shopDb.item.Where(i => i.itemId == 4);
-            var recItem4 = L2EQuery2.FirstOrDefault<item>();
-            item[] items = new item[4];
+            item[] items = new item[1];
+           
             items[0] = recItem;
-            items[1] = recItem2;
-            items[2] = recItem3;
-            items[3] = recItem4;
+         
             return items;
         }
 

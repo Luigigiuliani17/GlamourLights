@@ -13,6 +13,8 @@
 #define greenLED1 53
 #define blueLED1 49
 #define blueLED2 41
+#define yellowLED1 35 
+#define yellowLED2 33
 
 RGBmatrixPanel matrix(A, B, C, D, CLK, LAT, OE, false, 64);
 String message, mex1, mex2, mex3;
@@ -92,6 +94,11 @@ void loop() {
        case 5:
         digitalWrite(blueLED2, HIGH);
         break;
+
+       case 6:
+        digitalWrite(yellowLED1, HIGH);
+        digitalWrite(yellowLED2, HIGH);
+        break;
     }
   }
 
@@ -119,6 +126,11 @@ void loop() {
 
        case 5:
         digitalWrite(blueLED2, LOW);
+        break;
+
+       case 6:
+        digitalWrite(yellowLED1, LOW);
+        digitalWrite(yellowLED2, LOW);
         break;
     }
   }
