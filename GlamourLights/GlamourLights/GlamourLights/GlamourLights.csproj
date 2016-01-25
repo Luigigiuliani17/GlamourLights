@@ -244,22 +244,32 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\shop_layout.txt" />
+    <Content Include="Resources\shop_layout.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\shelves_position.txt" />
+    <Content Include="Resources\shelves_position.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\department_position.txt" />
+    <Content Include="Resources\department_position.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\lights_position.txt" />
+    <Content Include="Resources\lights_position.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\photo.jpg" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\hotspot_position.txt" />
+    <Content Include="Resources\hotspot_position.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="Resources\Images\Clothes\img_1.jpg">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
@@ -305,7 +315,9 @@
     <Content Include="Resources\Images\Clothes\img_4.jpg">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Resource Include="Resources\Images\favicon.ico" />
+    <Content Include="Resources\Images\favicon.ico">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="Resources\Images\Clothes\img_5.jpg">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
