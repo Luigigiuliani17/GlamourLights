@@ -166,7 +166,7 @@ namespace GlamourLights.Controller
             if (path.destination_light_code != -1)
                 serial.WriteLine("-1:-1:" + path.destination_light_code + ".");
             //Timer part, in wich we bind the number of path to send to the handler, setting the time to wait 30 seconds
-            var timer = new System.Timers.Timer { Interval = 50000, AutoReset = false };
+            var timer = new System.Timers.Timer { Interval = 90000, AutoReset = false };
             timer.Elapsed += (sender, e) => CallErasePath(sender, e, path_id);
             timer.Start();
         }
